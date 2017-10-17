@@ -33,4 +33,15 @@ class Loader
 	{
 		array_push(self::$registered_inits, $init_function);
 	}
+
+	public static function registerHandler($handler_name, $callback)
+	{
+
+	}
+
+	public static function invokeHandlers($handler_name, $arguments, $last_only = false)
+	{
+
+	}
+
 }
