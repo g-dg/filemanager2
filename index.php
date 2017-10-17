@@ -6,4 +6,6 @@ const VERSION = '2.0.0-dev';
 require_once('_system/loader.php');
 Loader::loadAll();
 
+Plugins::loadAll();
+
 Router::execCurrentPage();
