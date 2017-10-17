@@ -1,14 +1,14 @@
 <?php
 namespace GarnetDG\FileManager2;
 
-if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
-	http_response_code(403);
+if ( !defined( 'GARNETDG_FILEMANAGER2_VERSION' ) ) {
+	http_response_code( 403 );
 	die();
 }
 
 class Loader
 {
-	protected static $registered_inits = [];
+	protected static $registered_inits = [ ];
 
 	public static function loadAll()
 	{
@@ -24,13 +24,13 @@ class Loader
 		}
 
 		// execute the registered inits
-		foreach (self::$registered_inits as $init_function) {
-			call_user_func($init_function);
+		foreach ( self::$registered_inits as $init_function ) {
+			call_user_func( $init_function );
 		}
 	}
 
 	public static function registerInit( $init_function )
 	{
-		array_push(self::$registered_inits, $init_function);
+		array_push( self::$registered_inits, $init_function );
 	}
 }
