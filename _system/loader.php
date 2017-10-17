@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
 
 class Loader
 {
-	protected static $registered_inits = [ ];
+	protected static $registered_inits = [];
 
 	public static function loadAll()
 	{
