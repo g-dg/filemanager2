@@ -12,15 +12,15 @@ class Loader
 
 	public static function loadAll()
 	{
-		if (is_dir('_system')) {
-			if ($dh = opendir('_system')) {
-				while (($file = readdir($dh)) !== false) {
-					// check if ends in '.php' and doesn't start with a dot
-					if (substr($file, -1, 4) === '.php' && substr($file, 0, 1) !== '.') {
-						require_once('_system/' . $file);
-					}
+		if (is_dir('_system') && $dh = opendir('_system')) {
+			while (($file = readdir($dh)) !== false) {
+				// check if ends in '.php' and doesn't start with a dot
+				if (substr($file, -1, 4) === '.php' && substr($file, 0, 1) !== '.') {
+					require_once('_system/' . $file);
 				}
 			}
+		} else {
+			throw new Exception('Could not read the base system directory!');
 		}
 
 		// execute the registered inits
