@@ -87,7 +87,8 @@ class Router
 		}
 	}
 
-	public static function getHttpReadyUri($full_path)
+	// $params is a key-value array of get parameters
+	public static function getHttpReadyUri($full_path, $params = [])
 	{
 		$raw_path_array = explode('/', $full_path);
 		$encoded_path_array = [];
@@ -115,6 +116,23 @@ class Router
 		// append the configured script name on the end
 		$base_uri = $base_uri . Config::get('index_page');
 
-		return $base_uri . $encoded_path;
+		// generate the GET request string
+		$encoded_param_string = '';
+		if (count($parms) > 0) {
+			$encoded_param_array = [];
+			foreach ($params as $param => $value) {
+				$encoded_param_array = urlencode($param) . '=' . urlencode($value);
+			}
+			$encoded_param_string = '?' . implode('&', $encoded_param_array);
+		}
+
+		return $base_uri . $encoded_path . $encoded_param_string;
+	}
+
+	// $params is a key-value array of get parameters
+	public static function redirect($full_path, $params = [])
+	{
+		header('Location: ' . self::getHttpReadyUri($full_path, $params));
+		exit();
 	}
 }
