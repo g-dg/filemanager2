@@ -33,7 +33,7 @@ class Router
 
 	public static function execErrorPage($http_error)
 	{
-		if (isset($registered_error_pages[$http_error])) {
+		if (isset(self::$registered_error_pages[$http_error])) {
 			call_user_func($registered_error_pages[$http_error], $http_error, self::getCurrentPageAndParameters());
 		} else {
 			http_response_code($http_error);
