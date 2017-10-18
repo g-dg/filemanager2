@@ -51,9 +51,14 @@ class Database
 		return $stmt->fetchAll();
 	}
 
-	public static function getVersion()
+	public static function getVersionNumber()
 	{
-		$version_number = self::query('PRAGMA user_version;')[0][0];
+		return self::query('PRAGMA user_version;')[0][0];
+	}
+
+	public static function getVersionString()
+	{
+		$version_number = self::getVersionNumber();
 		$major = floor($version_number / 1000000);
 		$minor = floor($version_number / 1000) % 1000;
 		$revision = $version_number % 1000;
