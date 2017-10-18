@@ -131,7 +131,7 @@ class Session
 			} catch (\Exception $e) {}
 		}
 		$string = '';
-		for ($i = 0; $i < 32; $i++) {
+		for ($i = 0; $i < self::SESSION_ID_LENGTH; $i++) {
 			//TODO: make this more secure
 			$string .= substr(self::SESSION_ID_CHARS, mt_rand(0, strlen(self::SESSION_ID_CHARS) - 1), 1);
 		}
