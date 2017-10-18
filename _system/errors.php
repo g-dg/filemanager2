@@ -15,7 +15,7 @@ class ErrorPages
 
 	public static function errorPage($http_error, $page)
 	{
-		echo 'Error: ' . $http_error . ' ' . $page;
+		echo 'Error: ' . $http_error . ': ' . $page;
 	}
 }
 
