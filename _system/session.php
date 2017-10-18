@@ -77,43 +77,50 @@ class Session
 
 	public static function getSessionID()
 	{
+		self::start();
 		return self::$session_id;
 	}
 
 	public static function set($key, $value)
 	{
+		self::start();
 		Database::query('INSERT INTO "session_data" ("session_id", "key", "value") VALUES (?, ?, ?);', [self::$session_id, $key, $value]);
 	}
 
 	public static function get($key, $default = null)
 	{
-		//Database::setLock(true);
+		self::start();
+		Database::setLock(true);
 		if (self::isset($key)) {
 			$value = Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0];
 		} else {
 			$value = $default;
 		}
-		//Database::setLock(false);
+		Database::setLock(false);
 		return $value;
 	}
 
 	public static function delete($key)
 	{
+		self::start();
 		Database::query('DELETE FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key]);
 	}
 
 	public static function isset($key)
 	{
+		self::start();
 		return Database::query('SELECT COUNT() from "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0] > 0;
 	}
 
 	public static function garbageCollect()
 	{
+		self::start();
 		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - Config::get('session_max_age')]);
 	}
 
 	protected static function generateSessionID()
 	{
+		self::start();
 		if (function_exists('random_int')) {
 			try {
 				$string = '';
@@ -131,8 +138,9 @@ class Session
 		return $string;
 	}
 
-	public static function unsetSession($destroy_session = true)
+	public static function unsetSession($destroy_session = false)
 	{
+		self::start();
 		if ($destroy_session) {
 			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
 		}
