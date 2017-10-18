@@ -21,6 +21,7 @@ class Session
 	public static function start($session_id = null)
 	{
 		if (!self::$session_started) {
+			self::$session_started = true;
 			// 1/1000 chance of garbage collection
 			if (mt_rand(1, self::GARBAGE_COLLECT_PROBABLILITY) == 1) {
 				self::garbageCollect();
@@ -71,7 +72,6 @@ class Session
 				setcookie(self::SESSION_NAME, self::$session_id, 0, '/', null, false, true);
 			}
 			Database::setLock(false);
-			self::$session_started = true;
 		}
 	}
 
