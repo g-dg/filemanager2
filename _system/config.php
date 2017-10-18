@@ -14,7 +14,8 @@ class Config
 		'database_file' => '_database.sqlite3',
 		'log_file' => '_log.txt',
 		'log_level' => 6,
-		'default_page' => 'index'
+		'default_page' => 'index',
+		'session_max_age' => 86400
 	];
 
 	public static function load()
