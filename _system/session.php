@@ -144,7 +144,7 @@ class Session
 		if ($destroy_session) {
 			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
 		}
-		setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
+		setcookie(self::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
 		exit();
 	}
 }
