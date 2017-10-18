@@ -20,7 +20,7 @@ class Log
 	protected static $log_file = '_log.txt';
 	protected static $log_level = 6;
 
-	public static function setUp()
+	public static function setup()
 	{
 		self::$log_file = Config::get('log_file');
 		self::$log_level = Config::get('log_level');

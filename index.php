@@ -11,7 +11,7 @@ require_once('_system/config.php');
 Config::load();
 
 require_once('_system/log.php');
-Log::setUp();
+Log::setup();
 
 require_once('_system/loader.php');
 Loader::loadAll();
