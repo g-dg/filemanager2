@@ -43,7 +43,7 @@ class Database
 	public static function setLock($state)
 	{
 		if ($state) {
-			if (self::$lock_level == 0) {
+			if (self::$lock_level <= 0) {
 				//if (!self::$connection->inTransaction()) {
 					self::$connection->beginTransaction();
 				//}
