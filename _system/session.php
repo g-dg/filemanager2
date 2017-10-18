@@ -15,59 +15,64 @@ class Session
 
 	protected static $session_id = null;
 
+	protected static $session_started = false;
+
 	// passing $session_id changes the current session id to that session id
 	public static function start($session_id = null)
 	{
-		// 1/1000 chance of garbage collection
-		if (mt_rand(1, self::GARBAGE_COLLECT_PROBABLILITY) == 1) {
-			self::garbageCollect();
-		}
+		if (!self::$session_started) {
+			// 1/1000 chance of garbage collection
+			if (mt_rand(1, self::GARBAGE_COLLECT_PROBABLILITY) == 1) {
+				self::garbageCollect();
+			}
 
-		if (isset($session_id)) {
-			self::$session_id = $session_id;
-		} else {
-			if (isset($_COOKIE[self::SESSION_NAME])) {
-				self::$session_id = $_COOKIE[self::SESSION_NAME];
+			if (isset($session_id)) {
+				self::$session_id = $session_id;
 			} else {
-				if (isset($_POST[self::SESSION_NAME])) {
-					self::$session_id = $_POST[self::SESSION_NAME];
+				if (isset($_COOKIE[self::SESSION_NAME])) {
+					self::$session_id = $_COOKIE[self::SESSION_NAME];
 				} else {
-					if (isset($_GET[self::SESSION_NAME])) {
-						self::$session_id = $_GET[self::SESSION_NAME];
+					if (isset($_POST[self::SESSION_NAME])) {
+						self::$session_id = $_POST[self::SESSION_NAME];
 					} else {
-						self::$session_id = self::generateSessionID();
+						if (isset($_GET[self::SESSION_NAME])) {
+							self::$session_id = $_GET[self::SESSION_NAME];
+						} else {
+							self::$session_id = self::generateSessionID();
+						}
 					}
 				}
 			}
-		}
 
-		// generate a new id if the session id doesn't exist
-		Database::setLock(true);
-		if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] == 0) {
-			self::$session_id = self::generateSessionID();
-			// create the session record
-			Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-			Session::set('__remote_addr', $_SERVER['REMOTE_ADDR']);
-		} else {
-			// check if the timestamp is too old
-			if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - Config::get('session_max_age'))) {
-				// update timestamp
-				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
-			} else {
+			// generate a new id if the session id doesn't exist
+			Database::setLock(true);
+			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] == 0) {
 				self::$session_id = self::generateSessionID();
 				// create the session record
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+				Session::set('__remote_addr', $_SERVER['REMOTE_ADDR']);
+			} else {
+				// check if the timestamp is too old
+				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - Config::get('session_max_age'))) {
+					// update timestamp
+					Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
+				} else {
+					self::$session_id = self::generateSessionID();
+					// create the session record
+					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+				}
 			}
-		}
-		// generate new session id if ip address mismatch
-		if ($_SERVER['REMOTE_ADDR'] !== Session::get('__remote_addr')) {
-			setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
+			// generate new session id if ip address mismatch
+			if ($_SERVER['REMOTE_ADDR'] !== Session::get('__remote_addr')) {
+				setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
+				Database::setLock(false);
+				exit();
+			} else {
+				setcookie(self::SESSION_NAME, self::$session_id, 0, '/', null, false, true);
+			}
 			Database::setLock(false);
-			exit();
-		} else {
-			setcookie(self::SESSION_NAME, self::$session_id, 0, '/', null, false, true);
+			self::$session_started = true;
 		}
-		Database::setLock(false);
 	}
 
 	public static function getSessionID()
