@@ -8,5 +8,14 @@ if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
 
 class Authenticate
 {
-	
+	// pass $username and $password to authenticate a new user
+	public static function authenticate($username = null, $password = null)
+	{
+
+	}
+
+	public static function logout($keep_session = true)
+	{
+
+	}
 }
