@@ -32,6 +32,16 @@ class Plugins
 		}
 	}
 
+	public static function exists($plugin)
+	{
+		return (is_dir('_plugins') &&
+				is_readable('_plugins') &&
+				is_dir('_plugins/' . $plugin) &&
+				is_readable('_plugins/' . $plugin) &&
+				is_file('_plugins/' . $plugin . '/' . $plugin . '.php') &&
+				is_readable('_plugins/' . $plugin . '/' . $plugin . '.php'));
+	}
+
 	public static function registerInit($init_function)
 	{
 		array_push(self::$registered_inits, $init_function);
