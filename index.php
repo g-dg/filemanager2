@@ -1,7 +1,7 @@
 <?php
 namespace GarnetDG\FileManager2;
 
-const GARNETDG_FILEMANAGER2_VERSION = '2.0.0-dev';
+define('GARNETDG_FILEMANAGER2_VERSION', '2.0.0-dev');
 
 require_once('_system/config.php');
 Config::load();
