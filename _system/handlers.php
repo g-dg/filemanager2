@@ -12,7 +12,7 @@ class Handler
 
 	public static function register($handler_name, $callback)
 	{
-		if (!isset(self::$registered_handlers[$handler_name])) {
+		if (!self::isRegistered($handler_name)) {
 			self::$registered_handlers[$handler_name] = [$callback];
 		} else {
 			array_push(self::$registered_handlers[$handler_name], $callback);
@@ -30,6 +30,11 @@ class Handler
 				}
 			}
 		}
+	}
+
+	public static function isRegistered($handler_name)
+	{
+		return isset(self::$registered_handlers[$handler_name]);
 	}
 
 }
