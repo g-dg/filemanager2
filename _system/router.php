@@ -78,7 +78,13 @@ class Router
 
 	public static function getCurrentPageAndParameters()
 	{
-		return self::getCurrentPage() . '/' . self::getCurrentPageParameters();
+		$page = self::getCurrentPage();
+		$params = self::getCurrentPageParameters();
+		if ($params === '') {
+			return $page;
+		} else {
+			return $page . '/' . $params;
+		}
 	}
 
 	public static function getHttpReadyUri($full_path)
