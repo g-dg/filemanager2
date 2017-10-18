@@ -43,16 +43,19 @@ class Database
 	public static function setLock($state)
 	{
 		if ($state) {
+			if (self::$lock_level == 0) {
+				//if (!self::$connection->inTransaction()) {
+					self::$connection->beginTransaction();
+				//}
+			}
 			self::$lock_level++;
-			if (!self::$connection->inTransaction()) {
-				self::$connection->beginTransaction();
-			}
 		} else {
-			if (self::$lock_level <= 1) {
-				if (self::$connection->inTransaction()) {
+			if (self::$lock_level == 1) {
+				//if (self::$connection->inTransaction()) {
 					self::$connection->commit();
-				}
+				//}
 			}
+			self::$lock_level--;
 		}
 	}
 	public static function getLock()
