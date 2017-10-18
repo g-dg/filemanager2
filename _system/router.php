@@ -25,7 +25,7 @@ class Router
 	{
 		$current_page = self::getCurrentPage();
 		if (isset(self::$registered_pages[$current_page])) {
-			call_user_func($registered_pages[$current_page], self::getCurrentPageParameters());
+			call_user_func(self::$registered_pages[$current_page], self::getCurrentPageParameters());
 		} else {
 			self::execErrorPage(404);
 		}
