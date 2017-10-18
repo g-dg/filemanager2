@@ -32,10 +32,10 @@ class Log
 			$log_string = '[' . date('Y-m-d H:i:s') . '] ' . $pretty_level . ': ' . $message . ' ( ' . $_SERVER['REQUEST_URI'] . ' )\n';
 
 			if (!$fh = fopen(self::$log_file, 'a')) {
-				throw new Exception('Could not open log file for writing!');
+				throw new \Exception('Could not open log file for writing!');
 			}
 			if (fwrite($fh, $log_string === FALSE)) {
-				throw new Exception('Could not write to log file!');
+				throw new \Exception('Could not write to log file!');
 			}
 			fclose($fh);
 		}
