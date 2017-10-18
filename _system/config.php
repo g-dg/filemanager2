@@ -13,7 +13,8 @@ class Config
 		'index_page' => 'index.php',
 		'database_file' => '_database.sqlite3',
 		'log_file' => '_log.txt',
-		'log_level' => 6
+		'log_level' => 6,
+		'default_page' => 'index'
 	];
 
 	public static function load()
