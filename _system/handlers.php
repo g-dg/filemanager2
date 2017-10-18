@@ -25,7 +25,7 @@ class Handler
 			if ($last_only) {
 				call_user_func_array(self::$registered_handlers[$handler_name][count(self::$registered_handlers[$handler_name]) - 1], $arguments);
 			} else {
-				foreach($self::$registered_handlers[$handler_name] as $handler_function) {
+				foreach(self::$registered_handlers[$handler_name] as $handler_function) {
 					call_user_func_array($handler_function, $arguments);
 				}
 			}
