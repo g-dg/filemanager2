@@ -12,11 +12,14 @@ class Plugins
 
 	public static function loadAll()
 	{
-		if (is_dir('_plugins') && $dh = opendir('_plugins')) {
-			while (($file = readdir($dh)) !== false) {
-				// check if ends in '.php' and doesn't start with a dot
-				if (substr($file, -1, 4) === '.php' && substr($file, 0, 1) !== '.') {
-					require_once('_plugins/' . $file);
+		if (is_dir('_plugins') && $plugin_directory_handle = opendir('_plugins')) {
+			while (($plugin = readdir($plugin_directory_handle)) !== false) {
+				if (substr($plugin, 0, 1) !== '.' &&
+						is_dir('_plugins/' . $plugin) &&
+						is_readable('_plugins/' . $plugin) &&
+						is_file('_plugins/' . $plugin . '/' . $plugin . '.php') &&
+						is_readable('_plugins/' . $plugin . '/' . $plugin . '.php')) {
+					require_once('_plugins/' . $plugin . '/' . $plugin . '.php');
 				}
 			}
 		} else {
