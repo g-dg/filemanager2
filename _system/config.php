@@ -31,7 +31,7 @@ class Config
 		if (isset(self::$config[ $key ])) {
 			return self::$config[ $key ];
 		} else {
-			throw new \Exception('Unavailable config key: "' . $key .'"');
+			return null;
 		}
 	}
 }
