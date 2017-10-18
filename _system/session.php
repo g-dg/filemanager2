@@ -120,7 +120,6 @@ class Session
 
 	protected static function generateSessionID()
 	{
-		self::start();
 		if (function_exists('random_int')) {
 			try {
 				$string = '';
