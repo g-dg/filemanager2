@@ -34,6 +34,8 @@ class Database
 		if ($db_version < self::MIN_VERSION || $db_version > self::MAX_VERSION) {
 			throw new \Exception('Incompatable database version');
 		}
+
+		self::query('PRAGMA foreign_keys = ON;');
 	}
 
 	public static function setLock($state)
