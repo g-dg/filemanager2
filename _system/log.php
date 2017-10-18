@@ -29,14 +29,45 @@ class Log
 	public static function log($level, $message)
 	{
 		if ($level <= self::$log_level) {
-			$log_string = '[' . date('Y-m-d H:i:s') . '] ' . $pretty_level . ': ' . $message . ' ( ' . $_SERVER['REQUEST_URI'] . ' )\n';
+			switch ($level) {
+				case 0:
+					$pretty_level = 'Emergency';
+					break;
+				case 1:
+					$pretty_level = 'Alert';
+					break;
+				case 2:
+					$pretty_level = 'Critical';
+					break;
+				case 3:
+					$pretty_level = 'Error';
+					break;
+				case 4:
+					$pretty_level = 'Warning';
+					break;
+				case 5:
+					$pretty_level = 'Notice';
+					break;
+				case 6:
+					$pretty_level = 'Info';
+					break;
+				case 7:
+					$pretty_level = 'Debug';
+					break;
+				default:
+					throw new \Exception('Invalid log level');
+					break;
+			}
 
+			$log_string = '[' . date('Y-m-d H:i:s') . '] ' . $pretty_level . ': ' . $message . ' (' . $_SERVER['REQUEST_URI'] . ')' . PHP_EOL;
+			
 			if (!$fh = fopen(self::$log_file, 'a')) {
 				throw new \Exception('Could not open log file for writing!');
 			}
-			if (fwrite($fh, $log_string === FALSE)) {
+			if (fwrite($fh, $log_string) === FALSE) {
 				throw new \Exception('Could not write to log file!');
 			}
+			
 			fclose($fh);
 		}
 	}
