@@ -14,6 +14,8 @@ class Database
 	public static $connection = null;
 	protected static $db_file = '_database.sqlite3';
 
+	protected static $lock_level = 0;
+
 	public static function connect()
 	{
 		self::$db_file = Config::get('database_file');
@@ -41,12 +43,15 @@ class Database
 	public static function setLock($state)
 	{
 		if ($state) {
+			self::$lock_level++;
 			if (!self::$connection->inTransaction()) {
 				self::$connection->beginTransaction();
 			}
 		} else {
-			if (self::$connection->inTransaction()) {
-				self::$connection->commit();
+			if (self::$lock_level <= 1) {
+				if (self::$connection->inTransaction()) {
+					self::$connection->commit();
+				}
 			}
 		}
 	}
