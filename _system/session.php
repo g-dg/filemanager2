@@ -63,7 +63,6 @@ class Session
 		if ($_SERVER['REMOTE_ADDR'] !== Session::get('__remote_addr')) {
 			setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
 			Database::setLock(false);
-			Router::redirect('/');
 			exit();
 		} else {
 			setcookie(self::SESSION_NAME, self::$session_id, 0, '/', null, false, true);
@@ -125,5 +124,14 @@ class Session
 			$string .= substr(self::SESSION_ID_CHARS, mt_rand(0, strlen(self::SESSION_ID_CHARS) - 1), 1);
 		}
 		return $string;
+	}
+
+	public static function unsetSession($destroy_session = true)
+	{
+		if ($destroy_session) {
+			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
+		}
+		setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
+		exit();
 	}
 }
