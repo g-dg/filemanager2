@@ -18,30 +18,33 @@ class Database
 
 	public static function connect()
 	{
-		self::$db_file = Config::get('database_file');
-		if (!is_file(self::$db_file) ||
-				!is_readable(self::$db_file) ||
-				!is_writable(self::$db_file)) {
-			throw new \Exception('The database is not set up or is inaccessible');
+		if (is_null(self::$connection)) {
+			self::$db_file = Config::get('database_file');
+			if (!is_file(self::$db_file) ||
+					!is_readable(self::$db_file) ||
+					!is_writable(self::$db_file)) {
+				throw new \Exception('The database is not set up or is inaccessible');
+			}
+
+			$dsn = 'sqlite:' . self::$db_file;
+
+			self::$connection = new \PDO($dsn);
+
+			self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+			$db_version = self::getVersionNumber();
+
+			if ($db_version < self::MIN_VERSION || $db_version > self::MAX_VERSION) {
+				throw new \Exception('Incompatable database version');
+			}
+
+			self::query('PRAGMA foreign_keys = ON;');
 		}
-
-		$dsn = 'sqlite:' . self::$db_file;
-
-		self::$connection = new \PDO($dsn);
-
-		self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-		$db_version = self::getVersionNumber();
-
-		if ($db_version < self::MIN_VERSION || $db_version > self::MAX_VERSION) {
-			throw new \Exception('Incompatable database version');
-		}
-
-		self::query('PRAGMA foreign_keys = ON;');
 	}
 
 	public static function setLock($state)
 	{
+		self::connect();
 		if ($state) {
 			if (self::$lock_level <= 0) {
 				//if (!self::$connection->inTransaction()) {
@@ -60,11 +63,13 @@ class Database
 	}
 	public static function getLock()
 	{
+		self::connect();
 		return self::$connection->inTransaction();
 	}
 
 	public static function query($sql, $params = [])
 	{
+		self::connect();
 		$stmt = self::$connection->prepare($sql);
 		$stmt->execute($params);
 		return $stmt->fetchAll();
@@ -72,6 +77,7 @@ class Database
 
 	public static function getVersionNumber()
 	{
+		self::connect();
 		return self::query('PRAGMA user_version;')[0][0];
 	}
 
