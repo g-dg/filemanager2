@@ -28,6 +28,7 @@ class Auth
 		if (is_null(self::$user_id)) {
 			if (!is_null($username) && !is_null($password)) {
 				// log in
+				Database::setLock(true);
 				$user_record = Database::query('SELECT * FROM "users" WHERE "name" = ?;', [$username]);
 				if (isset($user_record[0])) {
 					$user_record = $user_record[0];
@@ -41,20 +42,22 @@ class Auth
 							self::$user_name = $user_record['name'];
 							self::$user_type = (int)$user_record['type'];
 							self::$user_comment = $user_record['comment'];
-							return true;
+							$return = true;
 						} else {
-							return self::ERROR_DISABLED;
+							$return = self::ERROR_DISABLED;
 						}
 					} else {
-						return self::ERROR_INCORRECT_PASSWORD;
+						$return = self::ERROR_INCORRECT_PASSWORD;
 					}
 				} else {
-					return self::ERROR_DOESNT_EXIST;
+					$return = self::ERROR_DOESNT_EXIST;
 				}
+				Database::setLock(false);
 			} else {
 				// get from session
 				$user_id = Session::get('auth_user_id');
 				if (!is_null($user_id)) {
+					Database::setLock(true);
 					$user_record = Database::query('SELECT * FROM "users" WHERE "id" = ?;', [$user_id]);
 					if (isset($user_record[0])) {
 						$user_record = $user_record[0];
@@ -68,23 +71,25 @@ class Auth
 								self::$user_name = $user_record['name'];
 								self::$user_type = (int)$user_record['type'];
 								self::$user_comment = $user_record['comment'];
-								return true;
+								$return = true;
 							} else {
-								return self::ERROR_DISABLED;
+								$return = self::ERROR_DISABLED;
 							}
 						} else {
-							return self::ERROR_INCORRECT_PASSWORD;
+							$return = self::ERROR_INCORRECT_PASSWORD;
 						}
 					} else {
-						return self::ERROR_DOESNT_EXIST;
+						$return = self::ERROR_DOESNT_EXIST;
 					}
+					Database::setLock(false);
 				} else {
-					return self::ERROR_NOT_LOGGED_IN;
+					$return = self::ERROR_NOT_LOGGED_IN;
 				}
 			}
 		} else {
-			return true;
+			$return = true;
 		}
+		return $return;
 	}
 
 	public static function getCurrentUserId()
