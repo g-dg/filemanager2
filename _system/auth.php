@@ -31,7 +31,7 @@ class Auth
 					if ($user_record['enabled'] == 1) {
 						// user is enabled
 						// authenticated
-						self::$user_id = $user_record['id'];
+						self::$user_id = (int)$user_record['id'];
 						self::$user_name = $user_record['name'];
 						self::$user_type = (int)$user_record['type'];
 						self::$user_comment = $user_record['comment'];
