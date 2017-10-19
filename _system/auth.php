@@ -43,7 +43,7 @@ class Auth
 							self::$user_comment = $user_record['comment'];
 							return true;
 						} else {
-							return self::ERROR_DISABLED
+							return self::ERROR_DISABLED;
 						}
 					} else {
 						return self::ERROR_INCORRECT_PASSWORD;
@@ -70,7 +70,7 @@ class Auth
 								self::$user_comment = $user_record['comment'];
 								return true;
 							} else {
-								return self::ERROR_DISABLED
+								return self::ERROR_DISABLED;
 							}
 						} else {
 							return self::ERROR_INCORRECT_PASSWORD;
