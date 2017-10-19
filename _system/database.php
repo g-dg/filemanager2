@@ -61,11 +61,6 @@ class Database
 			self::$lock_level--;
 		}
 	}
-	public static function getLock()
-	{
-		self::connect();
-		return self::$connection->inTransaction();
-	}
 
 	public static function query($sql, $params = [])
 	{
