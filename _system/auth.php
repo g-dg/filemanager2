@@ -28,11 +28,14 @@ class Authenticate
 				// user exists
 				if (password_verify($password, $user_record['password'])){
 					// correct password
-					// authenticated
-					self::$user_id = $user_record['id'];
-					self::$user_name = $user_record['name'];
-					self::$user_type = $user_record['type'];
-					self::$user_comment = $user_record['comment'];
+					if ($user_record['enabled'] == 1) {
+						// user is enabled
+						// authenticated
+						self::$user_id = $user_record['id'];
+						self::$user_name = $user_record['name'];
+						self::$user_type = $user_record['type'];
+						self::$user_comment = $user_record['comment'];
+					}
 				}
 			}
 		}
