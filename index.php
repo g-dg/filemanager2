@@ -1,5 +1,5 @@
 <?php
-namespace GarnetDG\FileManager2;
+namespace GarnetDG\FileManager;
 
 //TODO: remove error reporting for release
 error_reporting(E_ALL);

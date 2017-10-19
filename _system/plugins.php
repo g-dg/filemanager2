@@ -1,5 +1,5 @@
 <?php
-namespace GarnetDG\FileManager2;
+namespace GarnetDG\FileManager;
 
 if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
 	http_response_code(403);
