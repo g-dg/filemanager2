@@ -30,13 +30,13 @@ class Config
 		}
 	}
 
-	public static function get($key)
+	public static function get($key, $default)
 	{
 		self::load();
 		if (isset(self::$config[ $key ])) {
 			return self::$config[ $key ];
 		} else {
-			return null;
+			return $default;
 		}
 	}
 }
