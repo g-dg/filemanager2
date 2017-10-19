@@ -39,7 +39,7 @@ class Session
 			}
 
 			// generate a new id if the session id doesn't exist
-			Database::setLock(true);
+			Database::lock();
 			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] == 0) {
 				self::$session_id = self::generateSessionID();
 				// create the session record
@@ -59,12 +59,12 @@ class Session
 			// generate new session id if ip address mismatch
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('session_remote_addr')) {
 				setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
-				Database::setLock(false);
+				Database::unlock();
 				exit();
 			} else {
 				setcookie(self::SESSION_NAME, self::$session_id, 0, '/', null, false, true);
 			}
-			Database::setLock(false);
+			Database::unlock();
 		}
 	}
 
@@ -83,13 +83,13 @@ class Session
 	public static function get($key, $default = null)
 	{
 		self::start();
-		Database::setLock(true);
+		Database::lock();
 		if (self::isset($key)) {
 			$value = Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0];
 		} else {
 			$value = $default;
 		}
-		Database::setLock(false);
+		Database::unlock();
 		return $value;
 	}
 
@@ -140,8 +140,12 @@ class Session
 		exit();
 	}
 
-	public static function setLock($state)
+	public static function lock()
 	{
-		Database::setLock($state);
+		Database::lock();
+	}
+	public static function unlock()
+	{
+		Database::unlock();
 	}
 }

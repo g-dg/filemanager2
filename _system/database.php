@@ -42,24 +42,24 @@ class Database
 		}
 	}
 
-	public static function setLock($state)
+	public static function lock()
 	{
 		self::connect();
-		if ($state) {
-			if (self::$lock_level <= 0) {
-				//if (!self::$connection->inTransaction()) {
-					self::$connection->beginTransaction();
-				//}
-			}
-			self::$lock_level++;
-		} else {
-			if (self::$lock_level == 1) {
-				//if (self::$connection->inTransaction()) {
-					self::$connection->commit();
-				//}
-			}
-			self::$lock_level--;
+		if (self::$lock_level <= 0) {
+			//if (!self::$connection->inTransaction()) {
+				self::$connection->beginTransaction();
+			//}
 		}
+		self::$lock_level++;
+	}
+	public static function unlock()
+	{
+		if (self::$lock_level == 1) {
+			//if (self::$connection->inTransaction()) {
+				self::$connection->commit();
+			//}
+		}
+		self::$lock_level--;
 	}
 
 	public static function query($sql, $params = [])

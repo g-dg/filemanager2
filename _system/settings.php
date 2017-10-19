@@ -11,13 +11,13 @@ class GlobalSettings
 	public static function get($key, $default = null, $force = false)
 	{
 		// don't authenticate for this
-		Database::setLock(true);
+		Database::lock();
 		if (self::isset($key)) {
 			$value = Database::query('SELECT "value" FROM "global_settings" WHERE "key" = ?;', [$key])[0][0];
 		} else {
 			$value = $default;
 		}
-		Database::setLock(false);
+		Database::unlock();
 		return $value;
 	}
 
@@ -49,13 +49,13 @@ class UserSettings
 			$user = Auth::getCurrentUserId();
 		}
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
-			Database::setLock(true);
+			Database::lock();
 				if (self::isset($key, $user)) {
 					$value = Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0];
 				} else {
 					$value = $default;
 				}
-			Database::setLock(false);
+			Database::unlock();
 			return $value;
 		}
 	}
