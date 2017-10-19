@@ -65,21 +65,16 @@ class Auth
 					if (isset($user_record[0])) {
 						$user_record = $user_record[0];
 						// user exists
-						if (password_verify($password, $user_record['password'])){
-							// correct password
-							if ($user_record['enabled'] == 1) {
-								// user is enabled
-								// authenticated
-								self::$user_id = (int)$user_record['id'];
-								self::$user_name = $user_record['name'];
-								self::$user_type = (int)$user_record['type'];
-								self::$user_comment = $user_record['comment'];
-								$return = true;
-							} else {
-								$return = self::ERROR_DISABLED;
-							}
+						if ($user_record['enabled'] == 1) {
+							// user is enabled
+							// authenticated
+							self::$user_id = (int)$user_record['id'];
+							self::$user_name = $user_record['name'];
+							self::$user_type = (int)$user_record['type'];
+							self::$user_comment = $user_record['comment'];
+							$return = true;
 						} else {
-							$return = self::ERROR_INCORRECT_PASSWORD;
+							$return = self::ERROR_DISABLED;
 						}
 					} else {
 						$return = self::ERROR_DOESNT_EXIST;
