@@ -45,21 +45,41 @@ class UserSettings
 {
 	public static function get($key, $default, $user = null)
 	{
+		if (is_null($user)) {
+			$user = Auth::getCurrentUserId();
+		}
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN) {
 
+		}
 	}
 
 	public static function set($key, $value, $user = null)
 	{
-
+		if (is_null($user)) {
+			$user = Auth::getCurrentUserId();
+		}
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN) {
+			
+		}
 	}
 
 	public static function isset($key, $user = null)
 	{
-
+		if (is_null($user)) {
+			$user = Auth::getCurrentUserId();
+		}
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN) {
+			
+		}
 	}
 
 	public static function unset($key, $user = null)
 	{
-
+		if (is_null($user)) {
+			$user = Auth::getCurrentUserId();
+		}
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN) {
+			
+		}
 	}
 }
