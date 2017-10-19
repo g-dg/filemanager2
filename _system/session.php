@@ -47,7 +47,7 @@ class Session
 				Session::set('__remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
 				// check if the timestamp is too old
-				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - Settings::get('session_max_age', self::SESSION_MAX_AGE))) {
+				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - GlobalSettings::get('session_max_age', self::SESSION_MAX_AGE))) {
 					// update timestamp
 					Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
 				} else {
