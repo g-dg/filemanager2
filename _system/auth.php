@@ -8,7 +8,14 @@ if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
 
 class Authenticate
 {
+	const USER_TYPE_ADMIN = 2;
+	const USER_TYPE_STANDARD = 1;
+	const USER_TYPE_GUEST = 0;
+
 	protected static $user_id = null;
+	protected static $user_name = null;
+	protected static $user_type = 0;
+	protected static $user_comment = '';
 
 	// pass $username and $password to authenticate a new user
 	public static function authenticate($username = null, $password = null)
@@ -23,6 +30,9 @@ class Authenticate
 					// correct password
 					// authenticated
 					self::$user_id = $user_record['id'];
+					self::$user_name = $user_record['name'];
+					self::$user_type = $user_record['type'];
+					self::$user_comment = $user_record['comment'];
 				}
 			}
 		}
@@ -32,6 +42,24 @@ class Authenticate
 	{
 		self::authenticate();
 		return self::$user_id;
+	}
+
+	public static function getCurrentUserName()
+	{
+		self::authenticate();
+		return self::$user_name;
+	}
+
+	public static function getCurrentUserType()
+	{
+		self::authenticate();
+		return self::$user_type;
+	}
+
+	public static function getCurrentUserComment()
+	{
+		self::authenticate();
+		return self::$user_comment;
 	}
 
 	public static function logout($keep_session = true)
