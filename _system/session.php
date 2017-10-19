@@ -33,15 +33,7 @@ class Session
 				if (isset($_COOKIE[self::SESSION_NAME])) {
 					self::$session_id = $_COOKIE[self::SESSION_NAME];
 				} else {
-					if (isset($_POST[self::SESSION_NAME])) {
-						self::$session_id = $_POST[self::SESSION_NAME];
-					} else {
-						if (isset($_GET[self::SESSION_NAME])) {
-							self::$session_id = $_GET[self::SESSION_NAME];
-						} else {
-							self::$session_id = self::generateSessionID();
-						}
-					}
+					self::$session_id = self::generateSessionID();
 				}
 			}
 
