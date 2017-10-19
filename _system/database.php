@@ -90,5 +90,3 @@ class Database
 		return $major . '.' . $minor . '.' . $revision;
 	}
 }
-
-Loader::registerInit(__NAMESPACE__ . '\Database::connect');
