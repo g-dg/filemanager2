@@ -28,7 +28,7 @@ class Auth
 		if (is_null(self::$user_id)) {
 			if (!is_null($username) && !is_null($password)) {
 				// log in
-				$user_record = Database::query('SELECT * FROM "users" WHERE "name" = ?;', $username);
+				$user_record = Database::query('SELECT * FROM "users" WHERE "name" = ?;', [$username]);
 				if (isset($user_record[0])) {
 					$user_record = $user_record[0];
 					// user exists
