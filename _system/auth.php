@@ -8,25 +8,35 @@ if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
 
 class Authenticate
 {
-	protected static $authenticated = false;
+	protected static $user_id = null;
 
 	// pass $username and $password to authenticate a new user
 	public static function authenticate($username = null, $password = null)
 	{
-		if (!self::$authenticated) {
+		if (is_null(self::$user_id) && !is_null($username) && !is_null($password)) {
 			Session::start();
-
+			$user_record = Database::query('SELECT * FROM "users" WHERE "name" = ?;', $username);
+			if (isset($user_record[0])) {
+				$user_record = $user_record[0];
+				// user exists
+				if (password_verify($password, $user_record['password'])){
+					// correct password
+					// authenticated
+					self::$user_id = $user_record['id'];
+				}
+			}
 		}
 	}
 
 	public static function getCurrentUserId()
 	{
 		self::authenticate();
-		return Session::get('__user_id', null);
+		return self::$user_id;
 	}
 
 	public static function logout($keep_session = true)
 	{
-		Session::unsetSession(false);
+		self::$user_id = null;
+		Session::unsetSession(! $keep_session);
 	}
 }
