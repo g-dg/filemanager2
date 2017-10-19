@@ -44,7 +44,7 @@ class Session
 				self::$session_id = self::generateSessionID();
 				// create the session record
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				Session::set('__remote_addr', $_SERVER['REMOTE_ADDR']);
+				Session::set('session_remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
 				// check if the timestamp is too old
 				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - GlobalSettings::get('session_max_age', self::SESSION_MAX_AGE))) {
@@ -57,7 +57,7 @@ class Session
 				}
 			}
 			// generate new session id if ip address mismatch
-			if ($_SERVER['REMOTE_ADDR'] !== Session::get('__remote_addr')) {
+			if ($_SERVER['REMOTE_ADDR'] !== Session::get('session_remote_addr')) {
 				setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
 				Database::setLock(false);
 				exit();
