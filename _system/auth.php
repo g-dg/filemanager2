@@ -6,7 +6,7 @@ if (!defined('GARNETDG_FILEMANAGER2_VERSION')) {
 	die();
 }
 
-class Authenticate
+class Auth
 {
 	const USER_TYPE_ADMIN = 2;
 	const USER_TYPE_STANDARD = 1;
