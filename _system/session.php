@@ -12,6 +12,7 @@ class Session
 	const SESSION_ID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const SESSION_ID_LENGTH = 32;
 	const GARBAGE_COLLECT_PROBABLILITY = 1000;
+	const SESSION_MAX_AGE = 86400;
 
 	protected static $session_id = null;
 
@@ -46,7 +47,7 @@ class Session
 				Session::set('__remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
 				// check if the timestamp is too old
-				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - Config::get('session_max_age'))) {
+				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - Settings::get('session_max_age', self::SESSION_MAX_AGE))) {
 					// update timestamp
 					Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
 				} else {
@@ -107,7 +108,7 @@ class Session
 	public static function garbageCollect()
 	{
 		self::start();
-		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - Config::get('session_max_age')]);
+		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - Settings::get('session_max_age', self::SESSION_MAX_AGE)]);
 	}
 
 	protected static function generateSessionID()
