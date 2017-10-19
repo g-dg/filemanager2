@@ -12,6 +12,10 @@ class Auth
 	const USER_TYPE_STANDARD = 1;
 	const USER_TYPE_GUEST = 0;
 
+	const ERROR_DOESNT_EXIST = 1;
+	const ERROR_INCORRECT_PASSWORD = 2;
+	const ERROR_DISABLED = 3;
+
 	protected static $user_id = null;
 	protected static $user_name = null;
 	protected static $user_type = 0;
@@ -35,9 +39,18 @@ class Auth
 						self::$user_name = $user_record['name'];
 						self::$user_type = (int)$user_record['type'];
 						self::$user_comment = $user_record['comment'];
+						return true;
+					} else {
+						return self::ERROR_DISABLED
 					}
+				} else {
+					return self::ERROR_INCORRECT_PASSWORD;
 				}
+			} else {
+				return self::ERROR_DOESNT_EXIST;
 			}
+		} else {
+			return true;
 		}
 	}
 
