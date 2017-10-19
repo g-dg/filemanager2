@@ -17,18 +17,9 @@ class Log
 	const INFO = 6;
 	const DEBUG = 7;
 
-	protected static $log_file = '_log.txt';
-	protected static $log_level = 6;
-
-	public static function setup()
-	{
-		self::$log_file = Config::get('log_file');
-		self::$log_level = Config::get('log_level');
-	}
-
 	public static function log($level, $message)
 	{
-		if ($level <= self::$log_level) {
+		if ($level <= Config::get('log_level')) {
 			switch ($level) {
 				case 0:
 					$pretty_level = 'Emergency';
@@ -61,7 +52,7 @@ class Log
 
 			$log_string = '[' . date('Y-m-d H:i:s') . '] ' . $pretty_level . ': ' . $message . ' (' . $_SERVER['REQUEST_URI'] . ')' . PHP_EOL;
 			
-			if (!$fh = fopen(self::$log_file, 'a')) {
+			if (!$fh = fopen(Config::get('log_file'), 'a')) {
 				throw new \Exception('Could not open log file for writing!');
 			}
 			if (fwrite($fh, $log_string) === FALSE) {
