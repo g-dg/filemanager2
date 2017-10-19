@@ -92,7 +92,7 @@ class Session
 		return $value;
 	}
 
-	public static function delete($key)
+	public static function unset($key)
 	{
 		self::start();
 		Database::query('DELETE FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key]);
