@@ -139,4 +139,9 @@ class Session
 		setcookie(self::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
 		exit();
 	}
+
+	public static function setLock($state)
+	{
+		Database::setLock($state);
+	}
 }
