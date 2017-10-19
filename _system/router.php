@@ -120,14 +120,18 @@ class Router
 
 		// generate the GET request string
 		$encoded_param_string = '';
-		if (count($parms) > 0) {
+		if (count($params) > 0) {
 			$encoded_param_array = [];
 			foreach ($params as $param => $value) {
-				$encoded_param_array = urlencode($param) . '=' . urlencode($value);
+				// deal with single parameters
+				if (is_int($param)) {
+					$encoded_param_array[] = urlencode($value);
+				} else {
+					$encoded_param_array[] = urlencode($param) . '=' . urlencode($value);
+				}
 			}
 			$encoded_param_string = '?' . implode('&', $encoded_param_array);
 		}
-
 		return $base_uri . $encoded_path . $encoded_param_string;
 	}
 
