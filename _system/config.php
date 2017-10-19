@@ -18,17 +18,23 @@ class Config
 		'session_max_age' => 86400
 	];
 
+	protected static $loaded = false;
+
 	public static function load()
 	{
-		require_once('_config.php');
-		foreach ($config as $option => $value) {
-			self::$config[ $option ] = $value;
+		if (!self::$loaded) {
+			self::$loaded = true;
+			require_once('_config.php');
+			foreach ($config as $option => $value) {
+				self::$config[ $option ] = $value;
+			}
+			unset($config);
 		}
-		unset($config);
 	}
 
 	public static function get($key)
 	{
+		self::load();
 		if (isset(self::$config[ $key ])) {
 			return self::$config[ $key ];
 		} else {

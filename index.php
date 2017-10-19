@@ -8,7 +8,6 @@ ini_set('display_errors', 'On');
 define('GARNETDG_FILEMANAGER2_VERSION', '2.0.0-dev');
 
 require_once('_system/config.php');
-Config::load();
 
 require_once('_system/log.php');
 
