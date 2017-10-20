@@ -89,32 +89,44 @@ class Auth
 		return $return;
 	}
 
-	public static function isAuthenticated()
+	public static function isAuthenticated($authenticate = false)
 	{
-		return self::authenticate() === true;
+		if ($authenticate) {
+			return self::authenticate() === true;
+		} else {
+			return is_null(self::$user_id);
+		}
 	}
 
-	public static function getCurrentUserId()
+	public static function getCurrentUserId($authenticate = true)
 	{
-		self::authenticate();
+		if ($authenticate) {
+			self::authenticate();
+		}
 		return self::$user_id;
 	}
 
-	public static function getCurrentUserName()
+	public static function getCurrentUserName($authenticate = true)
 	{
-		self::authenticate();
+		if ($authenticate) {
+			self::authenticate();
+		}
 		return self::$user_name;
 	}
 
-	public static function getCurrentUserType()
+	public static function getCurrentUserType($authenticate = true)
 	{
-		self::authenticate();
+		if ($authenticate) {
+			self::authenticate();
+		}
 		return self::$user_type;
 	}
 
-	public static function getCurrentUserComment()
+	public static function getCurrentUserComment($authenticate = true)
 	{
-		self::authenticate();
+		if ($authenticate) {
+			self::authenticate();
+		}
 		return self::$user_comment;
 	}
 
