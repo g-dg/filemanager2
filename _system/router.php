@@ -13,9 +13,13 @@ class Router
 	protected static $registered_pages = [];
 	protected static $registered_error_pages = [];
 
-	public static function registerPage($name, $callback)
+	public static function registerPage($name, $callback, $overwrite = false)
 	{
-		self::$registered_pages[$name] = $callback;
+		if (!isset(self::$registered_pages[$name]) || $overwrite) {
+			self::$registered_pages[$name] = $callback;
+		} else {
+			throw new \Exception('The page "' . $name . '" has already been registered.');
+		}
 	}
 
 	public static function registerErrorPage($http_error, $callback)
