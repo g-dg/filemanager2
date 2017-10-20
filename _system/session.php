@@ -17,13 +17,10 @@ class Session
 	protected static $session_id = null;
 	protected static $session_name = self::SESSION_NAME;
 
-	protected static $session_started = false;
-
 	// passing $session_id changes the current session id to that session id
 	public static function start($session_id = null)
 	{
-		if (!self::$session_started) {
-			self::$session_started = true;
+		if (is_null(self::$session_id)) {
 			// 1/1000 chance of garbage collection
 			if (mt_rand(1, GlobalSettings::get('session_garbage_collect_inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
 				self::garbageCollect();
