@@ -21,7 +21,6 @@ class Session
 	public static function start($session_id = null)
 	{
 		if (is_null(self::$session_id)) {
-			// 1/1000 chance of garbage collection
 			if (mt_rand(1, GlobalSettings::get('session_garbage_collect_inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
 				self::garbageCollect();
 			}
