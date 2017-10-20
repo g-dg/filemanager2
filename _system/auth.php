@@ -17,13 +17,15 @@ class Auth
 	const ERROR_INCORRECT_PASSWORD = 3;
 	const ERROR_DISABLED = 4;
 
+	const DEFAULT_LOGIN_PAGE = '/login';
+
 	protected static $user_id = null;
 	protected static $user_name = null;
 	protected static $user_type = null;
 	protected static $user_comment = null;
 
 	// pass $username and $password to authenticate a new user
-	public static function authenticate($username = null, $password = null)
+	public static function authenticate($redirect = false, $username = null, $password = null)
 	{
 		if (is_null(self::$user_id)) {
 			if (!is_null($username) && !is_null($password)) {
@@ -86,7 +88,13 @@ class Auth
 		} else {
 			$return = true;
 		}
-		return $return;
+
+		if ($redirect && $return !== true) {
+			Session::set('_login_target', $_SERVER['REQUEST_URI']);
+			Router::redirect(Config::get('_auth_login_page', self::DEFAULT_LOGIN_PAGE));
+		} else { 
+			return $return;
+		}
 	}
 
 	public static function isAuthenticated($authenticate = false)
