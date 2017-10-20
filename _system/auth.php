@@ -43,7 +43,7 @@ class Auth
 						if (password_needs_rehash($user_record['password'], PASSWORD_DEFAULT)) {
 							Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_record['id']]);
 						}
-						if ($user_record['enabled'] == 1) {
+						if ($user_record['enabled'] != 0) {
 							// user is enabled
 							// authenticated
 							self::$user_id = (int)$user_record['id'];
@@ -69,7 +69,7 @@ class Auth
 					if (isset($user_record[0])) {
 						$user_record = $user_record[0];
 						// user exists
-						if ($user_record['enabled'] == 1) {
+						if ($user_record['enabled'] != 0) {
 							// user is enabled
 							// authenticated
 							self::$user_id = (int)$user_record['id'];

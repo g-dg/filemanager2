@@ -124,7 +124,7 @@ class Users
 	{
 		$query_result = Database::query('SELECT "enabled" FROM "users" WHERE "name" = ?;', [$username]);
 		if (isset($query_result[0])) {
-			return $query_result[0]['enabled'] == 1;
+			return $query_result[0]['enabled'] != 0;
 		} else {
 			return null;
 		}
@@ -157,7 +157,7 @@ class Users
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			if ($enabled_only) {
-				$query_result = Database::query('SELECT "id" FROM "users" WHERE "enabled" = 1;');
+				$query_result = Database::query('SELECT "id" FROM "users" WHERE "enabled" != 0;');
 			} else {
 				$query_result = Database::query('SELECT "id" FROM "users";');
 			}
