@@ -7,6 +7,8 @@ ini_set('display_errors', 'On');
 
 define('GARNETDG_FILEMANAGER_VERSION', '2.0.0-dev');
 
+set_time_limit(3600);
+
 require_once('_system/config.php');
 
 require_once('_system/log.php');
