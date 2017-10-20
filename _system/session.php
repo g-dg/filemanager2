@@ -53,7 +53,7 @@ class Session
 					self::$session_id = self::generateSessionID();
 					// create the session record
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-					setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
+					setcookie(self::$session_name, self::$session_id, 0, '/');
 					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				}
 			}
@@ -61,10 +61,10 @@ class Session
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 				self::$session_id = self::generateSessionID();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
+				setcookie(self::$session_name, self::$session_id, 0, '/');
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
-				setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
+				setcookie(self::$session_name, self::$session_id, 0, '/');
 			}
 			Database::unlock();
 		}
@@ -138,7 +138,7 @@ class Session
 		if ($destroy_session) {
 			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
 		}
-		setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/', null, false, true);
+		setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/');
 		exit();
 	}
 
