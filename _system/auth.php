@@ -28,6 +28,7 @@ class Auth
 		if (is_null(self::$user_id)) {
 			if (!is_null($username) && !is_null($password)) {
 				// log in
+				// lock the database in case password needs rehashing
 				Database::lock();
 				$user_record = Database::query('SELECT * FROM "users" WHERE "name" = ?;', [$username]);
 				if (isset($user_record[0])) {
@@ -60,7 +61,6 @@ class Auth
 				// get from session
 				$user_id = Session::get('auth_user_id');
 				if (!is_null($user_id)) {
-					Database::lock();
 					$user_record = Database::query('SELECT * FROM "users" WHERE "id" = ?;', [$user_id]);
 					if (isset($user_record[0])) {
 						$user_record = $user_record[0];
@@ -79,7 +79,6 @@ class Auth
 					} else {
 						$return = self::ERROR_DOESNT_EXIST;
 					}
-					Database::unlock();
 				} else {
 					$return = self::ERROR_NOT_LOGGED_IN;
 				}
