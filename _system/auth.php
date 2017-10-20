@@ -25,6 +25,8 @@ class Auth
 	protected static $user_comment = null;
 
 	// pass $username and $password to authenticate a new user
+	// Note: if $redirect is not true, this function does not ensure authentication.
+	// Instead, it returns whether the authentication was successfull
 	public static function authenticate($redirect = false, $username = null, $password = null)
 	{
 		if (is_null(self::$user_id)) {
