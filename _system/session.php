@@ -77,7 +77,7 @@ class Session
 	public static function set($key, $value)
 	{
 		self::start();
-		Database::query('INSERT INTO "session_data" ("session_id", "key", "value") VALUES (?, ?, ?);', [self::$session_id, $key, $value]);
+		Database::query('INSERT INTO "session_data" ("session_id", "key", "value") VALUES (?, ?, ?);', [self::$session_id, $key, serialize($value)]);
 	}
 
 	public static function get($key, $default = null)
@@ -85,7 +85,7 @@ class Session
 		self::start();
 		Database::lock();
 		if (self::isset($key)) {
-			$value = Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0];
+			$value = unserialize(Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0]);
 		} else {
 			$value = $default;
 		}
