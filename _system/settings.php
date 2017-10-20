@@ -10,15 +10,12 @@ class GlobalSettings
 {
 	public static function get($key, $default = null, $force = false)
 	{
-		// don't authenticate for this
-		Database::lock();
-		if (self::isset($key)) {
-			$value = unserialize(Database::query('SELECT "value" FROM "global_settings" WHERE "key" = ?;', [$key])[0][0]);
+		$query_result = Database::query('SELECT "value" FROM "global_settings" WHERE "key" = ?;', [$key]);
+		if (isset($query_result[0])) {
+			return unserialize($query_result[0][0]);
 		} else {
-			$value = $default;
+			return $default;
 		}
-		Database::unlock();
-		return $value;
 	}
 
 	public static function set($key, $value, $force = false)
@@ -49,14 +46,12 @@ class UserSettings
 			$user = Auth::getCurrentUserId();
 		}
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
-			Database::lock();
-				if (self::isset($key, $user)) {
-					$value = unserialize(Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0]);
-				} else {
-					$value = $default;
-				}
-			Database::unlock();
-			return $value;
+			$query_result = Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user]);
+			if (isset($query_result[0])) {
+				return unserialize($query_result[0][0]);
+			} else {
+				return $default;
+			}
 		}
 	}
 

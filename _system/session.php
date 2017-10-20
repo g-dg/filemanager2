@@ -85,13 +85,12 @@ class Session
 	public static function get($key, $default = null)
 	{
 		self::start();
-		Database::lock();
-		if (self::isset($key)) {
-			$value = unserialize(Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0]);
+		$query_result = Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key]);
+		if (isset($query_result[0])) {
+			$value = unserialize($query_result[0][0]);
 		} else {
 			$value = $default;
 		}
-		Database::unlock();
 		return $value;
 	}
 
