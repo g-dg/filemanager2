@@ -58,9 +58,11 @@ class Session
 			}
 			// generate new session id if ip address mismatch
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
-				setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/', null, false, true);
+				self::$session_id = self::generateSessionID();
+				setcookie(self::$session_name, self::$session_id, time() - 86400, '/', null, false, true);
+				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				Database::unlock();
-				exit();
 			} else {
 				setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
 			}
