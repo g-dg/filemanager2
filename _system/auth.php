@@ -59,7 +59,7 @@ class Auth
 				Database::unlock();
 			} else {
 				// get from session
-				$user_id = Session::get('auth_user_id');
+				$user_id = Session::get('_auth_user_id');
 				if (!is_null($user_id)) {
 					$user_record = Database::query('SELECT * FROM "users" WHERE "id" = ?;', [$user_id]);
 					if (isset($user_record[0])) {

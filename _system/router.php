@@ -57,7 +57,7 @@ class Router
 				return $clean_path_array[0];
 			}
 		}
-		return GlobalSettings::get('router_default_page', self::DEFAULT_PAGE);
+		return GlobalSettings::get('_router_default_page', self::DEFAULT_PAGE);
 	}
 
 	public static function getCurrentPageParameters()

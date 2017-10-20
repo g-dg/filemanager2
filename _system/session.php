@@ -21,11 +21,11 @@ class Session
 	public static function start($session_id = null)
 	{
 		if (is_null(self::$session_id)) {
-			if (mt_rand(1, GlobalSettings::get('session_garbage_collect_inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
+			if (mt_rand(1, GlobalSettings::get('_session_garbage_collect_inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
 				self::garbageCollect();
 			}
 
-			self::$session_name = GlobalSettings::get('session_name', self::SESSION_NAME);
+			self::$session_name = GlobalSettings::get('_session_name', self::SESSION_NAME);
 
 			if (isset($session_id)) {
 				self::$session_id = $session_id;
@@ -43,21 +43,21 @@ class Session
 				self::$session_id = self::generateSessionID();
 				// create the session record
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				Session::set('session_remote_addr', $_SERVER['REMOTE_ADDR']);
+				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
 				// check if the timestamp is too old
-				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - GlobalSettings::get('session_max_age', self::SESSION_MAX_AGE))) {
+				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE))) {
 					// update timestamp
 					Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
 				} else {
 					self::$session_id = self::generateSessionID();
 					// create the session record
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-					Session::set('session_remote_addr', $_SERVER['REMOTE_ADDR']);
+					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				}
 			}
 			// generate new session id if ip address mismatch
-			if ($_SERVER['REMOTE_ADDR'] !== Session::get('session_remote_addr')) {
+			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 				setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/', null, false, true);
 				Database::unlock();
 				exit();
@@ -108,7 +108,7 @@ class Session
 	public static function garbageCollect()
 	{
 		self::start();
-		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - (GlobalSettings::get('session_max_age', self::SESSION_MAX_AGE) + 3600)]);
+		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - (GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE) + 3600)]);
 	}
 
 	protected static function generateSessionID()
