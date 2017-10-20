@@ -53,16 +53,16 @@ class Session
 					self::$session_id = self::generateSessionID();
 					// create the session record
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+					setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
 					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				}
 			}
 			// generate new session id if ip address mismatch
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 				self::$session_id = self::generateSessionID();
-				setcookie(self::$session_name, self::$session_id, time() - 86400, '/', null, false, true);
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+				setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
-				Database::unlock();
 			} else {
 				setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
 			}
