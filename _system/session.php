@@ -15,6 +15,7 @@ class Session
 	const SESSION_MAX_AGE = 86400;
 
 	protected static $session_id = null;
+	protected static $session_name = self::SESSION_NAME;
 
 	protected static $session_started = false;
 
@@ -24,15 +25,17 @@ class Session
 		if (!self::$session_started) {
 			self::$session_started = true;
 			// 1/1000 chance of garbage collection
-			if (mt_rand(1, self::GARBAGE_COLLECT_PROBABLILITY) == 1) {
+			if (mt_rand(1, GlobalSettings::get('session_garbage_collect_inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
 				self::garbageCollect();
 			}
+
+			self::$session_name = GlobalSettings::get('session_name', self::SESSION_NAME);
 
 			if (isset($session_id)) {
 				self::$session_id = $session_id;
 			} else {
-				if (isset($_COOKIE[self::SESSION_NAME])) {
-					self::$session_id = $_COOKIE[self::SESSION_NAME];
+				if (isset($_COOKIE[self::$session_name])) {
+					self::$session_id = $_COOKIE[self::$session_name];
 				} else {
 					self::$session_id = self::generateSessionID();
 				}
@@ -59,11 +62,11 @@ class Session
 			}
 			// generate new session id if ip address mismatch
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('session_remote_addr')) {
-				setcookie(Session::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
+				setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/', null, false, true);
 				Database::unlock();
 				exit();
 			} else {
-				setcookie(self::SESSION_NAME, self::$session_id, 0, '/', null, false, true);
+				setcookie(self::$session_name, self::$session_id, 0, '/', null, false, true);
 			}
 			Database::unlock();
 		}
@@ -137,7 +140,7 @@ class Session
 		if ($destroy_session) {
 			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
 		}
-		setcookie(self::SESSION_NAME, self::generateSessionID(), time() - 86400, '/', null, false, true);
+		setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/', null, false, true);
 		exit();
 	}
 
