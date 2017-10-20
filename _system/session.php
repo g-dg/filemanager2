@@ -54,6 +54,7 @@ class Session
 					self::$session_id = self::generateSessionID();
 					// create the session record
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+					Session::set('session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				}
 			}
 			// generate new session id if ip address mismatch
