@@ -94,7 +94,7 @@ class Auth
 		if ($authenticate) {
 			return self::authenticate() === true;
 		} else {
-			return is_null(self::$user_id);
+			return !is_null(self::$user_id);
 		}
 	}
 
