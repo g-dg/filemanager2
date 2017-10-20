@@ -13,7 +13,7 @@ class GlobalSettings
 		// don't authenticate for this
 		Database::lock();
 		if (self::isset($key)) {
-			$value = Database::query('SELECT "value" FROM "global_settings" WHERE "key" = ?;', [$key])[0][0];
+			$value = unserialize(Database::query('SELECT "value" FROM "global_settings" WHERE "key" = ?;', [$key])[0][0]);
 		} else {
 			$value = $default;
 		}
@@ -24,7 +24,7 @@ class GlobalSettings
 	public static function set($key, $value, $force = false)
 	{
 		if (Auth::getCurrentUserType() >= Auth::USER_TYPE_ADMIN || $force) {
-			Database::query('INSERT INTO "global_settings" ("key", "value") VALUES (?, ?);', [$key, $value]);
+			Database::query('INSERT INTO "global_settings" ("key", "value") VALUES (?, ?);', [$key, serialize($value)]);
 		}
 	}
 
@@ -51,7 +51,7 @@ class UserSettings
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
 			Database::lock();
 				if (self::isset($key, $user)) {
-					$value = Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0];
+					$value = unserialize(Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0]);
 				} else {
 					$value = $default;
 				}
@@ -66,7 +66,7 @@ class UserSettings
 			$user = Auth::getCurrentUserId();
 		}
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
-			Database::query('INSERT INTO "user_settings" ("key", "user_id", "value") VALUES (?, ?, ?);', [$key, $user, $value]);
+			Database::query('INSERT INTO "user_settings" ("key", "user_id", "value") VALUES (?, ?, ?);', [$key, $user, serialize($value)]);
 		}
 	}
 
