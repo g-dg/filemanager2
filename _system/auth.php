@@ -8,9 +8,9 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 class Auth
 {
-	const USER_TYPE_ADMIN = 2;
-	const USER_TYPE_STANDARD = 1;
-	const USER_TYPE_GUEST = 0;
+	const USER_TYPE_ADMIN = Users::USER_TYPE_ADMIN;
+	const USER_TYPE_STANDARD = Users::USER_TYPE_STANDARD;
+	const USER_TYPE_GUEST = Users::USER_TYPE_GUEST;
 
 	const ERROR_NOT_LOGGED_IN = 1;
 	const ERROR_DOESNT_EXIST = 2;
@@ -25,9 +25,9 @@ class Auth
 	protected static $user_comment = null;
 
 	// pass $username and $password to authenticate a new user
-	// Note: if $redirect is not true, this function does not ensure authentication.
-	// Instead, it returns whether the authentication was successfull
-	public static function authenticate($redirect = false, $username = null, $password = null)
+	// Note: if $redirect is false, this function does not ensure authentication.
+	// Instead, it returns whether the authentication was successful
+	public static function authenticate($redirect = true, $username = null, $password = null)
 	{
 		if (is_null(self::$user_id)) {
 			if (!is_null($username) && !is_null($password)) {
