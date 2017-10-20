@@ -108,7 +108,6 @@ class Session
 
 	public static function garbageCollect()
 	{
-		self::start();
 		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - (GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE) + 3600)]);
 	}
 
