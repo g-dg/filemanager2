@@ -89,6 +89,11 @@ class Auth
 		return $return;
 	}
 
+	public static function isAuthenticated()
+	{
+		return self::authenticate() === true;
+	}
+
 	public static function getCurrentUserId()
 	{
 		self::authenticate();
