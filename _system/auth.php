@@ -19,8 +19,8 @@ class Auth
 
 	protected static $user_id = null;
 	protected static $user_name = null;
-	protected static $user_type = 0;
-	protected static $user_comment = '';
+	protected static $user_type = null;
+	protected static $user_comment = null;
 
 	// pass $username and $password to authenticate a new user
 	public static function authenticate($username = null, $password = null)
