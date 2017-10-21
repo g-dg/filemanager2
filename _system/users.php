@@ -66,13 +66,12 @@ class Users
 	}
 	public static function setEnabled($user_id, $enabled)
 	{
-		if ($enabled) {
-			$enabled_int = 1;
-		} else {
-			$enabled_int = 0;
-		}
-
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			if ($enabled) {
+				$enabled_int = 1;
+			} else {
+				$enabled_int = 0;
+			}
 			Database::query('UPDATE "users" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $user_id]);
 			return true;
 		} else {
@@ -81,11 +80,10 @@ class Users
 	}
 	public static function setType($user_id, $type)
 	{
-		if ($type !== self::USER_TYPE_ADMIN && $type !== self::USER_TYPE_STANDARD && $type !== self::USER_TYPE_GUEST) {
-			return false;
-		}
-
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			if ($type !== self::USER_TYPE_ADMIN && $type !== self::USER_TYPE_STANDARD && $type !== self::USER_TYPE_GUEST) {
+				return false;
+			}
 			Database::query('UPDATE "users" SET "type" = ? WHERE "id" = ?;', [$type, $user_id]);
 			return true;
 		} else {
