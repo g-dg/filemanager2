@@ -153,7 +153,7 @@ class Users
 		return Auth::getCurrentUserId();
 	}
 
-	public static function getUsers($enabled_only = false)
+	public static function getAll($enabled_only = false)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			if ($enabled_only) {
