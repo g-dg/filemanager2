@@ -70,8 +70,25 @@ class Database
 	public static function query($sql, $params = [])
 	{
 		self::connect();
-		$stmt = self::$connection->prepare($sql);
-		$stmt->execute($params);
+		$done_retrying = false;
+		$start_time = time();
+		while (!$done_retrying) {
+			try {
+				$stmt = self::$connection->prepare($sql);
+				$stmt->execute($params);
+				$done_retrying = true;
+			} catch (\PDOException $e) {
+				// keep retrying if locked
+				if (substr_count($e->getMessage(), 'database is locked') == 0) {
+					throw $e;
+				} else {
+					if (time() - $start_time > 60) {
+						throw $e;
+					}
+					usleep(1000);
+				}
+			}
+		}
 		return $stmt->fetchAll();
 	}
 
