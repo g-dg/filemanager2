@@ -31,7 +31,7 @@ class Loader
 
 	public static function registerInit($init_function)
 	{
-		array_push(self::$registered_inits, $init_function);
+		self::$registered_inits[] = $init_function;
 	}
 
 }

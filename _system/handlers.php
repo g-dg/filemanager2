@@ -15,7 +15,7 @@ class Handler
 		if (!self::isRegistered($handler_name)) {
 			self::$registered_handlers[$handler_name] = [$callback];
 		} else {
-			array_push(self::$registered_handlers[$handler_name], $callback);
+			self::$registered_handlers[$handler_name][] = $callback;
 		}
 	}
 

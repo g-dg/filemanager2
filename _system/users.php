@@ -161,7 +161,7 @@ class Users
 			}
 			$users = [];
 			foreach ($query_result as $record) {
-				array_push($users, $record['id']);
+				$users[] = $record['id'];
 			}
 			return $users;
 		} else {
