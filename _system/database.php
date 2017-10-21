@@ -32,6 +32,9 @@ class Database
 
 			self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
+			self::query('PRAGMA journal_mode=WAL;');
+			self::query('PRAGMA synchronous=NORMAL;');
+
 			$db_version = self::getVersionNumber();
 
 			if ($db_version < self::MIN_VERSION || $db_version > self::MAX_VERSION) {
