@@ -29,7 +29,7 @@ class Users
 			try {
 				Database::query('INSERT INTO "users" ("name", "password", "enabled", "type", "comment") VALUES (?, ?, ?, ?, ?);', [$username, $password_hash, $enabled_int, $type, $comment]);
 				return true;
-			} catch (Exception $e) {
+			} catch (\PDOException $e) {
 				return false;
 			}
 		} else {
