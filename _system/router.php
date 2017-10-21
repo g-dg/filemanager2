@@ -44,7 +44,6 @@ class Router
 		} else {
 			http_response_code($http_error);
 		}
-		exit();
 	}
 
 	public static function getCurrentPage()
