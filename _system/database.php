@@ -32,6 +32,8 @@ class Database
 
 			self::$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
+			self::$connection->setAttribute(\PDO::ATTR_TIMEOUT, 60);
+
 			self::query('PRAGMA journal_mode=WAL;');
 			self::query('PRAGMA synchronous=NORMAL;');
 
