@@ -20,7 +20,7 @@ class Loader
 				}
 			}
 		} else {
-			throw new \Exception('Could not read the base system directory!');
+			throw new \Exception('Could not read the base system directory');
 		}
 
 		// execute the registered inits

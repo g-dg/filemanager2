@@ -18,7 +18,7 @@ class Router
 		if (!isset(self::$registered_pages[$name])) {
 			self::$registered_pages[$name] = $callback;
 		} else {
-			throw new \Exception('The page "' . $name . '" has already been registered.');
+			throw new \Exception('The page "' . $name . '" has already been registered');
 		}
 	}
 
