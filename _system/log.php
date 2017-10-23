@@ -17,32 +17,65 @@ class Log
 	const INFO = 6;
 	const DEBUG = 7;
 
+	public static function emergency($message)
+	{
+		self::log(self::EMERG, $message);
+	}
+	public static function alert($message)
+	{
+		self::log(self::ALERT, $message);
+	}
+	public static function critical($message)
+	{
+		self::log(self::CRIT, $message);
+	}
+	public static function error($message)
+	{
+		self::log(self::ERR, $message);
+	}
+	public static function warning($message)
+	{
+		self::log(self::WARNING, $message);
+	}
+	public static function notice($message)
+	{
+		self::log(self::NOTICE, $message);
+	}
+	public static function info($message)
+	{
+		self::log(self::INFO, $message);
+	}
+	public static function debug($message)
+	{
+		self::log(self::DEBUG, $message);
+	}
+
 	public static function log($level, $message)
 	{
 		if ($level <= Config::get('log_level')) {
 			switch ($level) {
-				case 0:
+				case self::EMERGE:
 					$pretty_level = 'Emergency';
 					break;
-				case 1:
+				case self::ALERT:
 					$pretty_level = 'Alert';
 					break;
-				case 2:
+				case self::CRIT:
 					$pretty_level = 'Critical';
 					break;
-				case 3:
+				case self::ERR:
 					$pretty_level = 'Error';
 					break;
-				case 4:
+				case self::WARNING:
 					$pretty_level = 'Warning';
 					break;
-				case 5:
+				case self::NOTICE:
 					$pretty_level = 'Notice';
 					break;
-				case 6:
+				case self::INFO:
 					$pretty_level = 'Info';
 					break;
-				case 7:
+				case self::DEBUG:
 					$pretty_level = 'Debug';
 					break;
 				default:
