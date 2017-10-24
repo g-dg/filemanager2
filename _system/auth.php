@@ -50,15 +50,15 @@ class Auth
 							self::$user_name = $user_record['name'];
 							self::$user_type = (int)$user_record['type'];
 							self::$user_comment = $user_record['comment'];
-							$return = true;
+							$auth_status = true;
 						} else {
-							$return = self::ERROR_DISABLED;
+							$auth_status = self::ERROR_DISABLED;
 						}
 					} else {
-						$return = self::ERROR_INCORRECT_PASSWORD;
+						$auth_status = self::ERROR_INCORRECT_PASSWORD;
 					}
 				} else {
-					$return = self::ERROR_DOESNT_EXIST;
+					$auth_status = self::ERROR_DOESNT_EXIST;
 				}
 				Database::unlock();
 			} else {
@@ -76,27 +76,31 @@ class Auth
 							self::$user_name = $user_record['name'];
 							self::$user_type = (int)$user_record['type'];
 							self::$user_comment = $user_record['comment'];
-							$return = true;
+							$auth_status = true;
 						} else {
-							$return = self::ERROR_DISABLED;
+							$auth_status = self::ERROR_DISABLED;
 						}
 					} else {
-						$return = self::ERROR_DOESNT_EXIST;
+						$auth_status = self::ERROR_DOESNT_EXIST;
 					}
 				} else {
-					$return = self::ERROR_NOT_LOGGED_IN;
+					$auth_status = self::ERROR_NOT_LOGGED_IN;
 				}
 			}
 		} else {
-			$return = true;
+			$auth_status = true;
 		}
 
-		if ($redirect && $return !== true) {
-			Session::set('_login_target', $_SERVER['REQUEST_URI']);
-			Router::redirect(Config::get('_auth_login_page', self::DEFAULT_LOGIN_PAGE));
-		} else { 
-			return $return;
+		Session::unset('_auth_status');
+		if ($auth_status !== true) {
+			if ($redirect) {
+				Session::set('_auth_status', $auth_status);
+				Session::set('_login_target', $_SERVER['REQUEST_URI']);
+				Router::redirect(Config::get('_auth_login_page', self::DEFAULT_LOGIN_PAGE));
+				return false;
+			}
 		}
+		return $auth_status;
 	}
 
 	public static function isAuthenticated()
