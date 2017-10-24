@@ -99,13 +99,9 @@ class Auth
 		}
 	}
 
-	public static function isAuthenticated($authenticate = false)
+	public static function isAuthenticated()
 	{
-		if ($authenticate) {
-			return self::authenticate() === true;
-		} else {
-			return !is_null(self::$user_id);
-		}
+		return !is_null(self::$user_id);
 	}
 
 	public static function getCurrentUserId($authenticate = true)
