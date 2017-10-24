@@ -137,15 +137,7 @@ class Shares {
 	}
 
 	// if $user is null, use the current user id
-	public static function getAccessible($user = null)
-	{
-
-	}
-	public static function isReadable($share, $user = null)
-	{
-
-	}
-	public static function isWritable($share, $user = null)
+	public static function getAllAccessible($user = null)
 	{
 
 	}
