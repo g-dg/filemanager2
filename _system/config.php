@@ -18,7 +18,7 @@ class Config
 
 	protected static $loaded = false;
 
-	public static function load()
+	public static function get($key, $default = null)
 	{
 		if (!self::$loaded) {
 			self::$loaded = true;
@@ -28,11 +28,6 @@ class Config
 			}
 			unset($config);
 		}
-	}
-
-	public static function get($key, $default = null)
-	{
-		self::load();
 		if (isset(self::$config[ $key ])) {
 			return self::$config[ $key ];
 		} else {
