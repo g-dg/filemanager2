@@ -12,11 +12,42 @@ class Shares {
 	const ACCESS_READ_WRITE = 2;
 
 	// if $user_id is null, the current user id is used.
-	// if user doesn't exist, ACCESS_NONE is returned.
 	// returns one of ACCESS_NONE, ACCESS_READ_ONLY, ACCESS_WRITE
-	public static function getUserAccessLevel($share, $user_id=null)
+	public static function getUserAccessLevel($share, $user_id = null)
 	{
-
+		if (is_null($user_id)) {
+			$user_id = Auth::getCurrentUserId();
+		}
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT
+						"shares_in_groups"."writable" AS "writable"
+					FROM
+						"users",
+						"users_in_groups",
+						"groups",
+						"shares_in_groups",
+						"shares"
+					WHERE
+						"users"."id" = ? AND
+						"shares"."id" = ? AND
+						"users_in_groups"."user_id" = "users"."id" AND
+						"users_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."share_id" = "shares"."id" AND
+						"groups"."enabled" != 0 AND
+						"shares"."enabled" != 0;', [$user_id, $share]);
+			if (isset($query_result[0])) {
+				if ($query_result[0]['writable'] != 0) {
+					return self::ACCESS_READ_WRITE;
+				} else {
+					return self::ACCESS_READ_ONLY;
+				}
+			} else {
+				return self::ACCESS_NONE;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	// must be an administrator
@@ -137,9 +168,36 @@ class Shares {
 	}
 
 	// if $user is null, use the current user id
-	public static function getAllAccessible($user = null)
+	public static function getAllAccessible($user_id = null)
 	{
-
+		if (is_null($user_id)) {
+			$user_id = Auth::getCurrentUserId();
+		}
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT
+						"shares"."id" AS "id"
+					FROM
+						"users",
+						"users_in_groups",
+						"groups",
+						"shares_in_groups",
+						"shares"
+					WHERE
+						"users"."id" = ? AND
+						"users_in_groups"."user_id" = "users"."id" AND
+						"users_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."share_id" = "shares"."id" AND
+						"groups"."enabled" != 0 AND
+						"shares"."enabled" != 0;', [$user_id]);
+			$shares = [];
+			foreach ($query_result as $record) {
+				$shares[] = $record['id'];
+			}
+			return $shares;
+		} else {
+			return false;
+		}
 	}
 
 	public static function getAll($enabled_only = false)
@@ -150,11 +208,11 @@ class Shares {
 			} else {
 				$query_result = Database::query('SELECT "id" FROM "shares";');
 			}
-			$users = [];
+			$shares = [];
 			foreach ($query_result as $record) {
-				$users[] = $record['id'];
+				$shares[] = $record['id'];
 			}
-			return $users;
+			return $shares;
 		} else {
 			return false;
 		}
