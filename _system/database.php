@@ -8,8 +8,8 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 class Database
 {
-	const MIN_VERSION = 2000000;
-	const MAX_VERSION = 2999999;
+	protected static $min_version = 2000000;
+	protected static $max_version = 2999999;
 
 	public static $connection = null;
 	protected static $db_file = '_database.sqlite3';
@@ -39,7 +39,7 @@ class Database
 
 			$db_version = self::getVersionNumber();
 
-			if ($db_version < self::MIN_VERSION || $db_version > self::MAX_VERSION) {
+			if ($db_version < self::$min_version || $db_version > self::$max_version) {
 				throw new \Exception('Incompatable database version');
 			}
 
