@@ -37,36 +37,30 @@ class Session
 				}
 			}
 
-			// generate a new id if the session id doesn't exist
 			Database::lock();
-			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] == 0) {
-				self::$session_id = self::generateSessionId();
+
+			// generate a new id if the session id doesn't exist
+			// or if the timestamp is too old
+			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ? AND "timestamp" >= ?;', [self::$session_id, (time() - GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE))])[0][0] == 0) {
 				// create the session record
+				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
-				// check if the timestamp is too old
-				if (Database::query('SELECT "timestamp" from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] >= (time() - GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE))) {
-					// update timestamp
-					Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
-				} else {
-					self::$session_id = self::generateSessionId();
-					// create the session record
-					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-					setcookie(self::$session_name, self::$session_id, 0, '/');
-					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
-				}
+				// update timestamp
+				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
 			}
-			// generate new session id if ip address mismatch
+
+			// generate new session id if ip address doesn't match
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				setcookie(self::$session_name, self::$session_id, 0, '/');
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
-			} else {
-				setcookie(self::$session_name, self::$session_id, 0, '/');
 			}
+
 			Database::unlock();
+
+			setcookie(self::$session_name, self::$session_id, 0, '/');
 		}
 	}
 
