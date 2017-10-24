@@ -91,7 +91,11 @@ class Auth
 			$auth_status = true;
 		}
 
-		Session::unset('_auth_status');
+		Database::lock();
+		if (Session::isset('_auth_status')) {
+			Session::unset('_auth_status');
+		}
+		Database::unlock();
 		if ($auth_status !== true) {
 			if ($redirect) {
 				Session::set('_login_target', $_SERVER['REQUEST_URI']);
