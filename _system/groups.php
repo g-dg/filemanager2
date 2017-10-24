@@ -7,10 +7,6 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 class Groups {
-	const ACCESS_NONE = Shares::ACCESS_NONE;
-	const ACCESS_READ_ONLY = Shares::ACCESS_READ_ONLY;
-	const ACCESS_READ_WRITE = Shares::ACCESS_READ_WRITE;
-
 	public static function addUser($group, $user)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
@@ -61,7 +57,17 @@ class Groups {
 
 	}
 
-	public static function create($name, $enabled = true)
+	public static function create($name, $enabled = true, $comment = '')
+	{
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static function delete($group)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 
@@ -76,19 +82,19 @@ class Groups {
 
 	}
 
-	public static function setName($group, $new_name)
-	{
-
-	}
-
 	public static function getName($group)
 	{
 
 	}
 
-	public static function delete($group)
+	public static function setName($group, $new_name)
 	{
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public static function getEnabled($group)
@@ -131,7 +137,7 @@ class Groups {
 
 	}
 
-	public static function getGroups($enabled_only = false)
+	public static function getAll($enabled_only = false)
 	{
 
 	}
