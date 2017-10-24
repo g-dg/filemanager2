@@ -19,18 +19,35 @@ class Shares {
 			$user_id = Auth::getCurrentUserId();
 		}
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			/*
+				SELECT
+					"shares_in_groups"."writable" AS "writable"
+				FROM
+					"users",
+					"users_in_groups",
+					"groups",
+					"shares_in_groups",
+					"shares"
+				WHERE
+					"users"."id" = ? AND
+					"shares"."id" = ? AND
+					"users_in_groups"."user_id" = "users"."id" AND
+					"users_in_groups"."group_id" = "groups"."id" AND
+					"shares_in_groups"."group_id" = "groups"."id" AND
+					"shares_in_groups"."share_id" = "shares"."id" AND
+					"groups"."enabled" != 0 AND
+					"shares"."enabled" != 0;
+			*/
 			$query_result = Database::query('SELECT
 						"shares_in_groups"."writable" AS "writable"
 					FROM
-						"users",
 						"users_in_groups",
 						"groups",
 						"shares_in_groups",
 						"shares"
 					WHERE
-						"users"."id" = ? AND
+						"users_in_groups"."user_id" = ? AND
 						"shares"."id" = ? AND
-						"users_in_groups"."user_id" = "users"."id" AND
 						"users_in_groups"."group_id" = "groups"."id" AND
 						"shares_in_groups"."group_id" = "groups"."id" AND
 						"shares_in_groups"."share_id" = "shares"."id" AND
@@ -174,17 +191,33 @@ class Shares {
 			$user_id = Auth::getCurrentUserId();
 		}
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			/*
+				SELECT
+					"shares"."id" AS "id"
+				FROM
+					"users",
+					"users_in_groups",
+					"groups",
+					"shares_in_groups",
+					"shares"
+				WHERE
+					"users"."id" = ? AND
+					"users_in_groups"."user_id" = "users"."id" AND
+					"users_in_groups"."group_id" = "groups"."id" AND
+					"shares_in_groups"."group_id" = "groups"."id" AND
+					"shares_in_groups"."share_id" = "shares"."id" AND
+					"groups"."enabled" != 0 AND
+					"shares"."enabled" != 0;
+			*/
 			$query_result = Database::query('SELECT
 						"shares"."id" AS "id"
 					FROM
-						"users",
 						"users_in_groups",
 						"groups",
 						"shares_in_groups",
 						"shares"
 					WHERE
-						"users"."id" = ? AND
-						"users_in_groups"."user_id" = "users"."id" AND
+						"users_in_groups"."user_id" = ? AND
 						"users_in_groups"."group_id" = "groups"."id" AND
 						"shares_in_groups"."group_id" = "groups"."id" AND
 						"shares_in_groups"."share_id" = "shares"."id" AND
