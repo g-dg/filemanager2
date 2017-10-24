@@ -63,7 +63,7 @@ class Router
 		return GlobalSettings::get('_router_default_page', self::$default_page);
 	}
 
-	public static function getCurrentPageParameters()
+	public static function getCurrentParameters()
 	{
 		if (isset($_SERVER['PATH_INFO'])) {
 			$clean_path_array = [];
