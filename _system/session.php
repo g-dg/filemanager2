@@ -33,14 +33,14 @@ class Session
 				if (isset($_COOKIE[self::$session_name])) {
 					self::$session_id = $_COOKIE[self::$session_name];
 				} else {
-					self::$session_id = self::generateSessionID();
+					self::$session_id = self::generateSessionId();
 				}
 			}
 
 			// generate a new id if the session id doesn't exist
 			Database::lock();
 			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ?;', [self::$session_id])[0][0] == 0) {
-				self::$session_id = self::generateSessionID();
+				self::$session_id = self::generateSessionId();
 				// create the session record
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
@@ -50,7 +50,7 @@ class Session
 					// update timestamp
 					Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
 				} else {
-					self::$session_id = self::generateSessionID();
+					self::$session_id = self::generateSessionId();
 					// create the session record
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 					setcookie(self::$session_name, self::$session_id, 0, '/');
@@ -59,7 +59,7 @@ class Session
 			}
 			// generate new session id if ip address mismatch
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
-				self::$session_id = self::generateSessionID();
+				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 				setcookie(self::$session_name, self::$session_id, 0, '/');
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
@@ -70,7 +70,7 @@ class Session
 		}
 	}
 
-	public static function getSessionID()
+	public static function getSessionId()
 	{
 		self::start();
 		return self::$session_id;
@@ -111,7 +111,7 @@ class Session
 		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - (GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE) + 3600)]);
 	}
 
-	protected static function generateSessionID()
+	protected static function generateSessionId()
 	{
 		if (function_exists('random_int')) {
 			try {
@@ -136,7 +136,7 @@ class Session
 		if ($destroy_session) {
 			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
 		}
-		setcookie(self::$session_name, self::generateSessionID(), time() - 86400, '/');
+		setcookie(self::$session_name, self::generateSessionId(), time() - 86400, '/');
 		exit();
 	}
 

@@ -138,7 +138,7 @@ class Shares {
 		}
 	}
 
-	public static function getID($name)
+	public static function getId($name)
 	{
 		$query_result = Database::query('SELECT "id" FROM "shares" WHERE "name" = ?;', [$name]);
 		if (isset($query_result[0])) {
