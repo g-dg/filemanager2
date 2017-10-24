@@ -31,7 +31,7 @@ class Router
 	{
 		$current_page = self::getCurrentPage();
 		if (isset(self::$registered_pages[$current_page])) {
-			call_user_func(self::$registered_pages[$current_page], self::getCurrentPageParameters());
+			call_user_func(self::$registered_pages[$current_page], self::getCurrentParameters());
 		} else {
 			self::execErrorPage(404);
 		}
@@ -84,7 +84,7 @@ class Router
 	public static function getCurrentPageAndParameters()
 	{
 		$page = self::getCurrentPage();
-		$params = self::getCurrentPageParameters();
+		$params = self::getCurrentParameters();
 		if ($params === '') {
 			return $page;
 		} else {
