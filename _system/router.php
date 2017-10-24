@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 class Router
 {
-	const DEFAULT_PAGE = 'index';
+	protected static $default_page = 'index';
 
 	protected static $registered_pages = [];
 	protected static $registered_error_pages = [];
@@ -60,7 +60,7 @@ class Router
 				return $clean_path_array[0];
 			}
 		}
-		return GlobalSettings::get('_router_default_page', self::DEFAULT_PAGE);
+		return GlobalSettings::get('_router_default_page', self::$default_page);
 	}
 
 	public static function getCurrentPageParameters()
