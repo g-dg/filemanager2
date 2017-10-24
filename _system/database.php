@@ -92,7 +92,7 @@ class Database
 		return $stmt->fetchAll();
 	}
 
-	public static function getVersionNumber()
+	protected static function getVersionNumber()
 	{
 		self::connect();
 		return self::query('PRAGMA user_version;')[0][0];
