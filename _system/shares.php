@@ -13,7 +13,7 @@ class Shares {
 
 	// if $user_id is null, the current user id is used.
 	// returns one of ACCESS_NONE, ACCESS_READ_ONLY, ACCESS_WRITE
-	public static function getUserAccessLevel($share, $user_id = null)
+	public static function getUserAccessLevel($share_id, $user_id = null)
 	{
 		if (is_null($user_id)) {
 			$user_id = Auth::getCurrentUserId();
@@ -52,7 +52,7 @@ class Shares {
 						"shares_in_groups"."group_id" = "groups"."id" AND
 						"shares_in_groups"."share_id" = "shares"."id" AND
 						"groups"."enabled" != 0 AND
-						"shares"."enabled" != 0;', [$user_id, $share]);
+						"shares"."enabled" != 0;', [$user_id, $share_id]);
 			if (isset($query_result[0])) {
 				if ($query_result[0]['writable'] != 0) {
 					return self::ACCESS_READ_WRITE;
@@ -86,35 +86,35 @@ class Shares {
 			return false;
 		}
 	}
-	public static function delete($share)
+	public static function delete($share_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('DELETE FROM "shares" WHERE "id" = ?;', [$share]);
+			Database::query('DELETE FROM "shares" WHERE "id" = ?;', [$share_id]);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public static function setName($share, $new_name)
+	public static function setName($share_id, $new_name)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "shares" SET "name" = ? WHERE "id" = ?;', [$new_name, $share]);
+			Database::query('UPDATE "shares" SET "name" = ? WHERE "id" = ?;', [$new_name, $share_id]);
 			return true;
 		} else {
 			return false;
 		}
 	}
-	public static function setPath($share, $new_path)
+	public static function setPath($share_id, $new_path)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "shares" SET "path" = ? WHERE "id" = ?;', [$new_path, $share]);
+			Database::query('UPDATE "shares" SET "path" = ? WHERE "id" = ?;', [$new_path, $share_id]);
 			return true;
 		} else {
 			return false;
 		}
 	}
-	public static function setEnabled($share, $enabled)
+	public static function setEnabled($share_id, $enabled)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			if ($enabled) {
@@ -122,16 +122,16 @@ class Shares {
 			} else {
 				$enabled_int = 0;
 			}
-			Database::query('UPDATE "shares" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $share]);
+			Database::query('UPDATE "shares" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $share_id]);
 			return true;
 		} else {
 			return false;
 		}
 	}
-	public static function setComment($share, $new_comment)
+	public static function setComment($share_id, $new_comment)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "shares" SET "comment" = ? WHERE "id" = ?;', [$new_comment, $share]);
+			Database::query('UPDATE "shares" SET "comment" = ? WHERE "id" = ?;', [$new_comment, $share_id]);
 			return true;
 		} else {
 			return false;
@@ -147,36 +147,36 @@ class Shares {
 			return null;
 		}
 	}
-	public static function getName($share)
+	public static function getName($share_id)
 	{
-		$query_result = Database::query('SELECT "name" FROM "shares" WHERE "id" = ?;', [$share]);
+		$query_result = Database::query('SELECT "name" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['name'];
 		} else {
 			return null;
 		}
 	}
-	public static function getPath($share)
+	public static function getPath($share_id)
 	{
-		$query_result = Database::query('SELECT "path" FROM "shares" WHERE "id" = ?;', [$share]);
+		$query_result = Database::query('SELECT "path" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['path'];
 		} else {
 			return null;
 		}
 	}
-	public static function getEnabled($share)
+	public static function getEnabled($share_id)
 	{
-		$query_result = Database::query('SELECT "enabled" FROM "shares" WHERE "id" = ?;', [$share]);
+		$query_result = Database::query('SELECT "enabled" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['enabled'] != 0;
 		} else {
 			return null;
 		}
 	}
-	public static function getComment($share)
+	public static function getComment($share_id)
 	{
-		$query_result = Database::query('SELECT "comment" FROM "shares" WHERE "id" = ?;', [$share]);
+		$query_result = Database::query('SELECT "comment" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['comment'];
 		} else {
