@@ -101,10 +101,49 @@ class Filesystem
 
 	}
 
-	// uses filename extension
-	public static function getMimeType($filename)
+	public static function getMimeType($filename, $is_filesystem_path = false)
 	{
+		// check the extension
+		
+		if (isset(pathinfo($filename)['extension'])) {
+			$fh = fopen('_res/mime.types', 'r');
+			while (($line = fgets($fh)) !== false) {
+				if (strlen($line) > 0 &&
+						substr($line, 0, 1) !== '#' &&
+						preg_match_all('/([^\s]+)/', $line, $record) &&
+						isset($record[1]) &&
+						($count = count($record[1])) > 1) {
+					for ($i = 1; $i < $count; $i++) {
+						if ($record[1][$i] == pathinfo($filename)['extension']) {
+							return $record[1][0];
+						}
+					}
+				}
+			}
+			fclose($fh);
+		}
 
+		if (!$is_filesystem_path) {
+			$filename = self::mapSharePathToFilesystemPath($filename);
+		}
+
+		// try checking the content
+		if (function_exists('finfo_open')) {
+			if ($finfo = @finfo_open(FILEINFO_MIME_TYPE)) {
+				if ($mimetype = @finfo_file($finfo, $filename)) {
+					finfo_close($finfo);
+					return $mimetype;
+				}
+			}
+		}
+		if (function_exists('mime_content_type')) {
+			if ($unprocessed_content_type = @mime_content_type($filename)) {
+				return preg_replace('~^(.+);.*$~', '$1', $unprocessed_content_type);
+			}
+		}
+
+		// last ditch
+		return 'application/octet-stream';
 	}
 
 	public static function cpRecursive($source, $destination)
@@ -118,7 +157,7 @@ class Filesystem
 	}
 
 
-	// path doesn't have to exist
+	// path doesn't have to exist (the share does)
 	protected static function mapSharePathToFilesystemPath($share_path)
 	{
 
