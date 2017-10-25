@@ -47,8 +47,10 @@ class GlobalSettings {
 class Groups {
 	function addUser($group_id, $user_id)
 	function removeUser($group_id, $user_id)
-	function addShare($group_id, $share_id)
+	function addShare($group_id, $share_id, $writable = false)
 	function removeShare($group_id, $share_id)
+	function getWritable($group_id, $share_id)
+	function setWritable($group_id, $share_id, $writable)
 	function userInGroup($group_id, $user_id = null)
 	function shareInGroup($group_id, $share_id)
 	function create($name, $enabled = true, $comment = '')
