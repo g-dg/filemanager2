@@ -60,7 +60,7 @@ class Groups {
 		}
 	}
 
-	public static function getWritable($group_id, $share_id)
+	public static function getShareWritable($group_id, $share_id)
 	{
 		$query_result = Database::query('SELECT "writable" FROM "shares_in_groups" WHERE "share_id" = ? AND "group_id" = ?;', [$share_id, $group_id]);
 		if (isset($query_result[0])) {
@@ -70,7 +70,7 @@ class Groups {
 		}
 	}
 
-	public static function setWritable($group_id, $share_id, $writable)
+	public static function setShareWritable($group_id, $share_id, $writable)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			if ($writable) {
@@ -85,14 +85,17 @@ class Groups {
 		}
 	}
 
-	public static function userInGroup($group_id, $user = null)
+	public static function userInGroup($group_id, $user_id = null)
 	{
-
+		if (is_null($user_id)) {
+			$user_id = Auth::getCurrentUserId();
+		}
+		return Database::query('SELECT COUNT() FROM "users_in_groups" WHERE "group_id" = ? AND "user_id" = ?;', [$group_id, $user_id])[0][0] != 0;
 	}
 
-	public static function shareInGroup($group_id, $share)
+	public static function shareInGroup($group_id, $share_id)
 	{
-
+		return Database::query('SELECT COUNT() FROM "users_in_groups" WHERE "group_id" = ? AND "share_id" = ?;', [$group_id, $share_id])[0][0] != 0;
 	}
 
 	public static function create($name, $enabled = true, $comment = '')
@@ -201,12 +204,60 @@ class Groups {
 
 	public static function getUsersInGroup($group_id, $enabled_only = false)
 	{
-
+		/*
+			SELECT
+				"users"."id"
+			FROM
+				"users",
+				"users_in_groups"
+			WHERE
+				"users_in_groups"."group_id" = ? AND
+				"users_in_groups"."user_id" = "users"."id" AND
+				"users"."enabled" != 0;
+		*/
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			if ($enabled_only) {
+				$query_result = Database::query('SELECT "users"."id" FROM "users", "users_in_groups" WHERE "users_in_groups"."group_id" = ? AND "users_in_groups"."user_id" = "users"."id" AND "users"."enabled" != 0;', [$group_id]);
+			} else {
+				$query_result = Database::query('SELECT "user_id" FROM "users_in_groups" WHERE "group_id" = ?;', [$group_id]);
+			}
+			$users = [];
+			foreach ($query_result as $record) {
+				$users[] = $record['id'];
+			}
+			return $users;
+		} else {
+			return false;
+		}
 	}
 
 	public static function getSharesInGroup($group_id, $enabled_only = false)
 	{
-
+		/*
+			SELECT
+				"shares"."id"
+			FROM
+				"shares",
+				"shares_in_groups"
+			WHERE
+				"shares_in_groups"."group_id" = ? AND
+				"shares_in_groups"."share_id" = "shares"."id" AND
+				"shares"."enabled" != 0;
+		*/
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			if ($enabled_only) {
+				$query_result = Database::query('SELECT "shares"."id" FROM "shares", "shares_in_groups" WHERE "shares_in_groups"."group_id" = ? AND "shares_in_groups"."share_id" = "shares"."id" AND "shares"."enabled" != 0;', [$group_id]);
+			} else {
+				$query_result = Database::query('SELECT "share_id" FROM "shares_in_groups" WHERE "group_id" = ?;', [$group_id]);
+			}
+			$groups = [];
+			foreach ($query_result as $record) {
+				$groups[] = $record['id'];
+			}
+			return $groups;
+		} else {
+			return false;
+		}
 	}
 
 	public static function getAll($enabled_only = false)
