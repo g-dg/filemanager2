@@ -36,6 +36,34 @@ class Database {
 }
 
 
+class Filesystem {
+	function copy($source, $dest)
+	function file_exists($filename)
+	function file_get_contents($filename)
+	function function file_put_contents($filename, $data, $flags = 0)
+	function fileatime($filename)
+	function filemtime($filename)
+	function filesize($filename)
+	function filetype($filename)
+	function fopen($filename, $mode)
+	function is_dir($filename)
+	function is_file($filename)
+	function is_readable($filename)
+	function is_writable($filename)
+	function mkdir($filename)
+	function rename($oldname, $newname)
+	function rmdir($dirname)
+	function touch($filename)
+	function unlink($filename)
+	function opendir($path)
+	function scandir($path, $sorting_order = SCANDIR_SORT_ASCENDING)
+	function processFileUpload($form_upload_element_name, $dest_filename)
+	function getMimeType($filename)
+	function cpRecursive($source, $destination)
+	function rmRecursive($filename)
+}
+
+
 class GlobalSettings {
 	function get($key, $default = null, $force = false)
 	function set($key, $value, $force = false)
