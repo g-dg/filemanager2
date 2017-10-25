@@ -99,7 +99,7 @@ class Shares {
 	public static function setName($share, $new_name)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "users" SET "name" = ? WHERE "id" = ?;', [$new_name, $user_id]);
+			Database::query('UPDATE "shares" SET "name" = ? WHERE "id" = ?;', [$new_name, $share]);
 			return true;
 		} else {
 			return false;
@@ -108,7 +108,7 @@ class Shares {
 	public static function setPath($share, $new_path)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "users" SET "path" = ? WHERE "id" = ?;', [$new_path, $user_id]);
+			Database::query('UPDATE "shares" SET "path" = ? WHERE "id" = ?;', [$new_path, $share]);
 			return true;
 		} else {
 			return false;
@@ -122,7 +122,7 @@ class Shares {
 			} else {
 				$enabled_int = 0;
 			}
-			Database::query('UPDATE "users" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $user_id]);
+			Database::query('UPDATE "shares" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $share]);
 			return true;
 		} else {
 			return false;
@@ -131,7 +131,7 @@ class Shares {
 	public static function setComment($share, $new_comment)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "users" SET "comment" = ? WHERE "id" = ?;', [$new_comment, $user_id]);
+			Database::query('UPDATE "shares" SET "comment" = ? WHERE "id" = ?;', [$new_comment, $share]);
 			return true;
 		} else {
 			return false;
