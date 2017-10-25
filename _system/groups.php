@@ -10,7 +10,11 @@ class Groups {
 	public static function addUser($group_id, $user_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-
+			try {
+				Database::query('INSERT INTO "users_in_groups" ("user_id", "group_id") VALUES (?, ?);', [$user_id, $group_id]);
+			} catch (Exception $e) {
+				return false;
+			}
 			return true;
 		} else {
 			return false;
@@ -20,17 +24,26 @@ class Groups {
 	public static function removeUser($group_id, $user_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-
+			Database::query('DELETE FROM "users_in_groups" WHERE "user_id" = ? AND "group_id" = ?;', [$user_id, $group_id]);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public static function addShare($group_id, $share_id)
+	public static function addShare($group_id, $share_id, $writable = false)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-
+			if ($writable) {
+				$writable_int = 1;
+			} else {
+				$writable_int = 0;
+			}
+			try {
+				Database::query('INSERT INTO "shares_in_groups" ("share_id", "group_id", "writable") VALUES (?, ?, ?);', [$share_id, $group_id, $writable_int]);
+			} catch (Exception $e) {
+				return false;
+			}
 			return true;
 		} else {
 			return false;
@@ -40,7 +53,32 @@ class Groups {
 	public static function removeShare($group_id, $share_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			Database::query('DELETE FROM "shares_in_groups" WHERE "share_id" = ? AND "group_id" = ?;', [$share_id, $group_id]);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
+	public static function getWritable($group_id, $share_id)
+	{
+		$query_result = Database::query('SELECT "writable" FROM "shares_in_groups" WHERE "share_id" = ? AND "group_id" = ?;', [$share_id, $group_id]);
+		if (isset($query_result[0])) {
+			return $query_result[0]['writable'] != 0;
+		} else {
+			return null;
+		}
+	}
+
+	public static function setWritable($group_id, $share_id, $writable)
+	{
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			if ($writable) {
+				$writable_int = 1;
+			} else {
+				$writable_int = 0;
+			}
+			Database::query('UPDATE "shares_in_groups" SET "writable" = ? WHERE "group_id" = ? AND "share_id" = ?;', [$writable_int, $group_id, $share_id]);
 			return true;
 		} else {
 			return false;
@@ -179,11 +217,11 @@ class Groups {
 			} else {
 				$query_result = Database::query('SELECT "id" FROM "groups";');
 			}
-			$shares = [];
+			$groups = [];
 			foreach ($query_result as $record) {
-				$shares[] = $record['id'];
+				$groups[] = $record['id'];
 			}
-			return $shares;
+			return $groups;
 		} else {
 			return false;
 		}
