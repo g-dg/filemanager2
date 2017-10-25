@@ -78,10 +78,10 @@ class Shares {
 			}
 			try {
 				Database::query('INSERT INTO "shares" ("name", "path", "enabled", "comment") VALUES (?, ?, ?, ?);', [$name, $path, $enabled_int, $comment]);
-				return true;
 			} catch (\Exception $e) {
 				return false;
 			}
+			return true;
 		} else {
 			return false;
 		}
