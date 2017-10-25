@@ -79,16 +79,35 @@ class Log
 					$pretty_level = 'Debug';
 					break;
 				default:
-					throw new \Exception('Invalid log level: ' . $level);
+					throw new \Exception('Invalid log level.');
 					break;
 			}
 
 			$log_string = '[' . date('Y-m-d H:i:s') . '] ' . $pretty_level . ': ' . $message . ' (' . $_SERVER['REQUEST_URI'] . ')' . PHP_EOL;
 			
-			if (!$fh = fopen(Config::get('log_file'), 'a')) {
+			$fh = false;
+			$tries = 0;
+			while (!$fh && $tries <= 1000) {
+				$tries++;
+				$fh = fopen(Config::get('log_file'), 'a');
+				if (!fh) {
+					usleep(1000);
+				}
+			}
+			if (!$fh) {
 				throw new \Exception('Could not open log file for writing');
 			}
-			if (fwrite($fh, $log_string) === FALSE) {
+
+			$result = false;
+			$tries = 0;
+			while ($result === false && $tries <= 1000) {
+				$tries++;
+				$result = fwrite($fh, $log_string);
+				if (!fh) {
+					usleep(1000);
+				}
+			}
+			if ($result === FALSE) {
 				throw new \Exception('Could not write to log file');
 			}
 			
