@@ -100,7 +100,7 @@ class Router
 		$encoded_path_array = [];
 		foreach ($raw_path_array as $pathpart) {
 			if ($pathpart !== '') {
-				// urlencode changes spaces into pluses. That only works with get request strings, not paths.
+				// urlencode changes spaces into plus's. That only works with get request strings, not paths.
 				$encoded_path_array[] = str_replace('+', '%20', urlencode($pathpart));
 			}
 		}
@@ -144,5 +144,19 @@ class Router
 	{
 		header('Location: ' . self::getHttpReadyUri($full_path, $params));
 		exit();
+	}
+
+	public static function getApplicationRelativeHttpPath($relative_path)
+	{
+		$base_directory = pathinfo($_SERVER['SCRIPT_NAME'])['dirname'];
+		$raw_path_array = explode('/', $relative_path);
+		$encoded_path_array = [];
+		foreach ($raw_path_array as $pathpart) {
+			if ($pathpart !== '') {
+				// urlencode changes spaces into plus's. That only works with get request strings, not paths.
+				$encoded_path_array[] = str_replace('+', '%20', urlencode($pathpart));
+			}
+		}
+		$encoded_path = $base_directory . '/' . implode('/', $encoded_path_array);
 	}
 }
