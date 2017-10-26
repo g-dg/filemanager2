@@ -40,7 +40,7 @@ class Filesystem {
 	function copy($source, $dest)
 	function file_exists($filename)
 	function file_get_contents($filename)
-	function function file_put_contents($filename, $data, $flags = 0)
+	function file_put_contents($filename, $data)
 	function fileatime($filename)
 	function filemtime($filename)
 	function filesize($filename)
@@ -55,7 +55,6 @@ class Filesystem {
 	function rmdir($dirname)
 	function touch($filename)
 	function unlink($filename)
-	function opendir($path)
 	function scandir($path, $sorting_order = SCANDIR_SORT_ASCENDING)
 	function processFileUpload($form_upload_element_name, $dest_filename)
 	function getMimeType($filename, $is_filesystem_path = true)
@@ -148,6 +147,7 @@ class Router {
 	function getCurrentPageAndParameters()
 	function getHttpReadyUri($full_path, $params = [])
 	function redirect($full_path, $params = [])
+	function getApplicationRelativeHttpPath($relative_path)
 }
 
 
