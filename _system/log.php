@@ -90,7 +90,7 @@ class Log
 			while (!$fh && $tries <= 1000) {
 				$tries++;
 				$fh = fopen(Config::get('log_file'), 'a');
-				if (!fh) {
+				if (!$fh) {
 					usleep(1000);
 				}
 			}
@@ -103,7 +103,7 @@ class Log
 			while ($result === false && $tries <= 1000) {
 				$tries++;
 				$result = fwrite($fh, $log_string);
-				if (!fh) {
+				if (!$fh) {
 					usleep(1000);
 				}
 			}
