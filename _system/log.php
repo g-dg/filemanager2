@@ -54,7 +54,7 @@ class Log
 	{
 		if ($level <= Config::get('log_level')) {
 			switch ($level) {
-				case self::EMERGE:
+				case self::EMERG:
 					$pretty_level = 'Emergency';
 					break;
 				case self::ALERT:
