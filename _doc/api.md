@@ -166,11 +166,6 @@ class Session {
 
 
 class Shares {
-	const ACCESS_NONE
-	const ACCESS_READ_ONLY
-	const ACCESS_READ_WRITE
-
-	function getUserAccessLevel($share_id, $user_id = null)
 	function create($name, $path, $enabled = true, $comment = '')
 	function delete($share_id)
 	function setName($share_id, $new_name)
@@ -182,6 +177,8 @@ class Shares {
 	function getPath($share_id)
 	function getEnabled($share_id)
 	function getComment($share_id)
+	function canRead($share_id, $user_id = null)
+	function canWrite($share_id, $user_id = null)
 	function getAllAccessible($user_id = null)
 	function getAll($enabled_only = false)
 }

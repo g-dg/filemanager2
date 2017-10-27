@@ -7,67 +7,6 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 class Shares {
-	const ACCESS_NONE = 0;
-	const ACCESS_READ_ONLY = 1;
-	const ACCESS_READ_WRITE = 2;
-
-	// if $user_id is null, the current user id is used.
-	// returns one of ACCESS_NONE, ACCESS_READ_ONLY, ACCESS_WRITE
-	public static function getUserAccessLevel($share_id, $user_id = null)
-	{
-		if (is_null($user_id)) {
-			$user_id = Auth::getCurrentUserId();
-		}
-		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
-			/*
-				SELECT
-					"shares_in_groups"."writable" AS "writable"
-				FROM
-					"users",
-					"users_in_groups",
-					"groups",
-					"shares_in_groups",
-					"shares"
-				WHERE
-					"users"."id" = ? AND
-					"shares"."id" = ? AND
-					"users_in_groups"."user_id" = "users"."id" AND
-					"users_in_groups"."group_id" = "groups"."id" AND
-					"shares_in_groups"."group_id" = "groups"."id" AND
-					"shares_in_groups"."share_id" = "shares"."id" AND
-					"groups"."enabled" != 0 AND
-					"shares"."enabled" != 0;
-			*/
-			$query_result = Database::query('SELECT
-						"shares_in_groups"."writable" AS "writable"
-					FROM
-						"users_in_groups",
-						"groups",
-						"shares_in_groups",
-						"shares"
-					WHERE
-						"users_in_groups"."user_id" = ? AND
-						"shares"."id" = ? AND
-						"users_in_groups"."group_id" = "groups"."id" AND
-						"shares_in_groups"."group_id" = "groups"."id" AND
-						"shares_in_groups"."share_id" = "shares"."id" AND
-						"groups"."enabled" != 0 AND
-						"shares"."enabled" != 0;', [$user_id, $share_id]);
-			if (isset($query_result[0])) {
-				if ($query_result[0]['writable'] != 0) {
-					return self::ACCESS_READ_WRITE;
-				} else {
-					return self::ACCESS_READ_ONLY;
-				}
-			} else {
-				return self::ACCESS_NONE;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	// must be an administrator
 	public static function create($name, $path, $enabled = true, $comment = '')
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
@@ -181,6 +120,56 @@ class Shares {
 			return $query_result[0]['comment'];
 		} else {
 			return null;
+		}
+	}
+
+	public static function canRead($share_id, $user_id = null)
+	{
+		if (is_null($user_id)) {
+			$user_id = Auth::getCurrentUserId();
+		}
+
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT
+						COUNT()
+					FROM
+						"users_in_groups",
+						"groups",
+						"shares_in_groups",
+						"shares"
+					WHERE
+						"users_in_groups"."id" = ? AND
+						"shares"."id" = ? AND
+						"users_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."group_id" = "groups"."id" AND
+						"groups"."enabled" != 0 AND
+						"shares"."enabled" != 0;', [$user_id, $share_id]);
+			return $query_result[0][0] > 0;
+		}
+	}
+	public static function canWrite($share_id, $user_id = null)
+	{
+		if (is_null($user_id)) {
+			$user_id = Auth::getCurrentUserId();
+		}
+
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT
+						COUNT()
+					FROM
+						"users_in_groups",
+						"groups",
+						"shares_in_groups",
+						"shares"
+					WHERE
+						"users_in_groups"."id" = ? AND
+						"shares"."id" = ? AND
+						"users_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."writable" != 0 AND
+						"groups"."enabled" != 0 AND
+						"shares"."enabled" != 0;', [$user_id, $share_id]);
+			return $query_result[0][0] > 0;
 		}
 	}
 
