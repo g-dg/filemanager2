@@ -131,7 +131,6 @@ class Session
 			Database::query('DELETE FROM "sessions" WHERE "session_id" = ?;', [self::$session_id]);
 		}
 		setcookie(self::$session_name, self::generateSessionId(), time() - 86400, '/');
-		exit();
 	}
 
 	public static function lock()
