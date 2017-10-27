@@ -13,6 +13,8 @@ require_once('_system/config.php');
 
 require_once('_system/log.php');
 
+Log::info('Request started');
+
 require_once('_system/loader.php');
 Loader::loadAll();
 
