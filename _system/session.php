@@ -48,7 +48,7 @@ class Session
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 			} else {
 				// update timestamp
-				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id]);
+				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id], false);
 			}
 
 			// generate new session id if ip address doesn't match

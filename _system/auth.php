@@ -41,7 +41,7 @@ class Auth
 					if (password_verify($password, $user_record['password'])){
 						// correct password
 						if (password_needs_rehash($user_record['password'], PASSWORD_DEFAULT)) {
-							Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_record['id']]);
+							Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_record['id']], false);
 						}
 						if ($user_record['enabled'] != 0) {
 							// user is enabled

@@ -58,7 +58,7 @@ class Users
 	public static function setPassword($user_id, $password)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
-			Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_id]);
+			Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_id], false);
 			return true;
 		} else {
 			return false;
