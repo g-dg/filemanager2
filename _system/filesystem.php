@@ -280,4 +280,13 @@ class Filesystem
 	{
 
 	}
+
+	protected static function isPathReadable($share_path)
+	{
+		return Shares::canRead(self::getShareName($share_path));
+	}
+	protected static function isPathWritable($share_path)
+	{
+		return Shares::canWrite(self::getShareName($share_path));
+	}
 }
