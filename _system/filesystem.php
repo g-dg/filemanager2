@@ -15,7 +15,9 @@ class Filesystem
 		$source = self::mapSharePathToFilesystemPath($source);
 		$dest = self::mapSharePathToFilesystemPath($dest);
 		if (!is_null($source) && !is_null($dest)) {
-			return @copy($source, $dest);
+			if (self::isPathWritable($dest)) {
+				return @copy($source, $dest);
+			}
 		}
 		return false;
 	}
@@ -39,7 +41,9 @@ class Filesystem
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @file_put_contents($filename, $data);
+			if (self::isPathWritable($filename)) {
+				return @file_put_contents($filename, $data);
+			}
 		}
 		return false;
 	}
@@ -113,7 +117,9 @@ class Filesystem
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @is_writable($filename);
+			if (self::isPathWritable($filename)) {
+				return @is_writable($filename);
+			}
 		}
 		return false;
 	}
@@ -121,7 +127,9 @@ class Filesystem
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @mkdir($filename);
+			if (self::isPathWritable($filename)) {
+				return @mkdir($filename);
+			}
 		}
 		return false;
 	}
@@ -130,7 +138,9 @@ class Filesystem
 		$oldname = self::mapSharePathToFilesystemPath($oldname);
 		$newname = self::mapSharePathToFilesystemPath($newname);
 		if (!is_null($oldname) && !is_null($newname)) {
-			return @rename($oldname, $newname);
+			if (self::isPathWritable($oldname) && self::isPathWritable($newname)) {
+				return @rename($oldname, $newname);
+			}
 		}
 		return false;
 	}
@@ -138,7 +148,9 @@ class Filesystem
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @rmdir($dirname);
+			if (self::isPathWritable($dirname)) {
+				return @rmdir($dirname);
+			}
 		}
 		return false;
 	}
@@ -146,7 +158,9 @@ class Filesystem
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @touch($filename);
+			if (self::isPathWritable($filename)) {
+				return @touch($filename);
+			}
 		}
 		return false;
 	}
@@ -154,7 +168,9 @@ class Filesystem
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @unlink($filename);
+			if (self::isPathWritable($filename)) {
+				return @unlink($filename);
+			}
 		}
 		return false;
 	}
@@ -172,15 +188,23 @@ class Filesystem
 	{
 		$dest_filename = self::mapSharePathToFilesystemPath($dest_filename);
 		if (!is_null($dest_filename)) {
-			
+			if (self::isPathWritable($dest_filename)) {
+
+			}
 		}
 		return false;
 	}
 
 	public static function getMimeType($filename, $is_filesystem_path = false)
 	{
+		if (!$is_filesystem_path) {
+			$filename = self::mapSharePathToFilesystemPath($filename);
+		}
+		if (is_null($filename)) {
+			return false;
+		}
+
 		// check the extension
-		
 		if (isset(pathinfo($filename)['extension'])) {
 			$fh = fopen('_res/mime.types', 'r');
 			while (($line = fgets($fh)) !== false) {
@@ -197,10 +221,6 @@ class Filesystem
 				}
 			}
 			fclose($fh);
-		}
-
-		if (!$is_filesystem_path) {
-			$filename = self::mapSharePathToFilesystemPath($filename);
 		}
 
 		// try checking the content
@@ -229,8 +249,7 @@ class Filesystem
 		$share_path_array = explode('/', trim($share_path, '/'));
 		if (isset($share_path_array[0])) {
 			$share_id = Shares::getId($share_path_array[0]);
-			$access_level = Shares::getUserAccessLevel($share_id);
-			if ($access_level === Shares::ACCESS_READ_ONLY || $access_level === Shares::ACCESS_READ_WRITE) {
+			if (Shares::canRead($share_id)) {
 				if (!is_null($share_path = rtrim(Shares::getPath($share_id), '/'))) {
 					$path_array = $share_path_array;
 					array_shift($path_array);
@@ -264,17 +283,6 @@ class Filesystem
 		return '/' . implode('/', $path_array);
 	}
 
-	// returns null if none
-	protected static function getShareName($share_path)
-	{
-		$share_path_array = explode('/', trim($share_path, '/'));
-		if (isset($share_path_array[0])) {
-			return $share_path_array[0];
-		} else {
-			return null;
-		}
-	}
-
 	// looks for the file or directory's name in the directory listing of dirname()
 	protected static function fileActuallyExists($fs_path)
 	{
@@ -283,10 +291,20 @@ class Filesystem
 
 	protected static function isPathReadable($share_path)
 	{
-		return Shares::canRead(self::getShareName($share_path));
+		$share_path_array = explode('/', trim($share_path, '/'));
+		if (isset($share_path_array[0])) {
+			return Shares::canRead(Shares::getId($share_path_array[0]));
+		} else {
+			return false;
+		}
 	}
 	protected static function isPathWritable($share_path)
 	{
-		return Shares::canWrite(self::getShareName($share_path));
+		$share_path_array = explode('/', trim($share_path, '/'));
+		if (isset($share_path_array[0])) {
+			return Shares::canWrite(Shares::getId($share_path_array[0]));
+		} else {
+			return false;
+		}
 	}
 }
