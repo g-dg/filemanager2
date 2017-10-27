@@ -143,7 +143,9 @@ class Router
 	// $params is a key-value array of get parameters
 	public static function redirect($full_path, $params = [])
 	{
-		header('Location: ' . self::getHttpReadyUri($full_path, $params));
+		$http_path = self::getHttpReadyUri($full_path, $params);
+		header('Location: ' . $http_path);
+		Log::info('Redirecting to "' . $http_path . '"');
 		exit();
 	}
 
