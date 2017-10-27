@@ -52,14 +52,18 @@ class Auth
 							self::$user_comment = $user_record['comment'];
 							Session::set('_auth_user_id', self::$user_id);
 							$auth_status = true;
+							Log::info('User "' . self::$user_name . '" logged in');
 						} else {
+							Log::notice('Attempt to log in to disabled account "' . $username . '"');
 							$auth_status = self::ERROR_DISABLED;
 						}
 					} else {
 						$auth_status = self::ERROR_INCORRECT_PASSWORD;
+						Log::notice('Attempt to log in to account "' . $username . '" with incorrect password');
 					}
 				} else {
 					$auth_status = self::ERROR_DOESNT_EXIST;
+					Log::notice('Attempt to log in to non-existent account "' . $username . '"');
 				}
 				Database::unlock();
 			} else {
@@ -80,9 +84,11 @@ class Auth
 							$auth_status = true;
 						} else {
 							$auth_status = self::ERROR_DISABLED;
+							Log::notice('Attempt to log in to disabled account "' . $username . '" (previous login succeeded)');
 						}
 					} else {
 						$auth_status = self::ERROR_DOESNT_EXIST;
+						Log::notice('Attempt to log in to non-existent account "' . $username . '" (previous login succeeded)');
 					}
 				} else {
 					$auth_status = self::ERROR_NOT_LOGGED_IN;
@@ -147,6 +153,7 @@ class Auth
 
 	public static function logout($keep_session = true)
 	{
+		Log::info('User "' . self::getCurrentUserName() . '" logged out');
 		self::$user_id = null;
 		Session::unsetSession(!$keep_session);
 	}
