@@ -155,6 +155,9 @@ class Auth
 	{
 		Log::info('User "' . self::getCurrentUserName() . '" logged out');
 		self::$user_id = null;
+		self::$user_name = null;
+		self::$user_type = null;
+		self::$user_comment = null;
 		Session::unsetSession(!$keep_session);
 	}
 }
