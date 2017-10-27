@@ -50,6 +50,7 @@ class Auth
 							self::$user_name = $user_record['name'];
 							self::$user_type = (int)$user_record['type'];
 							self::$user_comment = $user_record['comment'];
+							Session::set('_auth_user_id', self::$user_id);
 							$auth_status = true;
 						} else {
 							$auth_status = self::ERROR_DISABLED;
