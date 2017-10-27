@@ -83,7 +83,7 @@ class Log
 					break;
 			}
 
-			$log_string = '[' . date('Y-m-d H:i:s') . '] ' . $pretty_level . ': ' . $message . ' (' . $_SERVER['REQUEST_URI'] . ')' . PHP_EOL;
+			$log_string = $pretty_level . ': ' . $message . ' (' . $_SERVER['REMOTE_ADDR'] . '; ' . date('Y-m-d H:i:s') . '; ' . $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . '; ' . $_SERVER['HTTP_USER_AGENT'] . ')' . PHP_EOL;
 			
 			$fh = false;
 			$tries = 0;
