@@ -92,15 +92,15 @@ class Auth
 			$auth_status = true;
 		}
 
-		Database::lock();
+		Session::lock();
 		if (Session::isset('_auth_status')) {
 			Session::unset('_auth_status');
 		}
-		Database::unlock();
+		Session::unlock();
 		if ($auth_status !== true) {
+			Session::set('_auth_status', $auth_status);
 			if ($redirect) {
 				Session::set('_login_target', $_SERVER['REQUEST_URI']);
-				Session::set('_auth_status', $auth_status);
 				Router::redirect(GlobalSettings::get('_auth_login_page', self::DEFAULT_LOGIN_PAGE));
 				return false;
 			}
