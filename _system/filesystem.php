@@ -80,7 +80,7 @@ class Filesystem
 		return false;
 	}
 	// The built-in php file functions can be used on the returned handle.
-	// Does not check user's permissions
+	// Requires read permission on the share
 	public static function fopen($filename, $mode)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -175,6 +175,15 @@ class Filesystem
 		return false;
 	}
 
+	// The built-in php file functions can be used on the returned handle.
+	public static function opendir($path)
+	{
+		$path = self::mapSharePathToFilesystemPath($path);
+		if (!is_null($path)) {
+			return @opendir($path);
+		}
+		return false;
+	}
 	public static function scandir($path, $sorting_order = SCANDIR_SORT_ASCENDING)
 	{
 		$path = self::mapSharePathToFilesystemPath($path);
