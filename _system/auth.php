@@ -148,6 +148,6 @@ class Auth
 	public static function logout($keep_session = true)
 	{
 		self::$user_id = null;
-		Session::unsetSession(! $keep_session);
+		Session::unsetSession(!$keep_session);
 	}
 }
