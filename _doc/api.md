@@ -58,8 +58,6 @@ class Filesystem {
 	function scandir($path, $sorting_order = SCANDIR_SORT_ASCENDING)
 	function processFileUpload($form_upload_element_name, $dest_filename)
 	function getMimeType($filename, $is_filesystem_path = true)
-	function cpRecursive($source, $destination)
-	function rmRecursive($filename)
 }
 
 

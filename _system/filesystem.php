@@ -222,25 +222,6 @@ class Filesystem
 		return 'application/octet-stream';
 	}
 
-	public static function cpRecursive($source, $destination)
-	{
-		$source = self::mapSharePathToFilesystemPath($source);
-		$dest = self::mapSharePathToFilesystemPath($dest);
-		if (!is_null($source) && !is_null($destination)) {
-
-		}
-		return false;
-	}
-
-	public static function rmRecursive($filename)
-	{
-		$filename = self::mapSharePathToFilesystemPath($filename);
-		if (!is_null($filename)) {
-			
-		}
-		return false;
-	}
-
 
 	// path doesn't have to exist (the share does)
 	protected static function mapSharePathToFilesystemPath($share_path)
