@@ -18,13 +18,18 @@ class Router
 		if (!isset(self::$registered_pages[$name])) {
 			self::$registered_pages[$name] = $callback;
 		} else {
-			throw new \Exception('The page "' . $name . '" has already been registered');
+			Log::warning('The page "' . $name . '" has already been registered');
 		}
 	}
 
 	public static function registerErrorPage($http_error, $callback)
 	{
-		self::$registered_error_pages[$http_error] = $callback;
+		
+		if (!isset(self::$registered_error_pages[$http_error])) {
+			self::$registered_error_pages[$http_error] = $callback;
+		} else {
+			Log::warning('The error page "' . $name . '" has already been registered');
+		}
 	}
 
 	public static function execCurrentPage()
