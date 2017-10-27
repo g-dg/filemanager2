@@ -16,6 +16,8 @@ class Database
 
 	protected static $lock_level = 0;
 
+	protected static $query_cache = [];
+
 	public static function connect()
 	{
 		if (is_null(self::$connection)) {
@@ -34,8 +36,8 @@ class Database
 
 			self::$connection->setAttribute(\PDO::ATTR_TIMEOUT, 60);
 
-			self::query('PRAGMA journal_mode=WAL;');
-			self::query('PRAGMA synchronous=NORMAL;');
+			self::query('PRAGMA journal_mode=WAL;', [], false);
+			self::query('PRAGMA synchronous=NORMAL;', [], false);
 
 			$db_version = self::getVersionNumber();
 
@@ -43,7 +45,7 @@ class Database
 				throw new \Exception('Incompatable database version');
 			}
 
-			self::query('PRAGMA foreign_keys = ON;');
+			self::query('PRAGMA foreign_keys = ON;', [], false);
 		}
 	}
 
@@ -67,9 +69,17 @@ class Database
 		self::$lock_level--;
 	}
 
-	public static function query($sql, $params = [])
+	public static function query($sql, $params = [], $enable_cache = true)
 	{
 		self::connect();
+
+		if ($enable_cache) {
+			$cache_key = $sql . json_encode($params);
+			if (isset(self::$query_cache[$cache_key])) {
+				return self::$query_cache[$cache_key];
+			}
+		}
+
 		$done_retrying = false;
 		$start_time = time();
 		while (!$done_retrying) {
@@ -89,13 +99,20 @@ class Database
 				}
 			}
 		}
-		return $stmt->fetchAll();
+		$result = $stmt->fetchAll();
+
+		if ($enable_cache) {
+			$cache_key = $sql . json_encode($params);
+			self::$query_cache[$cache_key] = $result;
+		}
+
+		return $result;
 	}
 
 	protected static function getVersionNumber()
 	{
 		self::connect();
-		return self::query('PRAGMA user_version;')[0][0];
+		return self::query('PRAGMA user_version;', [], false)[0][0];
 	}
 
 	public static function getVersionString()

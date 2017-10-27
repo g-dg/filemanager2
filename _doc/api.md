@@ -31,7 +31,7 @@ class Database {
 	function connect()
 	function lock()
 	function unlock()
-	function query($sql, $params = [])
+	function query($sql, $params = [], $enable_cache = true)
 	function getVersionString()
 }
 
