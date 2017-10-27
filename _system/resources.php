@@ -20,7 +20,7 @@ class Resources
 	}
 }
 
-Router::registerPage('res', function($resource) {
+Router::registerPage('resource', function($resource) {
 	if (isset(self::$registered_resources[$resource])) {
 		call_user_func($registered_resources[$resource]);
 	} else {
