@@ -59,7 +59,7 @@ class Users
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_id], false);
-			Log::notice('Password for "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserId() . '"');
+			Log::notice('Password for user "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserId() . '"');
 			return true;
 		}
 		return false;
@@ -104,7 +104,7 @@ class Users
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			Database::query('UPDATE "users" SET "comment" = ? WHERE "id" = ?;', [$comment, $user_id]);
-			Log::notice('Comment for "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
+			Log::notice('Comment for user "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
 			return true;
 		}
 		return false;
