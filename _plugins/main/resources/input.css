@@ -3,7 +3,7 @@ button,
 textarea,
 select {
 	display: block;
-	width: 100%;
+	/*width: 100%;*/
 	min-height: 17px;
 	padding: 6px 12px;
 	line-height: 1.42857143;

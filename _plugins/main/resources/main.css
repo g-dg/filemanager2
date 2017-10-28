@@ -16,3 +16,12 @@ footer > p {
 	font-style: italic;
 	color: #999;
 }
+
+table {
+	border-collapse: collapse;
+}
+
+th,
+td {
+	padding: .25em;
+}
