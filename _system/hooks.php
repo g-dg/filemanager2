@@ -21,20 +21,21 @@ class Hooks
 
 	public static function invoke($hook_name, $arguments, $last_only = false)
 	{
+		$return = [];
 		if (is_array(self::$registered_hooks[$hook_name])) {
 			if ($last_only) {
-				call_user_func_array(self::$registered_hooks[$hook_name][count(self::$registered_hooks[$hook_name]) - 1], $arguments);
+				$return[] = call_user_func_array(self::$registered_hooks[$hook_name][count(self::$registered_hooks[$hook_name]) - 1], $arguments);
 			} else {
 				foreach(self::$registered_hooks[$hook_name] as $hook_function) {
-					call_user_func_array($hook_function, $arguments);
+					$return[] = call_user_func_array($hook_function, $arguments);
 				}
 			}
 		}
+		return $return;
 	}
 
 	public static function isRegistered($hook_name)
 	{
 		return isset(self::$registered_hooks[$hook_name]);
 	}
-
 }
