@@ -13,7 +13,7 @@ class Config
 		'index_page' => 'index.php',
 		'database_file' => '_database.sqlite3',
 		'log_file' => '_log.txt',
-		'log_level' => Log::INFO
+		'log_level' => Log::NOTICE
 	];
 
 	protected static $loaded = false;
