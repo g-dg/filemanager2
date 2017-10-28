@@ -55,7 +55,7 @@ class Filesystem {
 	function rmdir($dirname)
 	function touch($filename)
 	function unlink($filename)
-	function scandir($path, $sorting_order = SCANDIR_SORT_ASCENDING)
+	function scandir($path)
 	function fileCount($path)
 	function processFileUpload($form_upload_element_name, $dest_filename)
 	function getMimeType($filename, $is_filesystem_path = true)

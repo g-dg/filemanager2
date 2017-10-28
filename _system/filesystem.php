@@ -175,16 +175,30 @@ class Filesystem
 		return false;
 	}
 
-	public static function scandir($path, $sorting_order = SCANDIR_SORT_ASCENDING)
+	public static function scandir($path)
 	{
+		if (self::isPathToRoot($path)) {
+			$share_ids = Shares::getAllAccessible();
+			$share_names = [];
+			foreach ($share_ids as $share_id) {
+				$share_names[] = Shares::getname($share_id);
+			}
+			return $share_names;
+		}
+
 		$path = self::mapSharePathToFilesystemPath($path);
 		if (!is_null($path)) {
-			return @scandir($path, $sorting_order);
+			return @scandir($path);
 		}
+
 		return false;
 	}
 	public static function fileCount($path)
 	{
+		if (self::isPathToRoot($path)) {
+			return count(Shares::getAllAccessible());
+		}
+
 		$path = self::mapSharePathToFilesystemPath($path);
 		if (!is_null($path)) {
 			if (is_dir($path) && ($dh = opendir($path))) {
@@ -198,6 +212,7 @@ class Filesystem
 				return $count;
 			}
 		}
+
 		return false;
 	}
 
@@ -261,6 +276,13 @@ class Filesystem
 		return 'application/octet-stream';
 	}
 
+
+	protected static function isPathToRoot($path)
+	{
+		$path = self::sanitizeSharePath($path);
+		$path_array = explode('/', trim($path, '/'));
+		return !isset($path_array[1]);
+	}
 
 	// path doesn't have to exist (the share does)
 	protected static function mapSharePathToFilesystemPath($share_path)
