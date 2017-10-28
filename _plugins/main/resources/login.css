@@ -1,0 +1,48 @@
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	font-family: sans-serif;
+}
+
+body {
+	margin-right: auto;
+	margin-left: auto;
+}
+@media (min-width: 768px) {
+	body {
+		width: 50%;
+		margin-top: 5%;
+	}
+}
+@media (min-width: 992px) {
+	body {
+		width: 37.5%;
+		margin-top: 7.5%;
+	}
+}
+@media (min-width: 1200px) {
+	body {
+		width: 25%;
+		margin-top: 10%;
+	}
+}
+
+input {
+	clear: both;
+	width: 100%;
+	min-height: 2.5em;
+	min-width: 100%;
+}
+.title {
+	font-size: 150%;
+}
+.message {
+	text-align: center;
+	font-style: italic;
+}
+input, .title, .message {
+	margin-bottom: 1em;
+}
