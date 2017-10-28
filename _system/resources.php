@@ -18,12 +18,26 @@ class Resources
 			Log::error('The resource "' . $name . '" has already been registered');
 		}
 	}
+
+	public static function serveFile($filename)
+	{
+		if (file_exists($filename) && is_readable($filename)) {
+			header('Content-Type: ' . Filesystem::getMimeType($filename, true));
+			header('Content-Length: ' . filesize($filename));
+			fpassthru(@fopen($filename, 'r'));
+		} else {
+			Router::execErrorPage(404);
+		}
+	}
+
+	public static function serve($resource)
+	{
+		if (isset(self::$registered_resources[$resource])) {
+			call_user_func(self::$registered_resources[$resource]);
+		} else {
+			Router::execErrorPage(404);
+		}
+	}
 }
 
-Router::registerPage('resource', function($resource) {
-	if (isset(self::$registered_resources[$resource])) {
-		call_user_func($registered_resources[$resource]);
-	} else {
-		Router::execErrorPage(404);
-	}
-});
+Router::registerPage('resource', __NAMESPACE__ . '\\Resources::serve');
