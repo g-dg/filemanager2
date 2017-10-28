@@ -93,7 +93,7 @@ class Users
 	public static function setComment($user_id, $comment)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "users" SET "comment" = ? WHERE "id" = ?;', [$enabled_int, $comment]);
+			Database::query('UPDATE "users" SET "comment" = ? WHERE "id" = ?;', [$comment, $user_id]);
 			return true;
 		} else {
 			return false;
@@ -111,7 +111,7 @@ class Users
 	}
 	public static function getName($user_id)
 	{
-		$query_result = Database::query('SELECT "name" FROM "users" WHERE "name" = ?;', [$username]);
+		$query_result = Database::query('SELECT "name" FROM "users" WHERE "id" = ?;', [$user_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['name'];
 		} else {
@@ -120,7 +120,7 @@ class Users
 	}
 	public static function getEnabled($user_id)
 	{
-		$query_result = Database::query('SELECT "enabled" FROM "users" WHERE "name" = ?;', [$username]);
+		$query_result = Database::query('SELECT "enabled" FROM "users" WHERE "id" = ?;', [$user_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['enabled'] != 0;
 		} else {
@@ -129,7 +129,7 @@ class Users
 	}
 	public static function getType($user_id)
 	{
-		$query_result = Database::query('SELECT "type" FROM "users" WHERE "name" = ?;', [$username]);
+		$query_result = Database::query('SELECT "type" FROM "users" WHERE "id" = ?;', [$user_id]);
 		if (isset($query_result[0])) {
 			return (int)$query_result[0]['type'];
 		} else {
@@ -138,7 +138,7 @@ class Users
 	}
 	public static function getComment($user_id)
 	{
-		$query_result = Database::query('SELECT "comment" FROM "users" WHERE "name" = ?;', [$username]);
+		$query_result = Database::query('SELECT "comment" FROM "users" WHERE "id" = ?;', [$user_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['comment'];
 		} else {
