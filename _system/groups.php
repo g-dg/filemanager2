@@ -176,7 +176,7 @@ class Groups {
 				$enabled_int = 1;
 			}
 			Database::query('UPDATE "groups" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $group_id]);
-			Log::notice('Group "' . Groups::getName($user_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
+			Log::notice('Group "' . Groups::getName($group_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
 			return true;
 		}
 		return false;
