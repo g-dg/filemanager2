@@ -12,13 +12,10 @@ class Groups {
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			try {
 				Database::query('INSERT INTO "users_in_groups" ("user_id", "group_id") VALUES (?, ?);', [$user_id, $group_id]);
-			} catch (Exception $e) {
-				return false;
-			}
-			return true;
-		} else {
-			return false;
+				return true;
+			} catch (Exception $e){}
 		}
+		return false;
 	}
 
 	public static function removeUser($group_id, $user_id)
@@ -26,9 +23,8 @@ class Groups {
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			Database::query('DELETE FROM "users_in_groups" WHERE "user_id" = ? AND "group_id" = ?;', [$user_id, $group_id]);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function addShare($group_id, $share_id, $writable = false)
@@ -45,9 +41,8 @@ class Groups {
 				return false;
 			}
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function removeShare($group_id, $share_id)

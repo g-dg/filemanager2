@@ -107,7 +107,7 @@ class Auth
 			Session::set('_auth_status', $auth_status);
 			if ($redirect) {
 				Session::set('_login_target', $_SERVER['REQUEST_URI']);
-				Router::redirect(GlobalSettings::get('_auth_login_page', self::DEFAULT_LOGIN_PAGE));
+				Router::redirect(GlobalSettings::get('_auth.login_page', self::DEFAULT_LOGIN_PAGE));
 				return false;
 			}
 		}

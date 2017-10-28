@@ -16,6 +16,7 @@ class Database
 
 	protected static $lock_level = 0;
 
+	public static $cache_enabled = false;
 	protected static $query_cache = [];
 
 	public static function connect()
@@ -46,6 +47,8 @@ class Database
 			}
 
 			self::query('PRAGMA foreign_keys = ON;', [], false);
+
+			self::$cache_enabled = GlobalSettings::get('_database.cache_enabled', self::$cache_enabled);
 		}
 	}
 
@@ -73,7 +76,7 @@ class Database
 	{
 		self::connect();
 
-		if ($enable_cache) {
+		if (self::$cache_enabled && $enable_cache) {
 			$cache_key = $sql . json_encode($params);
 			if (isset(self::$query_cache[$cache_key])) {
 				return self::$query_cache[$cache_key];
@@ -101,7 +104,7 @@ class Database
 		}
 		$result = $stmt->fetchAll();
 
-		if ($enable_cache) {
+		if (self::$cache_enabled && $enable_cache) {
 			$cache_key = $sql . json_encode($params);
 			self::$query_cache[$cache_key] = $result;
 		}

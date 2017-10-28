@@ -21,11 +21,11 @@ class Session
 	public static function start($session_id = null)
 	{
 		if (is_null(self::$session_id)) {
-			if (mt_rand(1, GlobalSettings::get('_session_garbage_collect_inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
+			if (mt_rand(1, GlobalSettings::get('_session.garbage_collect.inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
 				self::garbageCollect();
 			}
 
-			self::$session_name = GlobalSettings::get('_session_name', self::SESSION_NAME);
+			self::$session_name = GlobalSettings::get('_session.name', self::SESSION_NAME);
 
 			if (isset($session_id)) {
 				self::$session_id = $session_id;
@@ -41,7 +41,7 @@ class Session
 
 			// generate a new id if the session id doesn't exist
 			// or if the timestamp is too old
-			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ? AND "timestamp" >= ?;', [self::$session_id, (time() - GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE))])[0][0] == 0) {
+			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ? AND "timestamp" >= ?;', [self::$session_id, (time() - GlobalSettings::get('_session.max_age', self::SESSION_MAX_AGE))])[0][0] == 0) {
 				// create the session record
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
@@ -104,7 +104,7 @@ class Session
 
 	public static function garbageCollect()
 	{
-		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - (GlobalSettings::get('_session_max_age', self::SESSION_MAX_AGE) + 3600)]);
+		Database::query('DELETE FROM "sessions" WHERE "timestamp" < ?;', [time() - (GlobalSettings::get('_session.max_age', self::SESSION_MAX_AGE) + 3600)]);
 	}
 
 	protected static function generateSessionId()
