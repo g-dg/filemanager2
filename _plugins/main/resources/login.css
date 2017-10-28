@@ -31,10 +31,12 @@ body {
 }
 
 input {
+	margin: 0px;
 	clear: both;
 	width: 100%;
 	min-height: 2.5em;
 	min-width: 100%;
+	display: block;
 }
 .title {
 	font-size: 150%;
