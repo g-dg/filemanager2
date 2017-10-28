@@ -22,8 +22,12 @@ class Resources
 	public static function serveFile($filename)
 	{
 		if (file_exists($filename) && is_readable($filename)) {
+			$cache_time = Config::get('_resources_cache_time', 3600);
 			header('Content-Type: ' . Filesystem::getMimeType($filename, true));
 			header('Content-Length: ' . filesize($filename));
+			header('Expires: ' . gmdate('D, d M Y H:i:s ', time() + $cache_time) . 'GMT');
+			header('Pragma: cache');
+			header('Cache-Control: max-age=' . $cache_time . ', private');
 			fpassthru(@fopen($filename, 'r'));
 		} else {
 			Router::execErrorPage(404);
