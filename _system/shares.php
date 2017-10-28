@@ -17,41 +17,41 @@ class Shares {
 			}
 			try {
 				Database::query('INSERT INTO "shares" ("name", "path", "enabled", "comment") VALUES (?, ?, ?, ?);', [$name, $path, $enabled_int, $comment]);
-			} catch (\Exception $e) {
-				return false;
-			}
-			return true;
-		} else {
-			return false;
+				Log::notice('Share "' . $name . '" created by "' . Auth::getCurrentUserName() . '"');
+				return true;
+			} catch (\Exception $e){}
 		}
+		return false;
 	}
 	public static function delete($share_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			$name = Shares::getName($share_id);
 			Database::query('DELETE FROM "shares" WHERE "id" = ?;', [$share_id]);
+			Log::notice('Share "' . $name . '" deleted by "' . Auth::getCurrentUserName() . '"');
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function setName($share_id, $new_name)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			$old_name = Shares::getName($share_id);
 			Database::query('UPDATE "shares" SET "name" = ? WHERE "id" = ?;', [$new_name, $share_id]);
+			Log::notice('Share "' . $old_name . '" renamed to "' . $new_name . '" by "' . Auth::getCurrentUserName() . '"');
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	public static function setPath($share_id, $new_path)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			Database::query('UPDATE "shares" SET "path" = ? WHERE "id" = ?;', [$new_path, $share_id]);
+			Log::notice('Path for share "' . Shares::getName($share_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	public static function setEnabled($share_id, $enabled)
 	{
@@ -62,19 +62,19 @@ class Shares {
 				$enabled_int = 0;
 			}
 			Database::query('UPDATE "shares" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $share_id]);
+			Log::notice('Share "' . Shares::getName($share_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	public static function setComment($share_id, $new_comment)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			Database::query('UPDATE "shares" SET "comment" = ? WHERE "id" = ?;', [$new_comment, $share_id]);
+			Log::notice('Comment for share "' . Shares::getName($share_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function getId($name)
@@ -82,45 +82,40 @@ class Shares {
 		$query_result = Database::query('SELECT "id" FROM "shares" WHERE "name" = ?;', [$name]);
 		if (isset($query_result[0])) {
 			return (int)$query_result[0]['id'];
-		} else {
-			return null;
 		}
+		return null;
 	}
 	public static function getName($share_id)
 	{
 		$query_result = Database::query('SELECT "name" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['name'];
-		} else {
-			return null;
 		}
+		return null;
 	}
 	public static function getPath($share_id)
 	{
 		$query_result = Database::query('SELECT "path" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['path'];
-		} else {
-			return null;
 		}
+		return null;
 	}
 	public static function getEnabled($share_id)
 	{
 		$query_result = Database::query('SELECT "enabled" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['enabled'] != 0;
-		} else {
-			return null;
 		}
+		return null;
 	}
 	public static function getComment($share_id)
 	{
 		$query_result = Database::query('SELECT "comment" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
 			return $query_result[0]['comment'];
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public static function canRead($share_id, $user_id = null)
@@ -146,6 +141,7 @@ class Shares {
 						"shares"."enabled" != 0;', [$user_id, $share_id]);
 			return $query_result[0][0] > 0;
 		}
+		return null;
 	}
 	public static function canWrite($share_id, $user_id = null)
 	{
@@ -171,6 +167,7 @@ class Shares {
 						"shares"."enabled" != 0;', [$user_id, $share_id]);
 			return $query_result[0][0] > 0;
 		}
+		return null;
 	}
 
 	// if $user is null, use the current user id
@@ -217,9 +214,8 @@ class Shares {
 				$shares[] = $record['id'];
 			}
 			return $shares;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public static function getAll($enabled_only = false)
@@ -235,8 +231,7 @@ class Shares {
 				$shares[] = $record['id'];
 			}
 			return $shares;
-		} else {
-			return false;
 		}
+		return false;
 	}
 }
