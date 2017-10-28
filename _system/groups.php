@@ -142,7 +142,7 @@ class Groups {
 	{
 		$query_result = Database::query('SELECT "name" FROM "groups" WHERE "id" = ?;', [$group_id]);
 		if (isset($query_result[0])) {
-			return (int)$query_result[0]['name'];
+			return $query_result[0]['name'];
 		}
 		return null;
 	}
@@ -186,7 +186,7 @@ class Groups {
 	{
 		$query_result = Database::query('SELECT "comment" FROM "groups" WHERE "id" = ?;', [$group_id]);
 		if (isset($query_result[0])) {
-			return (int)$query_result[0]['comment'];
+			return $query_result[0]['comment'];
 		}
 		return null;
 	}
