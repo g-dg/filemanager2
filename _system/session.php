@@ -46,6 +46,7 @@ class Session
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
+				Session::set('_csrf_token', self::generateSessionId());
 			} else {
 				// update timestamp
 				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id], false);
@@ -56,6 +57,7 @@ class Session
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
+				Session::set('_csrf_token', self::generateSessionId());
 			}
 
 			Database::unlock();
