@@ -195,7 +195,7 @@ class Groups {
 	public static function setComment($group_id, $comment)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			Database::query('UPDATE "groups" SET "name" = ? WHERE "id" = ?;', [$new_name, $group_id]);
+			Database::query('UPDATE "groups" SET "comment" = ? WHERE "id" = ?;', [$comment, $group_id]);
 			return true;
 		} else {
 			return false;
