@@ -104,13 +104,13 @@ class Groups {
 	public static function create($name, $enabled = true, $comment = '')
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if ($enabled) {
-				$enabled_int = 1;
-			} else {
+			if (!$enabled) {
 				$enabled_int = 0;
+			} else {
+				$enabled_int = 1;
 			}
 			try {
-				Database::query('INSERT INTO "groups" ("name", "enabled", "comment") VALUES "(?, ?, ?);', [$name, $enabled_int, $comment]);
+				Database::query('INSERT INTO "groups" ("name", "enabled", "comment") VALUES (?, ?, ?);', [$name, $enabled_int, $comment]);
 				Log::notice('Group "' . $name . '" created by "' . Auth::getCurrentUserName() . '"');
 				return true;
 			} catch (\Exception $e){}
@@ -170,10 +170,10 @@ class Groups {
 	public static function setEnabled($group_id, $enabled)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if ($enabled) {
-				$enabled_int = 1;
-			} else {
+			if (!$enabled) {
 				$enabled_int = 0;
+			} else {
+				$enabled_int = 1;
 			}
 			Database::query('UPDATE "groups" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $group_id]);
 			Log::notice('Group "' . Groups::getName($user_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
