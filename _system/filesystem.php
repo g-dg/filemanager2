@@ -183,6 +183,23 @@ class Filesystem
 		}
 		return false;
 	}
+	public static function fileCount($path)
+	{
+		$path = self::mapSharePathToFilesystemPath($path);
+		if (!is_null($path)) {
+			if (is_dir($path) && ($dh = opendir($path))) {
+				$count = 0;
+				while (($entry = readdir($handle)) !== false) {
+					if (substr($entry, 0, 1) !== '.') {
+						$count++;
+					}
+				}
+				closedir($handle);
+				return $count;
+			}
+		}
+		return false;
+	}
 
 	public static function processFileUpload($form_upload_element_name, $dest_filename)
 	{
