@@ -136,6 +136,12 @@ class Plugins {
 }
 
 
+class Resources {
+	function register($name, $callback)
+	function serveFile($filename)
+}
+
+
 class Router {
 	function registerPage($name, $callback)
 	function registerErrorPage($http_error, $callback)
