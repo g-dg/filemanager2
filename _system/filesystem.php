@@ -206,7 +206,9 @@ class Filesystem
 		$dest_filename = self::mapSharePathToFilesystemPath($dest_filename);
 		if (!is_null($dest_filename)) {
 			if (self::isPathWritable($dest_filename)) {
-
+				if (move_uploaded_file($_FILES[$form_upload_element_name]['tmp_name'], $dest_filename)) {
+					return true;
+				}
 			}
 		}
 		return false;
