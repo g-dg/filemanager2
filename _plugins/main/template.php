@@ -10,7 +10,7 @@ class MainUiTemplate
 {
 	const COPYRIGHT_NOTICE = 'Copyright &copy; 2017 Garnet DeGelder.';
 
-	public static function header($title = null, $head_html = '')
+	public static function head($title = null, $head_html = '')
 	{
 		if (is_null($title)) {
 			$title = 'Garnet DeGelder\'s File Manager ' . GARNETDG_FILEMANAGER_VERSION;
@@ -30,7 +30,7 @@ class MainUiTemplate
 <body>
 ';
 	}
-	public static function footer()
+	public static function foot()
 	{
 		echo '
 	<footer>

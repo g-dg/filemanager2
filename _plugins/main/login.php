@@ -9,7 +9,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 Router::registerPage('login', function($subpage) {
 	switch ($subpage) {
 		case '':
-			MainUiTemplate::header('Log In', '<link rel="stylesheet" type="text/css" href="' . Router::getHttpReadyUri('/resource/main/login.css') . '" />');
+			MainUiTemplate::head('Log In', '<link rel="stylesheet" type="text/css" href="' . Router::getHttpReadyUri('/resource/main/login.css') . '" />');
 			echo '<form action="' . htmlspecialchars(Router::getHttpReadyUri('/login/go')) . '" method="post">
 	<h1 class="title">Log into Garnet DeGelder\'s File Manager on ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
 	<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" />
@@ -33,7 +33,7 @@ Router::registerPage('login', function($subpage) {
 	}
 	echo '</div>
 </form>';
-			MainUiTemplate::footer();
+			MainUiTemplate::foot();
 			break;
 		case 'go';
 			if ($_POST['csrf_token'] === Session::get('_csrf_token')) {
