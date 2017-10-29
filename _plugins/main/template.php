@@ -22,8 +22,6 @@ class MainUiTemplate
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/normalize.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/input.css') . '" type="text/css" />
 	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/main.css') . '" type="text/css" />
 	<link rel="icon" href="' . Router::getHttpReadyUri('/resource/main/favicon.ico') . '" />
 	<title>' . htmlspecialchars($title) . '</title>
@@ -54,10 +52,3 @@ Resources::register('main/main.css', function() {
 	Resources::serveFile('_plugins/main/resources/main.css');
 });
 
-Resources::register('main/normalize.css', function() {
-	Resources::serveFile('_plugins/main/resources/normalize.css');
-});
-
-Resources::register('main/input.css', function() {
-	Resources::serveFile('_plugins/main/resources/input.css');
-});
