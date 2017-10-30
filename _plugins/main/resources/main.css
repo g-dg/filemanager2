@@ -1,14 +1,60 @@
-/*input, 
-button, 
-textarea, 
-select {
-	margin: 0px 5px;
+header.header {
+	background-color: #fff;
+	position: fixed;
+	width: 100%;
+	height: 5rem;
+	top: 0px;
+	margin:0px;
+	clear: both;
+	white-space: nowrap;
+}
+nav.nav {
+	background-color: #fff;
+	position: fixed;
+	padding: .5%;
+	width: 9%;
+	top: 5rem;
+	bottom: 3rem;
+	height: auto;
+	float: left;
+	white-space: nowrap;
+	overflow: auto;
+	border-top: 1px gray solid;
+	border-right: 1px gray solid;
+}
+main.main {
+	background-color: #fff;
+	margin-top: 5rem;
+	margin-bottom: 3rem;
+	padding: .5%;
+	width: 89%;
+	float: right;
+	border-top: 1px gray solid;
+}
+footer.footer {
+	background-color: #fff;
+	position: fixed;
+	bottom: 0px;
+	height: 3rem;
+	width: 100%;
+	clear: both;
 }
 
-input[type="checkbox"], 
-input[type="radio"] {
-	min-width: 0px;
-}*/
+header.header h1 {
+	margin-left: .5em;
+	margin-top: .5rem;
+	font-size: 3rem;
+}
+nav li {
+	list-style-type: none;
+}
+nav li ul {
+	display: none;
+}
+nav li:hover ul,
+nav li:active ul {
+	display: block;
+}
 
 button,
 input,
@@ -53,20 +99,6 @@ body {
 	padding: 0px;
 }
 
-footer > hr {
-	margin-top: 1em;
-	margin-bottom: .5em;
-	border: none;
-	border-top: 1px #999 solid;
-}
-footer > p {
-	margin: 0px 10px;
-	text-align: right;
-	font-size: 75%;
-	font-style: italic;
-	color: #999;
-}
-
 table {
 	border-collapse: collapse;
 }
@@ -94,4 +126,25 @@ label {
 hr {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
+}
+
+h1{font-size:3rem;}
+h2{font-size:2.7rem;}
+h3{font-size:2.25rem;}
+h4{font-size:1.8rem;}
+h5{font-size:1.35rem;}
+h6{font-size:1.125rem;}
+
+footer > hr {
+	margin-top: 0px;
+	margin-bottom: .25em;
+	border: none;
+	border-top: 1px #999 solid;
+}
+footer > p {
+	margin: 0px 10px;
+	text-align: right;
+	font-size: .75em;
+	font-style: italic;
+	color: #999;
 }

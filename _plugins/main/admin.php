@@ -18,7 +18,15 @@ Router::registerPage('admin', function($subpage) {
 		switch ($subpage_array[0]) {
 			case '':
 				MainUiTemplate::head('Administration');
-
+				echo '<fieldset><legend>Administration</legend>';
+				echo '<ul>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/admin/users').'">Users</a></li>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/admin/users_in_groups').'">Users in Groups</a></li>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/admin/groups').'">Groups</a></li>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares_in_groups').'">Shares in Groups</a></li>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares').'">Shares</a></li>';
+				echo '</ul>';
+				echo '</fieldset>';
 				MainUiTemplate::foot();
 				break;
 
@@ -26,60 +34,59 @@ Router::registerPage('admin', function($subpage) {
 			case 'users':
 				MainUiTemplate::head('Users - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 				echo '
-	<div class="content">
-		<fieldset><legend>Create</legend>
-			<form action="'.Router::getHttpReadyUri('/admin/action/users').'">
-				<div class="row">
-					<div class="six columns">
-						<label for="create_username">Username:</label>
-						<input id="create_username" name="username" type="text" value="" placeholder="Username" class="u-full-width" />
-					</div>
-					<div class="three columns">
-						<label for="create_password1">Password:</label>
-						<input id="create_password1" name="password1" type="password" value="" placeholder="Password" class="u-full-width" />
-					</div>
-					<div class="three columns">
-						<label for="create_password1">Password (again):</label>
-						<input id="create_password2" name="password2" type="password" value="" placeholder="Password (again)" class="u-full-width" />
-					</div>
+	<fieldset><legend>Create User</legend>
+		<form action="'.Router::getHttpReadyUri('/admin/action/users').'">
+			<div class="row">
+				<div class="six columns">
+					<label for="create_username">Username:</label>
+					<input id="create_username" name="username" type="text" value="" placeholder="Username" class="u-full-width" />
 				</div>
-				<div class="row">
-					<div class="six columns">
-						<label for="create_type">Type:</label>
-						<select id="create_type" name="type" class="u-full-width"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>
-					</div>
-					<div class="six columns">
-						<label for="create_enabled">Enabled:</label>
-						<select id="create_enabled" name="enabled" class="u-full-width"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>
-					</div>
+				<div class="three columns">
+					<label for="create_password1">Password:</label>
+					<input id="create_password1" name="password1" type="password" value="" placeholder="Password" class="u-full-width" />
 				</div>
-				<div class="row">
-					<div class="twelve columns">
-						<label for="create_comment">Comment:</label>
-						<textarea id="create_comment" name="comment" placeholder="Comment" class="u-full-width"></textarea>
-					</div>
+				<div class="three columns">
+					<label for="create_password1">Password (again):</label>
+					<input id="create_password2" name="password2" type="password" value="" placeholder="Password (again)" class="u-full-width" />
 				</div>
-				<div class="row">
-					<div class="twelve columns">
-						<label for="create">Create User:</label>
-						<input id="create" name="create" type="submit" value="Create User" class="u-full-width" onclick="return confirm(\'Create user &quot;\'+document.getElementById(\'create_username\').value+\'&quot;?\');" />
-						<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
-					</div>
+			</div>
+			<div class="row">
+				<div class="six columns">
+					<label for="create_type">Type:</label>
+					<select id="create_type" name="type" class="u-full-width"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>
 				</div>
-			</form>
-		</fieldset>
-		<div class="overflow">
-			<fieldset><legend>Users</legend>
-				<div class="table">
-					<div class="thead">
-						<div>Username</div>
-						<div>Password</div>
-						<div>Type</div>
-						<div>Enabled</div>
-						<div>Comment</div>
-						<div>Delete</div>
-						<div>Cancel</div>
-					</div>
+				<div class="six columns">
+					<label for="create_enabled">Enabled:</label>
+					<select id="create_enabled" name="enabled" class="u-full-width"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="twelve columns">
+					<label for="create_comment">Comment:</label>
+					<textarea id="create_comment" name="comment" placeholder="Comment" class="u-full-width"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="twelve columns">
+					<label for="create">Create User:</label>
+					<input id="create" name="create" type="submit" value="Create User" class="u-full-width" onclick="return confirm(\'Create user &quot;\'+document.getElementById(\'create_username\').value+\'&quot;?\');" />
+					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
+				</div>
+			</div>
+		</form>
+	</fieldset>
+	<div class="overflow">
+		<fieldset><legend>Users</legend>
+			<div class="table">
+				<div class="thead">
+					<div>Username</div>
+					<div>Password</div>
+					<div>Type</div>
+					<div>Enabled</div>
+					<div>Comment</div>
+					<div>Delete</div>
+					<div>Cancel</div>
+				</div>
 ';
 				foreach (Users::getAll() as $user_id) {
 					echo '					';
@@ -141,8 +148,7 @@ Router::registerPage('admin', function($subpage) {
 					echo PHP_EOL;
 				}
 				echo '				</div>
-			</fieldset>
-		</div>
+		</fieldset>
 	</div>
 ';
 				MainUiTemplate::foot();

@@ -9,14 +9,27 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 Router::registerPage('login', function($subpage) {
 	switch ($subpage) {
 		case '':
-			MainUiTemplate::head('Log In', '<link rel="stylesheet" type="text/css" href="' . Router::getHttpReadyUri('/resource/main/login.css') . '" />');
-			echo '<form action="' . htmlspecialchars(Router::getHttpReadyUri('/login/go')) . '" method="post">
-	<h1 class="title">Log into Garnet DeGelder\'s File Manager on ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
-	<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" />
-	<input id="password" name="password" type="password" value="" placeholder="Password" />
-	<input id="submit" name="submit" type="submit" value="Log In" autocomplete="current-password" />
-	<input id="csrf_token" name="csrf_token" type="hidden" value="' . Session::get('_csrf_token') . '" />
-	<div class="message">';
+			echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/normalize.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/skeleton.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/main.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/login.css') . '" type="text/css" />
+	<link rel="icon" href="' . Router::getHttpReadyUri('/resource/main/favicon.ico') . '" />
+	<title>Login - Garnet DeGelder\'s File Manager</title>
+</head>
+<body>
+	<form action="' . htmlspecialchars(Router::getHttpReadyUri('/login/action')) . '" method="post">
+		<h1 class="title">Log into Garnet DeGelder\'s File Manager on ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
+		<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" class="u-full-width" />
+		<input id="password" name="password" type="password" value="" placeholder="Password" class="u-full-width" />
+		<input id="submit" name="submit" type="submit" value="Log In" autocomplete="current-password" class="u-full-width" />
+		<input id="csrf_token" name="csrf_token" type="hidden" value="' . Session::get('_csrf_token') . '" />
+		<div class="message">';
 	if (Session::isset('_auth_status')) {
 		switch (Session::get('_auth_status')) {
 			case Auth::ERROR_DOESNT_EXIST:
@@ -31,11 +44,17 @@ Router::registerPage('login', function($subpage) {
 		}
 		Session::unset('_auth_status');
 	}
-	echo '</div>
-</form>';
-			MainUiTemplate::foot();
+	echo '	</div>
+	</form>
+	<footer>
+		<hr />
+		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' ' . MainUiTemplate::COPYRIGHT_NOTICE . '<p>
+	</footer>
+</body>
+</html>
+';
 			break;
-		case 'go';
+		case 'action';
 			if ($_POST['csrf_token'] === Session::get('_csrf_token')) {
 				$authenticated = Auth::authenticate(false, $_POST['username'], $_POST['password']);
 				if ($authenticated === true) {

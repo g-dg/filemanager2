@@ -13,15 +13,16 @@ class MainUiTemplate
 	public static function head($title = null, $head_html = '')
 	{
 		if (is_null($title)) {
-			$title = 'Garnet DeGelder\'s File Manager ' . GARNETDG_FILEMANAGER_VERSION;
+			$title = 'Garnet DeGelder\'s File Manager';
 		} else {
-			$title .= ' - Garnet DeGelder\'s File Manager ' . GARNETDG_FILEMANAGER_VERSION;
+			$title .= ' - Garnet DeGelder\'s File Manager';
 		}
 		echo '<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/normalize.css') . '" type="text/css" />
 	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/skeleton.css') . '" type="text/css" />
 	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/main.css') . '" type="text/css" />
@@ -30,15 +31,41 @@ class MainUiTemplate
 	' . $head_html . '
 </head>
 <body>
+	<header class="header">
+		<h1 style="overflow-x: auto; overflow-y: hidden; height: 100%;">'.htmlspecialchars($title).'</h1>
+	</header>
+	<nav class="nav">
+		<ul>
+			';
+		echo '<li><a href="'.Router::getHttpReadyUri('/browse').'">Browse</a></li>';
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			echo '<li>';
+				echo '<a href="'.Router::getHttpReadyUri('/admin').'">Administration</a>';
+				echo '<ul>';
+					echo '<li><a href="'.Router::getHttpReadyUri('/admin/users').'">Users</a>';
+					echo '<li><a href="'.Router::getHttpReadyUri('/admin/users_in_groups').'">Users in Groups</a>';
+					echo '<li><a href="'.Router::getHttpReadyUri('/admin/groups').'">Groups</a>';
+					echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares_in_groups').'">Shares in Groups</a>';
+					echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares').'">Shares</a>';
+				echo '</ul>';
+			echo '</li>';
+		}
+		Hooks::exec('_main_ui_shortcuts');
+		echo '<li><a href="'.Router::getHttpReadyUri('/logout/switchuser').'">Switch User</a></li>';
+		echo '<li><a href="'.Router::getHttpReadyUri('/logout').'">Log Out</a></li>';
+		echo '
+		</ul>
+	</nav>
+	<main class="main">
 ';
 	}
 	public static function foot()
 	{
 		echo '
-	<footer>
+	</main>
+	<footer class="footer">
 		<hr />
-		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . '<p>
-		<p>' . self::COPYRIGHT_NOTICE . '</p>
+		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' ' . self::COPYRIGHT_NOTICE . '<p>
 	</footer>
 </body>
 </html>
