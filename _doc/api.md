@@ -96,7 +96,7 @@ class Groups {
 
 class Hooks {
 	function register($hook_name, $callback)
-	function exec($hook_name, $arguments, $last_only = false)
+	function exec($hook_name, $arguments = [], $last_only = false)
 	function isRegistered($hook_name)
 }
 

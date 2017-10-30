@@ -19,7 +19,7 @@ class Hooks
 		}
 	}
 
-	public static function exec($hook_name, $arguments, $last_only = false)
+	public static function exec($hook_name, $arguments = [], $last_only = false)
 	{
 		$return = [];
 		if (is_array(self::$registered_hooks[$hook_name])) {
