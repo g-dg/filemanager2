@@ -1,0 +1,18 @@
+.content {
+	margin: 1em;
+}
+
+.table button,
+.table input,
+.table select,
+.table textarea {
+	margin: 0px .5em;
+}
+
+.table > * {
+	border-bottom: 1px #e1e1e1 solid;
+}
+
+.table textarea {
+	min-height: 38px;
+}
