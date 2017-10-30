@@ -22,7 +22,7 @@ class Hooks
 	public static function exec($hook_name, $arguments = [], $last_only = false)
 	{
 		$return = [];
-		if (is_array(self::$registered_hooks[$hook_name])) {
+		if (isset(self::$registered_hooks[$hook_name]) && is_array(self::$registered_hooks[$hook_name])) {
 			if ($last_only) {
 				$return[] = call_user_func_array(self::$registered_hooks[$hook_name][count(self::$registered_hooks[$hook_name]) - 1], $arguments);
 			} else {
