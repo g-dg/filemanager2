@@ -1,49 +1,93 @@
 header.header {
-	background-color: #fff;
-	position: fixed;
-	width: 100%;
-	height: 5rem;
-	top: 0px;
-	margin:0px;
-	clear: both;
+	z-index: 3;
 	white-space: nowrap;
+	overflow: hidden;
 }
 nav.nav {
-	background-color: #fff;
-	position: fixed;
-	padding: .5%;
-	width: 9%;
-	top: 5rem;
-	bottom: 3rem;
-	height: auto;
-	float: left;
-	white-space: nowrap;
-	overflow: auto;
-	border-top: 1px gray solid;
-	border-right: 1px gray solid;
+	z-index: 1;
 }
 main.main {
-	background-color: #fff;
-	margin-top: 5rem;
-	margin-bottom: 3rem;
-	padding: .5%;
-	width: 89%;
-	float: right;
-	border-top: 1px gray solid;
+	z-index: 0;
 }
 footer.footer {
-	background-color: #fff;
-	position: fixed;
-	bottom: 0px;
-	height: 3rem;
-	width: 100%;
-	clear: both;
+	z-index: 2;
+}
+header h1 {
+	padding: .5rem;
+	font-size: 3rem;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+nav.nav {
+	border-top: 1px #999 solid;
+	margin-bottom: .5em;
+	padding-bottom: 0px;
+	white-space: nowrap;
+	overflow: auto;
+	border-bottom: 1px #999 solid;
 }
 
-header.header h1 {
-	margin-left: .5em;
-	margin-top: .5rem;
-	font-size: 3rem;
+@media (min-width: 768px) {
+	header.header {
+		/*background-color: #fff;*/
+		position: fixed;
+		width: 100%;
+		height: 5rem;
+		top: 0px;
+		margin:0px;
+		clear: both;
+	}
+	nav.nav {
+		/*background-color: #fff;*/
+		position: fixed;
+		width: 19%;
+		top: 5rem;
+		bottom: 2em;
+		height: auto;
+		float: left;
+		border-top: 1px #999 solid;
+		border-right: 1px #999 solid;
+		border-bottom: none;
+		margin-bottom: 0px;
+	}
+	main.main {
+		/*background-color: #fff;*/
+		margin-top: 5rem;
+		margin-bottom: 3rem;
+		padding: .5%;
+		width: 79%;
+		float: right;
+		border-top: 1px #999 solid;
+	}
+	footer.footer {
+		/*background-color: #fff;*/
+		position: fixed;
+		bottom: 0px;
+		height: 2em;
+		width: 100%;
+		clear: both;
+	}
+}
+@media (min-width: 1025px) {
+	nav.nav {
+		width: 14%;
+	}
+	main.main {
+		width: 84%;
+	}
+}
+@media (min-width: 1920px) {
+	nav.nav {
+		width: 9%;
+	}
+	main.main {
+		width: 89%;
+	}
+}
+
+nav.nav {
+	padding: .5%;
+	padding-top: 1em;
 }
 nav li {
 	list-style-type: none;

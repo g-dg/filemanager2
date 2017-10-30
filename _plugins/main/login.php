@@ -58,8 +58,15 @@ Router::registerPage('login', function($subpage) {
 			if ($_POST['csrf_token'] === Session::get('_csrf_token')) {
 				$authenticated = Auth::authenticate(false, $_POST['username'], $_POST['password']);
 				if ($authenticated === true) {
-					header('Location: ' . Session::get('_login_target'));
-					Session::unset('_login_target');
+					Session::lock();
+					if (Session::isset('_login_target')) {
+						header('Location: ' . Session::get('_login_target'));
+						Session::unset('_login_target');
+						Session::unlock();
+						return;
+					}
+					Router::redirect('/');
+					Session::unlock();
 				} else {
 					Router::redirect('/login');
 				}

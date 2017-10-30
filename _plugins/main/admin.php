@@ -76,7 +76,10 @@ Router::registerPage('admin', function($subpage) {
 		</form>
 	</fieldset>
 	<div class="overflow">
-		<fieldset><legend>Users</legend>
+';
+				$users = Users::getAll();
+				if (count($users) > 0) {
+					echo '		<fieldset><legend>Users</legend>
 			<div class="table">
 				<div class="thead">
 					<div>Username</div>
@@ -88,68 +91,72 @@ Router::registerPage('admin', function($subpage) {
 					<div>Cancel</div>
 				</div>
 ';
-				foreach (Users::getAll() as $user_id) {
-					echo '					';
+					foreach (Users::getAll() as $user_id) {
+						echo '					';
 
-					echo '<form action="'.Router::getHttpReadyUri('/admin/action/users/'.(int)$user_id).'" method="post">';
+						echo '<form action="'.Router::getHttpReadyUri('/admin/action/users/'.(int)$user_id).'" method="post">';
 
-					echo '<div>';
-					echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" />';
-					echo '<input id="update_name_'.htmlspecialchars($user_id).'" name="update_name" type="submit" value="Change Name" />';
-					echo '</div>';
+						echo '<div>';
+						echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" />';
+						echo '<input id="update_name_'.htmlspecialchars($user_id).'" name="update_name" type="submit" value="Update" />';
+						echo '</div>';
 
-					echo '<div>';
-					echo '<input id="password1_'.htmlspecialchars($user_id).'" name="password1" type="password" value="" placeholder="Password" />';
-					echo '<input id="password2_'.htmlspecialchars($user_id).'" name="password2" type="password" value="" placeholder="Password (again)" />';
-					echo '<input id="update_password_'.htmlspecialchars($user_id).'" name="update_password" type="submit" value="Change Password" />';
-					echo '</div>';
+						echo '<div>';
+						echo '<input id="password1_'.htmlspecialchars($user_id).'" name="password1" type="password" value="" placeholder="Password" />';
+						echo '<input id="password2_'.htmlspecialchars($user_id).'" name="password2" type="password" value="" placeholder="Password (again)" />';
+						echo '<input id="update_password_'.htmlspecialchars($user_id).'" name="update_password" type="submit" value="Update" />';
+						echo '</div>';
 
-					echo '<div>';
-					switch (Users::getType($user_id)) {
-						case Users::USER_TYPE_ADMIN:
-							echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin" selected="selected">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
-							break;
-						case Users::USER_TYPE_STANDARD:
-							echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>';
-							break;
-						case Users::USER_TYPE_GUEST:
-							echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest" selected="selected">Guest</option></select>';
-							break;
-						default:
-							echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
-							break;
+						echo '<div>';
+						switch (Users::getType($user_id)) {
+							case Users::USER_TYPE_ADMIN:
+								echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin" selected="selected">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
+								break;
+							case Users::USER_TYPE_STANDARD:
+								echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>';
+								break;
+							case Users::USER_TYPE_GUEST:
+								echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest" selected="selected">Guest</option></select>';
+								break;
+							default:
+								echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
+								break;
+						}
+						echo '<input id="update_type_'.htmlspecialchars($user_id).'" name="update_type" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						if (Users::getEnabled($user_id)) {
+							echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+						} else {
+							echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+						}
+						echo '<input id="update_enabled_'.htmlspecialchars($user_id).'" name="update_enabled" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<textarea id="comment_'.htmlspecialchars($user_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Users::getComment($user_id)).'</textarea>';
+						echo '<input id="update_comment_'.htmlspecialchars($user_id).'" name="update_comment" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" />';
+						echo '</div>';
+
+						echo '</form>';
+
+						echo PHP_EOL;
 					}
-					echo '<input id="update_type_'.htmlspecialchars($user_id).'" name="update_type" type="submit" value="Change Type" />';
-					echo '</div>';
-
-					echo '<div>';
-					if (Users::getEnabled($user_id)) {
-						echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-					} else {
-						echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
-					}
-					echo '<input id="update_enabled_'.htmlspecialchars($user_id).'" name="update_enabled" type="submit" value="Set Enabled" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<textarea id="comment_'.htmlspecialchars($user_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Users::getComment($user_id)).'</textarea>';
-					echo '<input id="update_comment_'.htmlspecialchars($user_id).'" name="update_comment" type="submit" value="Update Comment" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" />';
-					echo '</div>';
-
-					echo '</form>';
-
-					echo PHP_EOL;
+					echo '				</div>
+';
+				} else {
+					echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
 				}
-				echo '				</div>
-		</fieldset>
+				echo '		</fieldset>
 	</div>
 ';
 				MainUiTemplate::foot();
@@ -195,7 +202,10 @@ Router::registerPage('admin', function($subpage) {
 	</fieldset>
 	<div class="overflow">
 		<fieldset><legend>Groups</legend>
-			<div class="table">
+';
+				$groups = Groups::getAll();
+				if (count($groups) > 0) {
+					echo '			<div class="table">
 				<div class="thead">
 					<div>Name</div>
 					<div>Enabled</div>
@@ -204,44 +214,48 @@ Router::registerPage('admin', function($subpage) {
 					<div>Cancel</div>
 				</div>
 ';
-				foreach (Groups::getAll() as $group_id) {
-					echo '					';
+					foreach (Groups::getAll() as $group_id) {
+						echo '					';
 
-					echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$group_id).'" method="post">';
+						echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$group_id).'" method="post">';
 
-					echo '<div>';
-					echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" />';
-					echo '<input id="update_name_'.htmlspecialchars($group_id).'" name="update_name" type="submit" value="Change Name" />';
-					echo '</div>';
+						echo '<div>';
+						echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" />';
+						echo '<input id="update_name_'.htmlspecialchars($group_id).'" name="update_name" type="submit" value="Update" />';
+						echo '</div>';
 
-					echo '<div>';
-					if (Groups::getEnabled($group_id)) {
-						echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-					} else {
-						echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+						echo '<div>';
+						if (Groups::getEnabled($group_id)) {
+							echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+						} else {
+							echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+						}
+						echo '<input id="update_enabled_'.htmlspecialchars($group_id).'" name="update_enabled" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<textarea id="comment_'.htmlspecialchars($group_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Groups::getComment($group_id)).'</textarea>';
+						echo '<input id="update_comment_'.htmlspecialchars($group_id).'" name="update_comment" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<input id="delete_'.htmlspecialchars($group_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete group &quot;\'+document.getElementById(\'name_'.htmlspecialchars($group_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<input id="cancel_'.htmlspecialchars($group_id).'" name="reset" type="reset" value="Cancel" />';
+						echo '</div>';
+
+						echo '</form>';
+
+						echo PHP_EOL;
 					}
-					echo '<input id="update_enabled_'.htmlspecialchars($group_id).'" name="update_enabled" type="submit" value="Set Enabled" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<textarea id="comment_'.htmlspecialchars($group_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Groups::getComment($group_id)).'</textarea>';
-					echo '<input id="update_comment_'.htmlspecialchars($group_id).'" name="update_comment" type="submit" value="Update Comment" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<input id="delete_'.htmlspecialchars($group_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete group &quot;\'+document.getElementById(\'name_'.htmlspecialchars($group_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<input id="cancel_'.htmlspecialchars($group_id).'" name="reset" type="reset" value="Cancel" />';
-					echo '</div>';
-
-					echo '</form>';
-
-					echo PHP_EOL;
+					echo '				</div>
+';
+				} else {
+					echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
 				}
-				echo '				</div>
-		</fieldset>
+				echo '		</fieldset>
 	</div>
 ';
 				MainUiTemplate::foot();
@@ -291,7 +305,11 @@ Router::registerPage('admin', function($subpage) {
 	</fieldset>
 	<div class="overflow">
 		<fieldset><legend>Shares</legend>
-			<div class="table">
+
+';
+				$shares = Shares::getAll();
+				if (count($shares) > 0) {
+					echo '			<div class="table">
 				<div class="thead">
 					<div>Name</div>
 					<div>Path</div>
@@ -299,51 +317,54 @@ Router::registerPage('admin', function($subpage) {
 					<div>Comment</div>
 					<div>Delete</div>
 					<div>Cancel</div>
-				</div>
-';
-				foreach (Shares::getAll() as $share_id) {
-					echo '					';
+				</div>';
+					foreach ($shares as $share_id) {
+						echo '					';
 
-					echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$share_id).'" method="post">';
+						echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$share_id).'" method="post">';
 
-					echo '<div>';
-					echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
-					echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Change Name" />';
-					echo '</div>';
+						echo '<div>';
+						echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
+						echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Update" />';
+						echo '</div>';
 
-					echo '<div>';
-					echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
-					echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Change Path" />';
-					echo '</div>';
+						echo '<div>';
+						echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
+						echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Update" />';
+						echo '</div>';
 
-					echo '<div>';
-					if (Shares::getEnabled($share_id)) {
-						echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-					} else {
-						echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+						echo '<div>';
+						if (Shares::getEnabled($share_id)) {
+							echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+						} else {
+							echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+						}
+						echo '<input id="update_enabled_'.htmlspecialchars($share_id).'" name="update_enabled" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<textarea id="comment_'.htmlspecialchars($share_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Shares::getComment($share_id)).'</textarea>';
+						echo '<input id="update_comment_'.htmlspecialchars($share_id).'" name="update_comment" type="submit" value="Update" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+						echo '</div>';
+
+						echo '<div>';
+						echo '<input id="cancel_'.htmlspecialchars($share_id).'" name="reset" type="reset" value="Cancel" />';
+						echo '</div>';
+
+						echo '</form>';
+
+						echo PHP_EOL;
 					}
-					echo '<input id="update_enabled_'.htmlspecialchars($share_id).'" name="update_enabled" type="submit" value="Set Enabled" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<textarea id="comment_'.htmlspecialchars($share_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Shares::getComment($share_id)).'</textarea>';
-					echo '<input id="update_comment_'.htmlspecialchars($share_id).'" name="update_comment" type="submit" value="Update Comment" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-					echo '</div>';
-
-					echo '<div>';
-					echo '<input id="cancel_'.htmlspecialchars($share_id).'" name="reset" type="reset" value="Cancel" />';
-					echo '</div>';
-
-					echo '</form>';
-
-					echo PHP_EOL;
+					echo '				</div>
+';
+				} else {
+					echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
 				}
-				echo '				</div>
-		</fieldset>
+				echo '		</fieldset>
 	</div>
 ';
 				MainUiTemplate::foot();

@@ -11,6 +11,12 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 }
+
+@media (max-width: 767px) {
+	body {
+		margin: 1%;
+	}
+}
 @media (min-width: 768px) {
 	body {
 		width: 50%;

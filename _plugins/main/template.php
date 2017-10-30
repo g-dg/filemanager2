@@ -32,7 +32,7 @@ class MainUiTemplate
 </head>
 <body>
 	<header class="header">
-		<h1 style="overflow-x: auto; overflow-y: hidden; height: 100%;">'.htmlspecialchars($title).'</h1>
+		<h1>'.htmlspecialchars($title).'</h1>
 	</header>
 	<nav class="nav">
 		<ul>
