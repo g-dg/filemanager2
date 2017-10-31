@@ -6,9 +6,9 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-Router::registerPage('browse', function($subpage) {
+Router::registerPage('browse', function($path) {
 	Auth::authenticate();
-	MainUiTemplate::head('/');
+	MainUiTemplate::header('/' . $path);
 
-	MainUiTemplate::foot();
+	MainUiTemplate::footer();
 });

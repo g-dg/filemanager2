@@ -40,7 +40,7 @@ nav.nav {
 	nav.nav {
 		/*background-color: #fff;*/
 		position: fixed;
-		width: 19%;
+		width: 20%;
 		top: 5rem;
 		bottom: 2em;
 		height: auto;
@@ -49,6 +49,7 @@ nav.nav {
 		border-right: 1px #999 solid;
 		border-bottom: none;
 		margin-bottom: 0px;
+		padding: 0px;
 	}
 	main.main {
 		/*background-color: #fff;*/
@@ -70,7 +71,7 @@ nav.nav {
 }
 @media (min-width: 1025px) {
 	nav.nav {
-		width: 14%;
+		width: 15%;
 	}
 	main.main {
 		width: 84%;
@@ -78,20 +79,24 @@ nav.nav {
 }
 @media (min-width: 1920px) {
 	nav.nav {
-		width: 9%;
+		width: 10%;
 	}
 	main.main {
 		width: 89%;
 	}
 }
 
-nav.nav {
-	padding: .5%;
+nav.nav > ul {
 	padding-top: 1em;
+	padding-left: 1em;
 }
-nav li {
+
+nav.nav {
+	padding: 0px;
+}
+/*nav li {
 	list-style-type: none;
-}
+}*/
 nav li ul {
 	display: none;
 }
@@ -99,6 +104,12 @@ nav li:hover ul,
 nav li:active ul {
 	display: block;
 }
+
+/*@media (min-width: 768px) {
+	nav li ul {
+		display: block;
+	}
+}*/
 
 button,
 input,

@@ -10,7 +10,7 @@ class MainUiTemplate
 {
 	const COPYRIGHT_NOTICE = 'Copyright &copy; 2017 Garnet DeGelder.';
 
-	public static function head($title = null, $head_html = '')
+	public static function header($title = null, $head_html = '')
 	{
 		if (is_null($title)) {
 			$title = 'Garnet DeGelder\'s File Manager';
@@ -51,15 +51,21 @@ class MainUiTemplate
 			echo '</li>';
 		}
 		Hooks::exec('_main_ui_shortcuts');
-		echo '<li><a href="'.Router::getHttpReadyUri('/logout/switchuser').'">Switch User</a></li>';
-		echo '<li><a href="'.Router::getHttpReadyUri('/logout').'">Log Out</a></li>';
+		echo '<li><a href="'.Router::getHttpReadyUri('/about').'">About</a></li>';
+		echo '<li>';
+			echo '<a href="'.Router::getHttpReadyUri('/logout').'">Logout</a>';
+			echo '<ul>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/logout/switchuser').'">Switch User</a></li>';
+				echo '<li><a href="'.Router::getHttpReadyUri('/logout/logout').'">Log Out</a></li>';
+			echo '</ul>';
+		echo '</li>';
 		echo '
 		</ul>
 	</nav>
 	<main class="main">
 ';
 	}
-	public static function foot()
+	public static function footer()
 	{
 		echo '
 	</main>
