@@ -98,7 +98,7 @@ class Groups {
 
 	public static function shareInGroup($group_id, $share_id)
 	{
-		return Database::query('SELECT COUNT() FROM "users_in_groups" WHERE "group_id" = ? AND "share_id" = ?;', [$group_id, $share_id])[0][0] != 0;
+		return Database::query('SELECT COUNT() FROM "shares_in_groups" WHERE "group_id" = ? AND "share_id" = ?;', [$group_id, $share_id])[0][0] > 0;
 	}
 
 	public static function create($name, $enabled = true, $comment = '')
