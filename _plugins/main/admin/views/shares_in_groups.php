@@ -6,7 +6,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-function mainUiAdminUsersInGroups()
+function mainUiAdminSharesInGroups()
 {
 	MainUiTemplate::header('Shares in Groups - Administration');
 
