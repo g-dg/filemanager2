@@ -91,6 +91,9 @@ class Filesystem
 	}
 	public static function is_dir($filename)
 	{
+		if (self::sanitizeSharePath($filename) === '/') {
+			return true;
+		}
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
 			return @is_dir($filename);
@@ -203,12 +206,12 @@ class Filesystem
 		if (!is_null($path)) {
 			if (is_dir($path) && ($dh = opendir($path))) {
 				$count = 0;
-				while (($entry = readdir($handle)) !== false) {
+				while (($entry = readdir($dh)) !== false) {
 					if (substr($entry, 0, 1) !== '.') {
 						$count++;
 					}
 				}
-				closedir($handle);
+				closedir($dh);
 				return $count;
 			}
 		}
@@ -328,7 +331,7 @@ class Filesystem
 	}
 
 	// looks for the file or directory's name in the directory listing of dirname()
-	protected static function fileActuallyExists($fs_path)
+	protected static function fileActuallyExists($filename)
 	{
 
 	}
