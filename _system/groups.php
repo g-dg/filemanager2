@@ -14,7 +14,7 @@ class Groups {
 				Database::query('INSERT INTO "users_in_groups" ("user_id", "group_id") VALUES (?, ?);', [$user_id, $group_id]);
 				Log::notice('User "' . Users::getName($user_id) . '" added to group "' . Groups::getName($group_id) . '" by "' . Auth::getCurrentUserName() . '"');
 				return true;
-			} catch (Exception $e){}
+			} catch (\Exception $e){}
 		}
 		return false;
 	}
@@ -41,7 +41,7 @@ class Groups {
 				Database::query('INSERT INTO "shares_in_groups" ("share_id", "group_id", "writable") VALUES (?, ?, ?);', [$share_id, $group_id, $writable_int]);
 				Log::notice('Share "' . Shares::getName($share_id) . '" added to group "' . Groups::getName($group_id) . '" by "' . Auth::getCurrentUserName() . '"');
 				return false;
-			} catch (Exception $e){}
+			} catch (\Exception $e){}
 			return true;
 		}
 		return false;
