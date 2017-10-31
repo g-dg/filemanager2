@@ -144,6 +144,11 @@ class Router
 		return $base_uri . $encoded_path . $encoded_param_string;
 	}
 
+	public static function getHtmlReadyUri($full_path, $params = [])
+	{
+		return htmlspecialchars(self::getHttpReadyUri($full_path, $params));
+	}
+
 	// $params is a key-value array of get parameters
 	public static function redirect($full_path, $params = [])
 	{

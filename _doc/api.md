@@ -151,6 +151,7 @@ class Router {
 	function getCurrentParameters()
 	function getCurrentPageAndParameters()
 	function getHttpReadyUri($full_path, $params = [])
+	function getHtmlReadyUri($full_path, $params = [])
 	function redirect($full_path, $params = [])
 	function getApplicationRelativeHttpPath($relative_path)
 }
