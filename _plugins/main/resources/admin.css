@@ -5,10 +5,14 @@
 	margin: 0px .5em;
 }
 
-.table > * {
-	border-bottom: 1px #e1e1e1 solid;
+.table > * > * {
+	border: 1px #e1e1e1 solid;
 }
 
 .table textarea {
 	min-height: 38px;
+}
+
+.table form {
+	margin-bottom: 0px;
 }

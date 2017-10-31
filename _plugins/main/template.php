@@ -23,10 +23,10 @@ class MainUiTemplate
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/normalize.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/skeleton.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/main.css') . '" type="text/css" />
-	<link rel="icon" href="' . Router::getHttpReadyUri('/resource/main/favicon.ico') . '" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/normalize.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/skeleton.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/main.css') . '" type="text/css" />
+	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/favicon.ico') . '" />
 	<title>' . htmlspecialchars($title) . '</title>
 	' . $head_html . '
 </head>
@@ -37,26 +37,28 @@ class MainUiTemplate
 	<nav class="nav">
 		<ul>
 			';
-		echo '<li><a href="'.Router::getHttpReadyUri('/browse').'">Browse</a></li>';
+		echo '<li><a href="'.Router::getHtmlReadyUri('/browse').'">Browse</a></li>';
+		echo '<li><a href="'.Router::getHtmlReadyUri('/settings').'">Settings</a></li>';
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			echo '<li>';
-				echo '<a href="'.Router::getHttpReadyUri('/admin').'">Administration</a>';
+				echo '<a href="'.Router::getHtmlReadyUri('/admin').'">Administration</a>';
 				echo '<ul>';
-					echo '<li><a href="'.Router::getHttpReadyUri('/admin/users').'">Users</a>';
-					echo '<li><a href="'.Router::getHttpReadyUri('/admin/users_in_groups').'">Users in Groups</a>';
-					echo '<li><a href="'.Router::getHttpReadyUri('/admin/groups').'">Groups</a>';
-					echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares_in_groups').'">Shares in Groups</a>';
-					echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares').'">Shares</a>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users').'">Users</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users_in_groups').'">Users in Groups</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/groups').'">Groups</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares_in_groups').'">Shares in Groups</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares').'">Shares</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/settings').'">Global Settings</a></li>';
 				echo '</ul>';
 			echo '</li>';
 		}
 		Hooks::exec('_main_ui_shortcuts');
-		echo '<li><a href="'.Router::getHttpReadyUri('/about').'">About</a></li>';
+		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
-			echo '<a href="'.Router::getHttpReadyUri('/logout').'">Logout</a>';
+			echo '<a href="'.Router::getHtmlReadyUri('/logout').'">Logout</a>';
 			echo '<ul>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/logout/switchuser').'">Switch User</a></li>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/logout/logout').'">Log Out</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/logout/switchuser').'">Switch User</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/logout/logout').'">Log Out</a></li>';
 			echo '</ul>';
 		echo '</li>';
 		echo '
@@ -70,7 +72,6 @@ class MainUiTemplate
 		echo '
 	</main>
 	<footer class="footer">
-		<hr />
 		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' ' . self::COPYRIGHT_NOTICE . '<p>
 	</footer>
 </body>

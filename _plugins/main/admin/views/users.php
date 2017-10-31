@@ -8,11 +8,11 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 function mainUiAdminUsers()
 {
-	MainUiTemplate::header('Users - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+	MainUiTemplate::header('Users - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
 	echo '
 	<fieldset><legend>Create User</legend>
-		<form action="'.Router::getHttpReadyUri('/admin/action/users').'" method="post">
+		<form action="'.Router::getHtmlReadyUri('/admin/action/users').'" method="post">
 			<div class="row">
 				<div class="six columns">
 					<label for="create_username">Username:</label>
@@ -53,11 +53,13 @@ function mainUiAdminUsers()
 		</form>
 	</fieldset>
 	<div class="overflow">
+		<fieldset>
+			<legend>Users</legend>
 ';
+	Database::lock();
 	$users = Users::getAll();
 	if (count($users) > 0) {
-		echo '		<fieldset><legend>Users</legend>
-			<div class="table">
+		echo '			<div class="table">
 				<div class="thead">
 					<div>Username</div>
 					<div>Password</div>
@@ -71,7 +73,7 @@ function mainUiAdminUsers()
 		foreach (Users::getAll() as $user_id) {
 			echo '					';
 
-			echo '<form action="'.Router::getHttpReadyUri('/admin/action/users/'.(int)$user_id).'" method="post">';
+			echo '<form action="'.Router::getHtmlReadyUri('/admin/action/users/'.(int)$user_id).'" method="post">';
 
 			echo '<div>';
 			echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" />';
@@ -133,6 +135,7 @@ function mainUiAdminUsers()
 	} else {
 		echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
 	}
+	Database::unlock();
 	echo '		</fieldset>
 	</div>
 ';

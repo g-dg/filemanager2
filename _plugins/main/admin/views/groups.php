@@ -8,11 +8,11 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 function mainUiAdminGroups()
 {
-	MainUiTemplate::header('Groups - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+	MainUiTemplate::header('Groups - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
 	echo '
 	<fieldset><legend>Create Group</legend>
-		<form action="'.Router::getHttpReadyUri('/admin/action/groups').'" method="post">
+		<form action="'.Router::getHtmlReadyUri('/admin/action/groups').'" method="post">
 			<div class="row">
 				<div class="four columns">
 					<label for="create_name">Name:</label>
@@ -37,8 +37,10 @@ function mainUiAdminGroups()
 		</form>
 	</fieldset>
 	<div class="overflow">
-		<fieldset><legend>Groups</legend>
+		<fieldset>
+			<legend>Groups</legend>
 ';
+	Database::lock();
 	$groups = Groups::getAll();
 	if (count($groups) > 0) {
 		echo '			<div class="table">
@@ -53,7 +55,7 @@ function mainUiAdminGroups()
 		foreach (Groups::getAll() as $group_id) {
 			echo '					';
 
-			echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$group_id).'" method="post">';
+			echo '<form action="'.Router::getHtmlReadyUri('/admin/action/groups/'.(int)$group_id).'" method="post">';
 
 			echo '<div>';
 			echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" />';
@@ -91,6 +93,7 @@ function mainUiAdminGroups()
 	} else {
 		echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
 	}
+	Database::unlock();
 	echo '		</fieldset>
 	</div>
 ';

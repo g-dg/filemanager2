@@ -8,5 +8,21 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 Router::registerPage('settings', function($subpage) {
 	Auth::authenticate();
-	
+	switch ($subpage) {
+		case '':
+			MainUiTemplate::header('Settings');
+
+			MainUiTemplate::footer();
+			break;
+		
+
+		case 'action':
+
+			break;
+		
+
+		default:
+			Router::execErrorPage(404);
+			break;
+	}
 });

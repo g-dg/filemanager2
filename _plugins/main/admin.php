@@ -20,11 +20,12 @@ Router::registerPage('admin', function($subpage) {
 				MainUiTemplate::header('Administration');
 				echo '<fieldset><legend>Administration</legend>';
 				echo '<ul>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/admin/users').'">Users</a></li>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/admin/users_in_groups').'">Users in Groups</a></li>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/admin/groups').'">Groups</a></li>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares_in_groups').'">Shares in Groups</a></li>';
-				echo '<li><a href="'.Router::getHttpReadyUri('/admin/shares').'">Shares</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users').'">Users</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users_in_groups').'">Users in Groups</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/admin/groups').'">Groups</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares_in_groups').'">Shares in Groups</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares').'">Shares</a></li>';
+				echo '<li><a href="'.Router::getHtmlReadyUri('/admin/settings').'">Global Settings</a></li>';
 				echo '</ul>';
 				echo '</fieldset>';
 				MainUiTemplate::footer();
@@ -56,6 +57,11 @@ Router::registerPage('admin', function($subpage) {
 				mainUiAdminShares();
 				break;
 
+			case 'settings':
+				require_once('admin/views/settings.php');
+				mainUiAdminSettings();
+				break;
+
 			case 'action':
 				if (isset($subpage_array[1])) {
 					switch ($subpage_array[1]) {
@@ -63,26 +69,25 @@ Router::registerPage('admin', function($subpage) {
 							require('admin/controllers/users.php');
 							break;
 
-
 						case 'users_in_groups':
 							require('admin/controllers/users_in_groups.php');
 							break;
-
 
 						case 'groups':
 							require('admin/controllers/groups.php');
 							break;
 
-
 						case 'shares_in_groups':
 							require('admin/controllers/shares_in_groups.php');
 							break;
-
 
 						case 'shares':
 							require('admin/controllers/shares.php');
 							break;
 
+						case 'settings':
+							require('admin/controllers/settings.php');
+							break;
 						
 						default:
 							Router::execErrorPage(404);

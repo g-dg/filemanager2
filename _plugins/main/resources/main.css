@@ -1,15 +1,19 @@
 header.header {
+	background-color: white;
 	z-index: 3;
 	white-space: nowrap;
 	overflow: hidden;
+	border-bottom: 1px #999 solid;
 }
 nav.nav {
+	background-color: white;
 	z-index: 1;
 }
 main.main {
 	z-index: 0;
 }
 footer.footer {
+	background-color: white;
 	z-index: 2;
 }
 header h1 {
@@ -19,7 +23,6 @@ header h1 {
 	overflow-y: hidden;
 }
 nav.nav {
-	border-top: 1px #999 solid;
 	margin-bottom: .5em;
 	padding-bottom: 0px;
 	white-space: nowrap;
@@ -45,7 +48,6 @@ nav.nav {
 		bottom: 2em;
 		height: auto;
 		float: left;
-		border-top: 1px #999 solid;
 		border-right: 1px #999 solid;
 		border-bottom: none;
 		margin-bottom: 0px;
@@ -58,7 +60,6 @@ nav.nav {
 		padding: .5%;
 		width: 79%;
 		float: right;
-		border-top: 1px #999 solid;
 	}
 	footer.footer {
 		/*background-color: #fff;*/
@@ -146,6 +147,10 @@ textarea {
 	padding-bottom: .5em;
 	border-bottom: #ddd 1px solid;
 }
+.table .th {
+	font-weight: bold;
+	text-align: center;
+}
 .table.striped > *:nth-of-type(odd) {
 	background-color: #f7f7f7;
 }
@@ -198,10 +203,8 @@ h4{font-size:1.8rem;}
 h5{font-size:1.35rem;}
 h6{font-size:1.125rem;}
 
-footer > hr {
-	margin-top: 0px;
-	margin-bottom: .25em;
-	border: none;
+footer {
+	margin: 0px;
 	border-top: 1px #999 solid;
 }
 footer > p {
