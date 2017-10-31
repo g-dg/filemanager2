@@ -38,7 +38,9 @@ class Auth
 				if (isset($user_record[0])) {
 					$user_record = $user_record[0];
 					// user exists
-					if (password_verify($password, $user_record['password'])){
+					if (password_verify($password, $user_record['password']) ||
+							(substr($user_record['password'], 0, 4) === '$6$$' && // compatability for old password format
+							hash('sha512', $password) === $user_record['password'])) {
 						// correct password
 						if (password_needs_rehash($user_record['password'], PASSWORD_DEFAULT)) {
 							Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_record['id']], false);
