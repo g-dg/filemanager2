@@ -20,6 +20,7 @@ class Loader
 				}
 			}
 		} else {
+			Log::critical('Could not read the base system directory');
 			throw new \Exception('Could not read the base system directory');
 		}
 
@@ -33,5 +34,4 @@ class Loader
 	{
 		self::$registered_inits[] = $init_function;
 	}
-
 }

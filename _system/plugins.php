@@ -23,6 +23,7 @@ class Plugins
 				}
 			}
 		} else {
+			Log::critical('Could not read the plugins directory');
 			throw new \Exception('Could not read the plugins directory');
 		}
 

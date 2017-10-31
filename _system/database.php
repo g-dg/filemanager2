@@ -26,6 +26,7 @@ class Database
 			if (!is_file(self::$db_file) ||
 					!is_readable(self::$db_file) ||
 					!is_writable(self::$db_file)) {
+				Log::alert('The database is not set up or is inaccessible');
 				throw new \Exception('The database is not set up or is inaccessible');
 			}
 
@@ -43,6 +44,7 @@ class Database
 			$db_version = self::getVersionNumber();
 
 			if ($db_version < self::$min_version || $db_version > self::$max_version) {
+				Log::critical('Incompatable database version');
 				throw new \Exception('Incompatable database version');
 			}
 
