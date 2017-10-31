@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 class HttpRange
 {
-	function send($full_path, $force_download = false)
+	public static function send($full_path, $force_download = false)
 	{
 		set_time_limit(0);
 		if (Filesystem::is_file($full_path) && Filesystem::is_readable($full_path)) {
