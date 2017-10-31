@@ -66,6 +66,11 @@ class Session
 		}
 	}
 
+	public static function started()
+	{
+		return !is_null(self::$session_id);
+	}
+
 	public static function getSessionId()
 	{
 		self::start();
