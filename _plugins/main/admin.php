@@ -32,64 +32,55 @@ Router::registerPage('admin', function($subpage) {
 
 
 			case 'users':
-				require('admin/views/users.php');
+				require_once('admin/views/users.php');
+				mainUiAdminUsers();
 				break;
-
-
 
 			case 'users_in_groups':
-				MainUiTemplate::header('Users in Groups - Administration');
-
-				MainUiTemplate::footer();
+				require_once('admin/views/users_in_groups.php');
+				mainUiAdminUsersInGroups();
 				break;
-
-
 
 			case 'groups':
-				require('admin/views/groups.php');
+				require_once('admin/views/groups.php');
+				mainUiAdminGroups();
 				break;
-
-
 
 			case 'shares_in_groups':
-				MainUiTemplate::header('Shares in Groups - Administration');
-
-				MainUiTemplate::footer();
+				require_once('admin/views/shares_in_groups.php');
+				mainUiAdminSharesInGroups();
 				break;
-
-
 
 			case 'shares':
-				require('admin/views/shares.php');
+				require_once('admin/views/shares.php');
+				mainUiAdminShares();
 				break;
-
-
 
 			case 'action':
 				if (isset($subpage_array[1])) {
 					switch ($subpage_array[1]) {
 						case 'users':
-
+							require('admin/controllers/users.php');
 							break;
 
 
 						case 'users_in_groups':
-
+							require('admin/controllers/users_in_groups.php');
 							break;
 
 
 						case 'groups':
-
+							require('admin/controllers/groups.php');
 							break;
 
 
 						case 'shares_in_groups':
-
+							require('admin/controllers/shares_in_groups.php');
 							break;
 
 
 						case 'shares':
-
+							require('admin/controllers/shares.php');
 							break;
 
 						

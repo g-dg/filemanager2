@@ -6,9 +6,11 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-MainUiTemplate::header('Shares - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+function mainUiAdminShares()
+{
+	MainUiTemplate::header('Shares - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
-echo '
+	echo '
 	<fieldset><legend>Create Share</legend>
 		<form action="'.Router::getHttpReadyUri('/admin/action/shares').'" method="post">
 			<div class="row">
@@ -42,9 +44,9 @@ echo '
 		<fieldset><legend>Shares</legend>
 
 ';
-$shares = Shares::getAll();
-if (count($shares) > 0) {
-	echo '			<div class="table">
+	$shares = Shares::getAll();
+	if (count($shares) > 0) {
+		echo '			<div class="table">
 				<div class="thead">
 					<div>Name</div>
 					<div>Path</div>
@@ -53,54 +55,55 @@ if (count($shares) > 0) {
 					<div>Delete</div>
 					<div>Cancel</div>
 				</div>';
-	foreach ($shares as $share_id) {
-		echo '					';
+		foreach ($shares as $share_id) {
+			echo '					';
 
-		echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$share_id).'" method="post">';
+			echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$share_id).'" method="post">';
 
-		echo '<div>';
-		echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
-		echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Update" />';
-		echo '</div>';
+			echo '<div>';
+			echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
+			echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Update" />';
+			echo '</div>';
 
-		echo '<div>';
-		echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
-		echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Update" />';
-		echo '</div>';
+			echo '<div>';
+			echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
+			echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Update" />';
+			echo '</div>';
 
-		echo '<div>';
-		if (Shares::getEnabled($share_id)) {
-			echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-		} else {
-			echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+			echo '<div>';
+			if (Shares::getEnabled($share_id)) {
+				echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+			} else {
+				echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+			}
+			echo '<input id="update_enabled_'.htmlspecialchars($share_id).'" name="update_enabled" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<textarea id="comment_'.htmlspecialchars($share_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Shares::getComment($share_id)).'</textarea>';
+			echo '<input id="update_comment_'.htmlspecialchars($share_id).'" name="update_comment" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<input id="cancel_'.htmlspecialchars($share_id).'" name="reset" type="reset" value="Cancel" />';
+			echo '</div>';
+
+			echo '</form>';
+
+			echo PHP_EOL;
 		}
-		echo '<input id="update_enabled_'.htmlspecialchars($share_id).'" name="update_enabled" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<textarea id="comment_'.htmlspecialchars($share_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Shares::getComment($share_id)).'</textarea>';
-		echo '<input id="update_comment_'.htmlspecialchars($share_id).'" name="update_comment" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<input id="cancel_'.htmlspecialchars($share_id).'" name="reset" type="reset" value="Cancel" />';
-		echo '</div>';
-
-		echo '</form>';
-
-		echo PHP_EOL;
-	}
-	echo '				</div>
+		echo '				</div>
 ';
-} else {
-	echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
-}
-echo '		</fieldset>
+	} else {
+		echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
+	}
+	echo '		</fieldset>
 	</div>
 ';
 
-MainUiTemplate::footer();
+	MainUiTemplate::footer();
+}

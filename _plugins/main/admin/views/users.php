@@ -6,9 +6,11 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-MainUiTemplate::header('Users - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+function mainUiAdminUsers()
+{
+	MainUiTemplate::header('Users - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
-echo '
+	echo '
 	<fieldset><legend>Create User</legend>
 		<form action="'.Router::getHttpReadyUri('/admin/action/users').'" method="post">
 			<div class="row">
@@ -52,9 +54,9 @@ echo '
 	</fieldset>
 	<div class="overflow">
 ';
-$users = Users::getAll();
-if (count($users) > 0) {
-	echo '		<fieldset><legend>Users</legend>
+	$users = Users::getAll();
+	if (count($users) > 0) {
+		echo '		<fieldset><legend>Users</legend>
 			<div class="table">
 				<div class="thead">
 					<div>Username</div>
@@ -66,73 +68,75 @@ if (count($users) > 0) {
 					<div>Cancel</div>
 				</div>
 ';
-	foreach (Users::getAll() as $user_id) {
-		echo '					';
+		foreach (Users::getAll() as $user_id) {
+			echo '					';
 
-		echo '<form action="'.Router::getHttpReadyUri('/admin/action/users/'.(int)$user_id).'" method="post">';
+			echo '<form action="'.Router::getHttpReadyUri('/admin/action/users/'.(int)$user_id).'" method="post">';
 
-		echo '<div>';
-		echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" />';
-		echo '<input id="update_name_'.htmlspecialchars($user_id).'" name="update_name" type="submit" value="Update" />';
-		echo '</div>';
+			echo '<div>';
+			echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" />';
+			echo '<input id="update_name_'.htmlspecialchars($user_id).'" name="update_name" type="submit" value="Update" />';
+			echo '</div>';
 
-		echo '<div>';
-		echo '<input id="password1_'.htmlspecialchars($user_id).'" name="password1" type="password" value="" placeholder="Password" />';
-		echo '<input id="password2_'.htmlspecialchars($user_id).'" name="password2" type="password" value="" placeholder="Password (again)" />';
-		echo '<input id="update_password_'.htmlspecialchars($user_id).'" name="update_password" type="submit" value="Update" />';
-		echo '</div>';
+			echo '<div>';
+			echo '<input id="password1_'.htmlspecialchars($user_id).'" name="password1" type="password" value="" placeholder="Password" />';
+			echo '<input id="password2_'.htmlspecialchars($user_id).'" name="password2" type="password" value="" placeholder="Password (again)" />';
+			echo '<input id="update_password_'.htmlspecialchars($user_id).'" name="update_password" type="submit" value="Update" />';
+			echo '</div>';
 
-		echo '<div>';
-		switch (Users::getType($user_id)) {
-			case Users::USER_TYPE_ADMIN:
-				echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin" selected="selected">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
-				break;
-			case Users::USER_TYPE_STANDARD:
-				echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>';
-				break;
-			case Users::USER_TYPE_GUEST:
-				echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest" selected="selected">Guest</option></select>';
-				break;
-			default:
-				echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
-				break;
+			echo '<div>';
+			switch (Users::getType($user_id)) {
+				case Users::USER_TYPE_ADMIN:
+					echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin" selected="selected">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
+					break;
+				case Users::USER_TYPE_STANDARD:
+					echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>';
+					break;
+				case Users::USER_TYPE_GUEST:
+					echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest" selected="selected">Guest</option></select>';
+					break;
+				default:
+					echo '<select id="type_'.htmlspecialchars($user_id).'" name="type"><option value="admin">Administrator</option><option value="standard">Standard User</option><option value="guest">Guest</option></select>';
+					break;
+			}
+			echo '<input id="update_type_'.htmlspecialchars($user_id).'" name="update_type" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			if (Users::getEnabled($user_id)) {
+				echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+			} else {
+				echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+			}
+			echo '<input id="update_enabled_'.htmlspecialchars($user_id).'" name="update_enabled" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<textarea id="comment_'.htmlspecialchars($user_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Users::getComment($user_id)).'</textarea>';
+			echo '<input id="update_comment_'.htmlspecialchars($user_id).'" name="update_comment" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" />';
+			echo '</div>';
+
+			echo '</form>';
+
+			echo PHP_EOL;
 		}
-		echo '<input id="update_type_'.htmlspecialchars($user_id).'" name="update_type" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		if (Users::getEnabled($user_id)) {
-			echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-		} else {
-			echo '<select id="enabled_'.htmlspecialchars($user_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
-		}
-		echo '<input id="update_enabled_'.htmlspecialchars($user_id).'" name="update_enabled" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<textarea id="comment_'.htmlspecialchars($user_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Users::getComment($user_id)).'</textarea>';
-		echo '<input id="update_comment_'.htmlspecialchars($user_id).'" name="update_comment" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" />';
-		echo '</div>';
-
-		echo '</form>';
-
-		echo PHP_EOL;
-	}
-	echo '				</div>
+		echo '				</div>
 ';
-} else {
-	echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
-}
-echo '		</fieldset>
+	} else {
+		echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
+	}
+	echo '		</fieldset>
 	</div>
 ';
 
-MainUiTemplate::footer();
+	MainUiTemplate::footer();
+
+}

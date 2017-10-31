@@ -6,9 +6,11 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-MainUiTemplate::header('Groups - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+function mainUiAdminGroups()
+{
+	MainUiTemplate::header('Groups - Administration', '<link rel="stylesheet" href="' . Router::getHttpReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
-echo '
+	echo '
 	<fieldset><legend>Create Group</legend>
 		<form action="'.Router::getHttpReadyUri('/admin/action/groups').'" method="post">
 			<div class="row">
@@ -37,9 +39,9 @@ echo '
 	<div class="overflow">
 		<fieldset><legend>Groups</legend>
 ';
-$groups = Groups::getAll();
-if (count($groups) > 0) {
-	echo '			<div class="table">
+	$groups = Groups::getAll();
+	if (count($groups) > 0) {
+		echo '			<div class="table">
 				<div class="thead">
 					<div>Name</div>
 					<div>Enabled</div>
@@ -48,49 +50,50 @@ if (count($groups) > 0) {
 					<div>Cancel</div>
 				</div>
 ';
-	foreach (Groups::getAll() as $group_id) {
-		echo '					';
+		foreach (Groups::getAll() as $group_id) {
+			echo '					';
 
-		echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$group_id).'" method="post">';
+			echo '<form action="'.Router::getHttpReadyUri('/admin/action/groups/'.(int)$group_id).'" method="post">';
 
-		echo '<div>';
-		echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" />';
-		echo '<input id="update_name_'.htmlspecialchars($group_id).'" name="update_name" type="submit" value="Update" />';
-		echo '</div>';
+			echo '<div>';
+			echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" />';
+			echo '<input id="update_name_'.htmlspecialchars($group_id).'" name="update_name" type="submit" value="Update" />';
+			echo '</div>';
 
-		echo '<div>';
-		if (Groups::getEnabled($group_id)) {
-			echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-		} else {
-			echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+			echo '<div>';
+			if (Groups::getEnabled($group_id)) {
+				echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+			} else {
+				echo '<select id="enabled_'.htmlspecialchars($group_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+			}
+			echo '<input id="update_enabled_'.htmlspecialchars($group_id).'" name="update_enabled" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<textarea id="comment_'.htmlspecialchars($group_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Groups::getComment($group_id)).'</textarea>';
+			echo '<input id="update_comment_'.htmlspecialchars($group_id).'" name="update_comment" type="submit" value="Update" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<input id="delete_'.htmlspecialchars($group_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete group &quot;\'+document.getElementById(\'name_'.htmlspecialchars($group_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+			echo '</div>';
+
+			echo '<div>';
+			echo '<input id="cancel_'.htmlspecialchars($group_id).'" name="reset" type="reset" value="Cancel" />';
+			echo '</div>';
+
+			echo '</form>';
+
+			echo PHP_EOL;
 		}
-		echo '<input id="update_enabled_'.htmlspecialchars($group_id).'" name="update_enabled" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<textarea id="comment_'.htmlspecialchars($group_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Groups::getComment($group_id)).'</textarea>';
-		echo '<input id="update_comment_'.htmlspecialchars($group_id).'" name="update_comment" type="submit" value="Update" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($group_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete group &quot;\'+document.getElementById(\'name_'.htmlspecialchars($group_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-		echo '</div>';
-
-		echo '<div>';
-		echo '<input id="cancel_'.htmlspecialchars($group_id).'" name="reset" type="reset" value="Cancel" />';
-		echo '</div>';
-
-		echo '</form>';
-
-		echo PHP_EOL;
-	}
-	echo '				</div>
+		echo '				</div>
 ';
-} else {
-	echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
-}
-echo '		</fieldset>
+	} else {
+		echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
+	}
+	echo '		</fieldset>
 	</div>
 ';
 
-MainUiTemplate::footer();
+	MainUiTemplate::footer();
+}

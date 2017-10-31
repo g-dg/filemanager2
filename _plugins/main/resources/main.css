@@ -90,26 +90,34 @@ nav.nav > ul {
 	padding-top: 1em;
 	padding-left: 1em;
 }
-
+nav.nav li {
+	padding-top: .25em;
+	padding-bottom: .25em;
+	padding-left: .25em;
+}
 nav.nav {
 	padding: 0px;
 }
 /*nav li {
 	list-style-type: none;
 }*/
-nav li ul {
+nav.nav li ul {
 	display: none;
 }
-nav li:hover ul,
-nav li:active ul {
+nav.nav li:hover ul,
+nav.nav li:active ul {
 	display: block;
 }
 
-/*@media (min-width: 768px) {
-	nav li ul {
-		display: block;
-	}
-}*/
+nav.nav > ul > li:hover {
+	background-color: #eee;
+}
+nav.nav > ul > li > ul > li:hover {
+	background-color: #ddd;
+}
+nav.nav > ul > li > ul > li > ul > li:hover {
+	background-color: #ccc;
+}
 
 button,
 input,
