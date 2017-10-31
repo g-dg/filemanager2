@@ -281,7 +281,10 @@ class Filesystem
 	{
 		$path = self::sanitizeSharePath($path);
 		$path_array = explode('/', trim($path, '/'));
-		return !isset($path_array[1]);
+		if (isset($path_array[0])) {
+			return $path_array[0] === '';
+		}
+		return false;
 	}
 
 	// path doesn't have to exist (the share does)
