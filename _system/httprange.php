@@ -10,7 +10,7 @@ class HttpRange
 {
 	public static function send($full_path, $force_download = false)
 	{
-		set_time_limit(0);
+		//set_time_limit(0);
 		if (Filesystem::is_file($full_path) && Filesystem::is_readable($full_path)) {
 			$content_length = Filesystem::filesize($full_path);
 			$content_disposition = basename($full_path);
@@ -49,12 +49,12 @@ class HttpRange
 			// send the file
 			if ($fd = Filesystem::fopen($full_path, 'rb')) {
 				if (isset($start)) {
-					fseek($file, $start);
+					fseek($fd, $start);
 				}
 
 				$sent = 0;
-				while (!feof($file) && !connection_aborted() && $sent < $send_length) {
-					$buffer = fread($file, 4096);
+				while (!feof($fd) && !connection_aborted() && $sent < $send_length) {
+					$buffer = fread($fd, 4096);
 					echo $buffer;
 					flush();
 					$sent += strlen($buffer);
@@ -67,7 +67,7 @@ class HttpRange
 				exit();
 			}
 		} else {
-			Log::error('Could not send file "' . $full_path . '" to "' . Auth::getCurrentUserName() . '", possibly they don\'t have the necessary permissions');
+			Log::error('Could not send file "' . $full_path . '" to "' . Auth::getCurrentUserName() . '", possibly they don\'t have the necessary permissions, or the file does not exist');
 			http_response_code(404);
 			exit();
 		}
