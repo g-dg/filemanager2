@@ -28,7 +28,7 @@ class Resources
 			header('Expires: ' . gmdate('D, d M Y H:i:s ', time() + $cache_time) . 'GMT');
 			header('Pragma: cache');
 			header('Cache-Control: max-age=' . $cache_time . ', private');
-			fpassthru(@fopen($filename, 'r'));
+			fpassthru(@fopen($filename, 'rb'));
 		} else {
 			Router::execErrorPage(404);
 		}
