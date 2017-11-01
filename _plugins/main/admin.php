@@ -33,33 +33,27 @@ Router::registerPage('admin', function($subpage) {
 
 
 			case 'users':
-				require_once('admin/views/users.php');
-				mainUiAdminUsers();
+				require('admin/views/users.php');
 				break;
 
 			case 'users_in_groups':
-				require_once('admin/views/users_in_groups.php');
-				mainUiAdminUsersInGroups();
+				require('admin/views/users_in_groups.php');
 				break;
 
 			case 'groups':
-				require_once('admin/views/groups.php');
-				mainUiAdminGroups();
+				require('admin/views/groups.php');
 				break;
 
 			case 'shares_in_groups':
-				require_once('admin/views/shares_in_groups.php');
-				mainUiAdminSharesInGroups();
+				require('admin/views/shares_in_groups.php');
 				break;
 
 			case 'shares':
-				require_once('admin/views/shares.php');
-				mainUiAdminShares();
+				require('admin/views/shares.php');
 				break;
 
 			case 'settings':
-				require_once('admin/views/settings.php');
-				mainUiAdminSettings();
+				require('admin/views/settings.php');
 				break;
 
 			case 'action':

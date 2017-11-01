@@ -8,8 +8,14 @@ header.header {
 nav.nav {
 	background-color: white;
 	z-index: 1;
+	margin-bottom: .5em;
+	padding-bottom: 0px;
+	white-space: nowrap;
+	overflow: auto;
+	border-bottom: 1px #999 solid;
 }
 main.main {
+	padding: 1%;
 	z-index: 0;
 }
 footer.footer {
@@ -18,16 +24,10 @@ footer.footer {
 }
 header h1 {
 	padding: .5rem;
+	margin: 0px .5rem;
 	font-size: 3rem;
 	overflow-x: auto;
 	overflow-y: hidden;
-}
-nav.nav {
-	margin-bottom: .5em;
-	padding-bottom: 0px;
-	white-space: nowrap;
-	overflow: auto;
-	border-bottom: 1px #999 solid;
 }
 
 @media (min-width: 768px) {
@@ -105,9 +105,35 @@ nav.nav {
 nav.nav li ul {
 	display: none;
 }
-nav.nav li:hover ul,
-nav.nav li:active ul {
+nav.nav li:hover > ul,
+nav.nav li:active > ul {
 	display: block;
+	background-color: #eee;
+}
+
+@media (max-width: 767px) {
+	nav.nav {
+		overflow-x: auto;
+	}
+	nav.nav ul {
+		list-style-type: none;
+	}
+	nav.nav > ul {
+		padding-left: 0px;
+		margin-bottom: 0px;
+	}
+	nav.nav li {
+		padding-right: .25em;
+	}
+	nav.nav > ul > li {
+		display: inline-block;
+		vertical-align: top;
+		padding-left: .5em;
+		padding-right: .5em;
+	}
+	nav.nav > ul > li:hover > ul {
+		margin-left: 0px;
+	}
 }
 
 nav.nav > ul > li:hover {

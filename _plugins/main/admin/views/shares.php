@@ -6,11 +6,22 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-function mainUiAdminShares()
-{
-	MainUiTemplate::header('Shares - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+MainUiTemplate::header('Shares - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
-	echo '
+Session::lock();
+if (Session::isset('_main_admin_status')) {
+	echo '<div class="message">';
+	if (Session::get('_main_admin_status')) {
+		echo 'The last action completed successfully.';
+	} else {
+		echo 'A problem occurred during the last action.';
+	}
+	echo '</div>';
+	Session::unset('_main_admin_status');
+}
+Session::unlock();
+
+echo '
 	<fieldset><legend>Create Share</legend>
 		<form action="'.Router::getHtmlReadyUri('/admin/action/shares').'" method="post">
 			<div class="row">
@@ -22,11 +33,11 @@ function mainUiAdminShares()
 					<label for="create_path">Path:</label>
 					<input id="create_path" name="path" type="text" value="" placeholder="Path" class="u-full-width" />
 				</div>
-				<div class="three columns">
+				<div class="two columns">
 					<label for="create_enabled">Enabled:</label>
 					<select id="create_enabled" name="enabled" class="u-full-width"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>
 				</div>
-				<div class="three columns">
+				<div class="four columns">
 					<label for="create_comment">Comment:</label>
 					<textarea id="create_comment" name="comment" placeholder="Comment" class="u-full-width"></textarea>
 				</div>
@@ -45,10 +56,10 @@ function mainUiAdminShares()
 			<legend>Shares</legend>
 
 ';
-	Database::lock();
-	$shares = Shares::getAll();
-	if (count($shares) > 0) {
-		echo '			<div class="table">
+Database::lock();
+$shares = Shares::getAll();
+if (count($shares) > 0) {
+	echo '			<div class="table">
 				<div class="thead">
 					<div>Name</div>
 					<div>Path</div>
@@ -56,57 +67,57 @@ function mainUiAdminShares()
 					<div>Comment</div>
 					<div>Delete</div>
 					<div>Cancel</div>
-				</div>';
-		foreach ($shares as $share_id) {
-			echo '					';
-
-			echo '<form action="'.Router::getHtmlReadyUri('/admin/action/groups/'.(int)$share_id).'" method="post">';
-
-			echo '<div>';
-			echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
-			echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Update" />';
-			echo '</div>';
-
-			echo '<div>';
-			echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
-			echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Update" />';
-			echo '</div>';
-
-			echo '<div>';
-			if (Shares::getEnabled($share_id)) {
-				echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
-			} else {
-				echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
-			}
-			echo '<input id="update_enabled_'.htmlspecialchars($share_id).'" name="update_enabled" type="submit" value="Update" />';
-			echo '</div>';
-
-			echo '<div>';
-			echo '<textarea id="comment_'.htmlspecialchars($share_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Shares::getComment($share_id)).'</textarea>';
-			echo '<input id="update_comment_'.htmlspecialchars($share_id).'" name="update_comment" type="submit" value="Update" />';
-			echo '</div>';
-
-			echo '<div>';
-			echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
-			echo '</div>';
-
-			echo '<div>';
-			echo '<input id="cancel_'.htmlspecialchars($share_id).'" name="reset" type="reset" value="Cancel" />';
-			echo '</div>';
-
-			echo '</form>';
-
-			echo PHP_EOL;
-		}
-		echo '				</div>
+				</div>
 ';
-	} else {
-		echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
+	foreach ($shares as $share_id) {
+		echo '				';
+
+		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/shares', ['share' => $share_id]).'" method="post">';
+
+		echo '<div>';
+		echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
+		echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Update" />';
+		echo '</div>';
+
+		echo '<div>';
+		echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
+		echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Update" />';
+		echo '</div>';
+
+		echo '<div>';
+		if (Shares::getEnabled($share_id)) {
+			echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>';
+		} else {
+			echo '<select id="enabled_'.htmlspecialchars($share_id).'" name="enabled"><option value="enabled">Enabled</option><option value="disabled" selected="selected">Disabled</option></select>';
+		}
+		echo '<input id="update_enabled_'.htmlspecialchars($share_id).'" name="update_enabled" type="submit" value="Update" />';
+		echo '</div>';
+
+		echo '<div>';
+		echo '<textarea id="comment_'.htmlspecialchars($share_id).'" name="comment" placeholder="Comment">'.htmlspecialchars(Shares::getComment($share_id)).'</textarea>';
+		echo '<input id="update_comment_'.htmlspecialchars($share_id).'" name="update_comment" type="submit" value="Update" />';
+		echo '</div>';
+
+		echo '<div>';
+		echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+		echo '</div>';
+
+		echo '<div>';
+		echo '<input id="cancel_'.htmlspecialchars($share_id).'" name="reset" type="reset" value="Cancel" />';
+		echo '</div>';
+
+		echo '</form>';
+
+		echo PHP_EOL;
 	}
-	Database::unlock();
-	echo '		</fieldset>
+	echo '			</div>
+';
+} else {
+	echo '			&lt;<em>None</em>&gt;'.PHP_EOL.PHP_EOL;
+}
+Database::unlock();
+echo '		</fieldset>
 	</div>
 ';
 
-	MainUiTemplate::footer();
-}
+MainUiTemplate::footer();

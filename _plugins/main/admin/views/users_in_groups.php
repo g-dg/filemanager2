@@ -6,53 +6,64 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-function mainUiAdminUsersInGroups()
-{
-	MainUiTemplate::header('Users in Groups - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
-	echo '		<div class="overflow">
+MainUiTemplate::header('Users in Groups - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+
+Session::lock();
+if (Session::isset('_main_admin_status')) {
+	echo '<div class="message">';
+	if (Session::get('_main_admin_status')) {
+		echo 'The last action completed successfully.';
+	} else {
+		echo 'A problem occurred during the last action.';
+	}
+	echo '</div>';
+	Session::unset('_main_admin_status');
+}
+Session::unlock();
+
+echo '		<div class="overflow">
 			<fieldset>
 				<legend>Users in Groups</legend>
 				<div class="table">
 ';
 
-	echo '					<div><div></div>';
+echo '					<div><div></div>';
 
-	Database::lock();
-	$groups = Groups::getAll();
-	$users = Users::getAll();
+Database::lock();
+$groups = Groups::getAll();
+$users = Users::getAll();
+foreach ($groups as $group_id) {
+	echo '<div class="th">';
+	echo htmlspecialchars(Groups::getName($group_id));
+	echo '</div>';
+}
+echo '</div>'.PHP_EOL;
+
+foreach ($users as $user_id) {
+	echo '					<div>';
+	echo '<div class="th">';
+	echo htmlspecialchars(Users::getName($user_id));
+	echo '</div>';
+
 	foreach ($groups as $group_id) {
-		echo '<div class="th">';
-		echo htmlspecialchars(Groups::getName($group_id));
+		echo '<div>';
+		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/users_in_groups', ['user' => $user_id, 'group' => $group_id]).'" method="post">';
+			echo '<select id="user_'.htmlspecialchars($user_id).'_group_'.htmlspecialchars($group_id).'" name="user_in_group">';
+			if (Groups::userInGroup($group_id, $user_id)) {
+				echo '<option value="true" selected="selected">Yes</option><option value="false">No</option>';
+			} else {
+				echo '<option value="true">Yes</option><option value="false" selected="selected">No</option>';
+			}
+			echo '</select>';
+			echo '<input id="update_user_'.htmlspecialchars($user_id).'_group_'.htmlspecialchars($group_id).'" name="update" type="submit" value="Update" />';
+		echo '</form>';
 		echo '</div>';
 	}
 	echo '</div>'.PHP_EOL;
+}
+Database::unlock();
 
-	foreach ($users as $user_id) {
-		echo '					<div>';
-		echo '<div class="th">';
-		echo htmlspecialchars(Users::getName($user_id));
-		echo '</div>';
-
-		foreach ($groups as $group_id) {
-			echo '<div>';
-			echo '<form action="'.Router::getHtmlReadyUri('/admin/action/users_in_groups', ['user'=>$user_id, 'group'=>$group_id]).'" method="post">';
-				echo '<select name="user_in_group">';
-				if (Groups::userInGroup($group_id, $user_id)) {
-					echo '<option value="true" selected="selected">Yes</option><option value="false">No</option>';
-				} else {
-					echo '<option value="true">Yes</option><option value="false" selected="selected">No</option>';
-				}
-				echo '</select>';
-				echo '<input name="update" type="submit" value="Update" />';
-			echo '</form>';
-			echo '</div>';
-		}
-		echo '</div>'.PHP_EOL;
-	}
-	Database::unlock();
-
-	echo '				</div>
+echo '				</div>
 			</fieldset>
 		</div>';
-	MainUiTemplate::footer();
-}
+MainUiTemplate::footer();
