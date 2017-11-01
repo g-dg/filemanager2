@@ -67,6 +67,7 @@ class GlobalSettings {
 	function set($key, $value, $force = false)
 	function isset($key, $force = false)
 	function unset($key, $force = false)
+	function getAll($force = false)
 }
 
 
@@ -219,6 +220,7 @@ class UserSettings {
 	function set($key, $value, $user = null, $force = false)
 	function isset($key, $user = null, $force = false)
 	function unset($key, $user = null, $force = false)
+	function getAll($user = null, $force = false)
 }
 
 ```
