@@ -40,7 +40,7 @@ class Groups {
 			try {
 				Database::query('INSERT INTO "shares_in_groups" ("share_id", "group_id", "writable") VALUES (?, ?, ?);', [$share_id, $group_id, $writable_int]);
 				Log::notice('Share "' . Shares::getName($share_id) . '" added to group "' . Groups::getName($group_id) . '" by "' . Auth::getCurrentUserName() . '"');
-				return false;
+				return true;
 			} catch (\Exception $e){}
 			return true;
 		}
