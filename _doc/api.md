@@ -185,6 +185,7 @@ class Shares {
 	function getComment($share_id)
 	function canRead($share_id, $user_id)
 	function canWrite($share_id, $user_id)
+	function getGroups($share_id)
 	function getAllAccessible($user_id)
 	function getAll($enabled_only = false)
 }

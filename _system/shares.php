@@ -162,6 +162,19 @@ class Shares {
 		return null;
 	}
 
+	public static function getGroups($share_id)
+	{
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
+			$query_result = Database::query('SELECT "group_id" FROM "shares_in_groups" WHERE "share_id" = ?;', [$share_id]);
+			$group_ids = [];
+			foreach ($query_result as $record) {
+				$group_ids[] = $record[0];
+			}
+			return $group_ids;
+		}
+		return null;
+	}
+
 	// if $user is null, use the current user id
 	public static function getAllAccessible($user_id)
 	{
