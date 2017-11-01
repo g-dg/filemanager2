@@ -91,7 +91,7 @@ class Filesystem
 	}
 	public static function is_dir($filename)
 	{
-		if (self::sanitizeSharePath($filename) === '/') {
+		if (self::sanitizePath($filename) === '/') {
 			return true;
 		}
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -204,7 +204,7 @@ class Filesystem
 
 		$path = self::mapSharePathToFilesystemPath($path);
 		if (!is_null($path)) {
-			if (is_dir($path) && ($dh = opendir($path))) {
+			if (is_dir($path) && ($dh = @opendir($path))) {
 				$count = 0;
 				while (($entry = readdir($dh)) !== false) {
 					if (substr($entry, 0, 1) !== '.') {
@@ -215,7 +215,6 @@ class Filesystem
 				return $count;
 			}
 		}
-
 		return false;
 	}
 
@@ -282,7 +281,7 @@ class Filesystem
 
 	protected static function isPathToRoot($path)
 	{
-		$path = self::sanitizeSharePath($path);
+		$path = self::sanitizePath($path);
 		$path_array = explode('/', trim($path, '/'));
 		if (isset($path_array[0])) {
 			return $path_array[0] === '';
@@ -297,14 +296,15 @@ class Filesystem
 		if (isset($share_path_array[0])) {
 			$share_id = Shares::getId($share_path_array[0]);
 			if (Shares::canRead($share_id)) {
-				if (!is_null($share_path = rtrim(Shares::getPath($share_id), '/'))) {
+				$path_to_share = Shares::getPath($share_id);
+				if (!is_null($path_to_share)) {
 					$path_array = $share_path_array;
 					array_shift($path_array);
 					$path = implode('/', $path_array);
 					if ($path !== '') {
-						return $share_path . '/' . $path;
+						return $path_to_share . '/' . $path;
 					} else {
-						return $share_path;
+						return $path_to_share;
 					}
 				}
 			}
@@ -312,7 +312,7 @@ class Filesystem
 		return null;
 	}
 
-	protected static function sanitizeSharePath($path)
+	protected static function sanitizePath($path)
 	{
 		$raw_path_array = explode('/', $path);
 		$path_array = [];
