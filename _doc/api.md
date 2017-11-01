@@ -77,7 +77,7 @@ class Groups {
 	function removeShare($group_id, $share_id)
 	function getShareWritable($group_id, $share_id)
 	function setShareWritable($group_id, $share_id, $writable)
-	function userInGroup($group_id, $user_id = null)
+	function userInGroup($group_id, $user_id)
 	function shareInGroup($group_id, $share_id)
 	function create($name, $enabled = true, $comment = '')
 	function delete($group_id)
@@ -183,9 +183,9 @@ class Shares {
 	function getPath($share_id)
 	function getEnabled($share_id)
 	function getComment($share_id)
-	function canRead($share_id, $user_id = null)
-	function canWrite($share_id, $user_id = null)
-	function getAllAccessible($user_id = null)
+	function canRead($share_id, $user_id)
+	function canWrite($share_id, $user_id)
+	function getAllAccessible($user_id)
 	function getAll($enabled_only = false)
 }
 

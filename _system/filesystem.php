@@ -181,7 +181,7 @@ class Filesystem
 	public static function scandir($path)
 	{
 		if (self::isPathToRoot($path)) {
-			$share_ids = Shares::getAllAccessible();
+			$share_ids = Shares::getAllAccessible(Auth::getCurrentUserId());
 			$share_names = [];
 			foreach ($share_ids as $share_id) {
 				$share_names[] = Shares::getname($share_id);
@@ -199,7 +199,7 @@ class Filesystem
 	public static function fileCount($path)
 	{
 		if (self::isPathToRoot($path)) {
-			return count(Shares::getAllAccessible());
+			return count(Shares::getAllAccessible(Auth::getCurrentUserId()));
 		}
 
 		$path = self::mapSharePathToFilesystemPath($path);
@@ -295,7 +295,7 @@ class Filesystem
 		$share_path_array = explode('/', trim($share_path, '/'));
 		if (isset($share_path_array[0])) {
 			$share_id = Shares::getId($share_path_array[0]);
-			if (Shares::canRead($share_id)) {
+			if (Shares::canRead($share_id, Auth::getCurrentUserId())) {
 				$path_to_share = Shares::getPath($share_id);
 				if (!is_null($path_to_share)) {
 					$path_array = $share_path_array;
@@ -340,7 +340,7 @@ class Filesystem
 	{
 		$share_path_array = explode('/', trim($share_path, '/'));
 		if (isset($share_path_array[0])) {
-			return Shares::canRead(Shares::getId($share_path_array[0]));
+			return Shares::canRead(Shares::getId($share_path_array[0]), Auth::getCurrentUserId());
 		} else {
 			return false;
 		}
@@ -349,7 +349,7 @@ class Filesystem
 	{
 		$share_path_array = explode('/', trim($share_path, '/'));
 		if (isset($share_path_array[0])) {
-			return Shares::canWrite(Shares::getId($share_path_array[0]));
+			return Shares::canWrite(Shares::getId($share_path_array[0]), Auth::getCurrentUserId());
 		} else {
 			return false;
 		}

@@ -85,11 +85,8 @@ class Groups {
 		return false;
 	}
 
-	public static function userInGroup($group_id, $user_id = null)
+	public static function userInGroup($group_id, $user_id)
 	{
-		if (is_null($user_id)) {
-			$user_id = Auth::getCurrentUserId();
-		}
 		if ($user_id === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			return Database::query('SELECT COUNT() FROM "users_in_groups" WHERE "group_id" = ? AND "user_id" = ?;', [$group_id, $user_id])[0][0] != 0;
 		}

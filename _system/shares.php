@@ -118,12 +118,8 @@ class Shares {
 		return null;
 	}
 
-	public static function canRead($share_id, $user_id = null)
+	public static function canRead($share_id, $user_id)
 	{
-		if (is_null($user_id)) {
-			$user_id = Auth::getCurrentUserId();
-		}
-
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			$query_result = Database::query('SELECT
 						COUNT()
@@ -143,12 +139,8 @@ class Shares {
 		}
 		return null;
 	}
-	public static function canWrite($share_id, $user_id = null)
+	public static function canWrite($share_id, $user_id)
 	{
-		if (is_null($user_id)) {
-			$user_id = Auth::getCurrentUserId();
-		}
-
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			$query_result = Database::query('SELECT
 						COUNT()
@@ -171,11 +163,8 @@ class Shares {
 	}
 
 	// if $user is null, use the current user id
-	public static function getAllAccessible($user_id = null)
+	public static function getAllAccessible($user_id)
 	{
-		if (is_null($user_id)) {
-			$user_id = Auth::getCurrentUserId();
-		}
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			/*
 				SELECT
