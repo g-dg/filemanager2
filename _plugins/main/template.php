@@ -38,7 +38,9 @@ class MainUiTemplate
 		<ul>
 			';
 		echo '<li><a href="'.Router::getHtmlReadyUri('/browse').'">Browse</a></li>';
-		echo '<li><a href="'.Router::getHtmlReadyUri('/settings').'">Settings</a></li>';
+		if (Auth::getCurrentUserType() !== Auth::USER_TYPE_GUEST) {
+			echo '<li><a href="'.Router::getHtmlReadyUri('/settings').'">Settings</a></li>';
+		}
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			echo '<li>';
 				echo '<a href="'.Router::getHtmlReadyUri('/admin').'">Administration</a>';

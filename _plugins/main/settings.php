@@ -8,10 +8,11 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 Router::registerPage('settings', function($subpage) {
 	Auth::authenticate();
-	switch ($subpage) {
-		case '':
-			MainUiTemplate::header('Settings');
-			echo '		<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">
+	if (Auth::getCurrentUserType() !== Auth::USER_TYPE_GUEST) {
+		switch ($subpage) {
+			case '':
+				MainUiTemplate::header('Settings');
+				echo '		<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">
 			<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 			<fieldset>
 				<legend>Set</legend>
@@ -40,7 +41,7 @@ Router::registerPage('settings', function($subpage) {
 			</fieldset>
 			<div class="overflow">
 				<fieldset>
-					<legend>Settings</legend>				
+					<legend>Settings</legend>
 					<table class="u-full-width">
 						<thead>
 							<tr>
@@ -50,44 +51,47 @@ Router::registerPage('settings', function($subpage) {
 						</thead>
 						<tbody>
 							';
-			Database::lock();
-			foreach (UserSettings::getAll() as $key) {
-				echo '<tr>';
-				echo '<td>'.htmlspecialchars($key).'</td>';
-				echo '<td>'.htmlspecialchars(UserSettings::get($key)).'</td>';
-				echo '</tr>';
-			}
-			Database::unlock();
-			echo'
+				Database::lock();
+				foreach (UserSettings::getAll() as $key) {
+					echo '<tr>';
+					echo '<td>'.htmlspecialchars($key).'</td>';
+					echo '<td>'.htmlspecialchars(UserSettings::get($key)).'</td>';
+					echo '</tr>';
+				}
+				Database::unlock();
+				echo'
 						</tbody>
 					</table>
 				</fieldset>
 			</div>
 		</form>';
-			MainUiTemplate::footer();
-			break;
-		
+				MainUiTemplate::footer();
+				break;
+			
 
-		case 'action':
-			if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === Session::get('_csrf_token')) {
-				if (
-					isset($_POST['set'], $_POST['set_key'], $_POST['set_value'])
-				) {
-					UserSettings::set($_POST['set_key'], $_POST['set_value']);
-				} else if (
-					isset($_POST['unset'], $_POST['unset_key'])
-				) {
-					UserSettings::unset($_POST['unset_key']);
+			case 'action':
+				if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === Session::get('_csrf_token')) {
+					if (
+						isset($_POST['set'], $_POST['set_key'], $_POST['set_value'])
+					) {
+						UserSettings::set($_POST['set_key'], $_POST['set_value']);
+					} else if (
+						isset($_POST['unset'], $_POST['unset_key'])
+					) {
+						UserSettings::unset($_POST['unset_key']);
+					}
+					Router::redirect('/settings');
+				} else {
+					Router::execErrorPage(403);
 				}
-				Router::redirect('/settings');
-			} else {
-				Router::execErrorPage(403);
-			}
-			break;
-		
+				break;
+			
 
-		default:
-			Router::execErrorPage(404);
-			break;
+			default:
+				Router::execErrorPage(404);
+				break;
+		}
+	} else {
+		Router::execErrorPage(403);
 	}
 });
