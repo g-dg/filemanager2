@@ -53,7 +53,7 @@ class GlobalSettings
 
 class UserSettings
 {
-	public static function get($key, $default, $user = null, $force = false)
+	public static function get($key, $default = null, $user = null, $force = false)
 	{
 		if (is_null($user)) {
 			$user = Auth::getCurrentUserId();
