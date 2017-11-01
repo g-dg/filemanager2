@@ -43,13 +43,20 @@ Router::registerPage('account', function($subpage) {
 			}
 			echo '		<fieldset>
 			<legend>Groups</legend>
-			<ul>
+			';
+			$groups = Users::getGroups(Auth::getCurrentUserId());
+			if (count($groups) > 0) {
+				echo '<ul>
 				';
-			foreach (Users::getGroups(Auth::getCurrentUserId()) as $group_id) {
-				echo '<li>'.htmlspecialchars(Groups::getName($group_id)).'</li>';
-			}
+				foreach ($groups as $group_id) {
+					echo '<li>'.htmlspecialchars(Groups::getName($group_id)).'</li>';
+				}
+				echo '
+			</ul>';
+			} else {
+				echo '<em>&lt;None&gt;</em>';
+			} 
 			echo '
-			</ul>
 		</fieldset>';
 			MainUiTemplate::footer();
 			break;
