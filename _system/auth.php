@@ -40,10 +40,11 @@ class Auth
 					// user exists
 					if (password_verify($password, $user_record['password']) ||
 							(substr($user_record['password'], 0, 4) === '$6$$' && // compatability for old password format
-							hash('sha512', $password) === $user_record['password'])) {
+							hash('sha512', $password) === substr($user_record['password'], 4, 128))) {
 						// correct password
 						if (password_needs_rehash($user_record['password'], PASSWORD_DEFAULT)) {
 							Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_record['id']], false);
+							Log::notice('Rehashed password for "'.$user_record['name'].'"');
 						}
 						if ($user_record['enabled'] != 0) {
 							// user is enabled
