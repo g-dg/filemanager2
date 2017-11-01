@@ -53,10 +53,12 @@ Router::registerPage('settings', function($subpage) {
 							';
 				Database::lock();
 				foreach (UserSettings::getAll() as $key) {
-					echo '<tr>';
-					echo '<td>'.htmlspecialchars($key).'</td>';
-					echo '<td>'.htmlspecialchars(UserSettings::get($key)).'</td>';
-					echo '</tr>';
+					if (strlen($key) > 1 && substr($key, 0, 2) !== '__') {
+						echo '<tr>';
+						echo '<td>'.htmlspecialchars($key).'</td>';
+						echo '<td>'.htmlspecialchars(UserSettings::get($key)).'</td>';
+						echo '</tr>';
+					}
 				}
 				Database::unlock();
 				echo'
