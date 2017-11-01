@@ -55,6 +55,7 @@ echo '
 			</div>
 			<div class="row">
 				<div class="twelve columns">
+					<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 					<label for="create">Create User:</label>
 					<input id="create" name="create" type="submit" value="Create User" class="u-full-width button-primary" />
 					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
@@ -136,6 +137,8 @@ if (count($users) > 0) {
 		echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" />';
 		echo '</div>';
 
+		echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
+		
 		echo '</form>';
 
 		echo PHP_EOL;

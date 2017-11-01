@@ -55,6 +55,7 @@ foreach ($users as $user_id) {
 				echo '<option value="true">Yes</option><option value="false" selected="selected">No</option>';
 			}
 			echo '</select>';
+			echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
 			echo '<input id="update_user_'.htmlspecialchars($user_id).'_group_'.htmlspecialchars($group_id).'" name="update" type="submit" value="Update" />';
 		echo '</form>';
 		echo '</div>';

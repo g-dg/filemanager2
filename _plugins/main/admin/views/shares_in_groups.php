@@ -59,6 +59,7 @@ foreach ($shares as $share_id) {
 				echo '<option value="none" selected="selected">No Access</option><option value="read-only">Read-Only</option><option value="read-write">Read-Write</option>';
 			}
 			echo '</select>';
+			echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
 			echo '<input id="update_share_'.htmlspecialchars($share_id).'_group_'.htmlspecialchars($group_id).'" name="update" type="submit" value="Update" />';
 		echo '</form>';
 		echo '</div>';

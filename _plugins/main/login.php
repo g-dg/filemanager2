@@ -28,7 +28,7 @@ Router::registerPage('login', function($subpage) {
 		<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" class="u-full-width" />
 		<input id="password" name="password" type="password" value="" placeholder="Password" class="u-full-width" />
 		<input id="submit" name="submit" type="submit" value="Log In" autocomplete="current-password" class="u-full-width button-primary" />
-		<input id="csrf_token" name="csrf_token" type="hidden" value="' . Session::get('_csrf_token') . '" />
+		<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 		<div class="message">';
 	if (Session::isset('_auth_status')) {
 		switch (Session::get('_auth_status')) {

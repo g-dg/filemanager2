@@ -40,6 +40,7 @@ echo '
 			</div>
 			<div class="row">
 				<div class="twelve columns">
+					<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 					<label for="create">Create Group:</label>
 					<input id="create" name="create" type="submit" value="Create Group" class="u-full-width button-primary" />
 					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
@@ -94,6 +95,8 @@ if (count($groups) > 0) {
 		echo '<div>';
 		echo '<input id="cancel_'.htmlspecialchars($group_id).'" name="reset" type="reset" value="Cancel" />';
 		echo '</div>';
+
+		echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
 
 		echo '</form>';
 

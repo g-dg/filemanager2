@@ -57,38 +57,42 @@ Router::registerPage('admin', function($subpage) {
 				break;
 
 			case 'action':
-				if (isset($subpage_array[1])) {
-					switch ($subpage_array[1]) {
-						case 'users':
-							require('admin/controllers/users.php');
-							break;
+				if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === Session::get('_csrf_token')) {
+					if (isset($subpage_array[1])) {
+						switch ($subpage_array[1]) {
+							case 'users':
+								require('admin/controllers/users.php');
+								break;
 
-						case 'users_in_groups':
-							require('admin/controllers/users_in_groups.php');
-							break;
+							case 'users_in_groups':
+								require('admin/controllers/users_in_groups.php');
+								break;
 
-						case 'groups':
-							require('admin/controllers/groups.php');
-							break;
+							case 'groups':
+								require('admin/controllers/groups.php');
+								break;
 
-						case 'shares_in_groups':
-							require('admin/controllers/shares_in_groups.php');
-							break;
+							case 'shares_in_groups':
+								require('admin/controllers/shares_in_groups.php');
+								break;
 
-						case 'shares':
-							require('admin/controllers/shares.php');
-							break;
+							case 'shares':
+								require('admin/controllers/shares.php');
+								break;
 
-						case 'settings':
-							require('admin/controllers/settings.php');
-							break;
-						
-						default:
-							Router::execErrorPage(404);
-							break;
+							case 'settings':
+								require('admin/controllers/settings.php');
+								break;
+							
+							default:
+								Router::execErrorPage(404);
+								break;
+						}
+					} else {
+						Router::execErrorPage(404);
 					}
 				} else {
-					Router::execErrorPage(404);
+					Router::execErrorPage(403);
 				}
 				break;
 

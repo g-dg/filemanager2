@@ -35,6 +35,7 @@ Router::registerPage('account', function($subpage) {
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="password1" type="password" value="" placeholder="Password" class="u-full-width" />
 				<input name="password2" type="password" value="" placeholder="Password (again)" class="u-full-width" />
+				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 				<input name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
 			</form>
 		</fieldset>
@@ -53,7 +54,10 @@ Router::registerPage('account', function($subpage) {
 			MainUiTemplate::footer();
 			break;
 		case 'action':
-			if (isset($_POST['change_password'], $_POST['password1'], $_POST['password2']) && $_POST['password1'] === $_POST['password2']) {
+			if (
+				isset($_POST['change_password'], $_POST['password1'], $_POST['password2'], $_POST['csrf_token']) &&
+				$_POST['password1'] === $_POST['password2'] &&
+				$_POST['csrf_token'] === Session::get('_csrf_token')) {
 				Session::set('_main_admin_status', Users::setPassword(Auth::getCurrentUserId(), $_POST['password1']));
 			} else {
 				Session::set('_main_admin_status', false);
