@@ -99,9 +99,9 @@ nav.nav li {
 nav.nav {
 	padding: 0px;
 }
-/*nav li {
+nav li {
 	list-style-type: none;
-}*/
+}
 nav.nav li ul {
 	display: none;
 }
@@ -114,9 +114,7 @@ nav.nav li:active > ul {
 @media (max-width: 767px) {
 	nav.nav {
 		overflow-x: auto;
-	}
-	nav.nav ul {
-		list-style-type: none;
+		padding-bottom: .5em;
 	}
 	nav.nav > ul {
 		padding-left: 0px;
