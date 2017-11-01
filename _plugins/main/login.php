@@ -27,7 +27,7 @@ Router::registerPage('login', function($subpage) {
 		<h1 class="title">Log into Garnet DeGelder\'s File Manager at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
 		<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" class="u-full-width" />
 		<input id="password" name="password" type="password" value="" placeholder="Password" class="u-full-width" />
-		<input id="submit" name="submit" type="submit" value="Log In" autocomplete="current-password" class="u-full-width" />
+		<input id="submit" name="submit" type="submit" value="Log In" autocomplete="current-password" class="u-full-width button-primary" />
 		<input id="csrf_token" name="csrf_token" type="hidden" value="' . Session::get('_csrf_token') . '" />
 		<div class="message">';
 	if (Session::isset('_auth_status')) {

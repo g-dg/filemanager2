@@ -53,6 +53,7 @@ class MainUiTemplate
 			echo '</li>';
 		}
 		Hooks::exec('_main_ui_shortcuts');
+		echo '<li><a href="'.Router::getHtmlReadyUri('/account').'">My Account</a></li>';
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
 			echo '<a href="'.Router::getHtmlReadyUri('/logout').'">Logout</a>';

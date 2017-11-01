@@ -240,3 +240,9 @@ footer > p {
 	font-style: italic;
 	color: #999;
 }
+
+.message {
+	font-size: 125%;
+	font-style: italic;
+	margin-bottom: 1em;
+}

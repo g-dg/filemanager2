@@ -45,7 +45,7 @@ echo '
 			<div class="row">
 				<div class="twelve columns">
 					<label for="create">Create Share:</label>
-					<input id="create" name="create" type="submit" value="Create Share" class="u-full-width" />
+					<input id="create" name="create" type="submit" value="Create Share" class="u-full-width button-primary" />
 					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
 				</div>
 			</div>
