@@ -10,7 +10,7 @@ class HttpRange
 {
 	public static function send($full_path, $force_download = false)
 	{
-		//set_time_limit(0);
+		set_time_limit(0);
 		if (Filesystem::is_file($full_path) && Filesystem::is_readable($full_path)) {
 			$content_length = Filesystem::filesize($full_path);
 			$content_disposition = basename($full_path);
