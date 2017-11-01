@@ -59,7 +59,7 @@ class Users
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_id], false);
-			Log::notice('Password for user "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserId() . '"');
+			Log::notice('Password for user "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
 			return true;
 		}
 		return false;
