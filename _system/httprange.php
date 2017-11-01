@@ -28,14 +28,12 @@ class HttpRange
 				header('Content-Disposition: attachment; filename="' . $content_disposition . '"');
 			}
 			
-			// if a partial download is requested
 			if (isset($_SERVER['HTTP_RANGE'])) {
-				$range_params = explode("-", explode(",", explode("=", $_SERVER['HTTP_RANGE'], 2)[1], 2)[0]);
-				$start = (int)$range_params[0];
-				if (isset($range_params[1])) {
-					$end = (int)$range_params[1];
-				} else {
+				list($start, $end) = explode("-", explode(",", explode("=", $_SERVER['HTTP_RANGE'], 2)[1], 2)[0]);
+				if ($end == '') {
 					$end = $content_length - 1;
+				} else {
+					$end = (int)$end;
 				}
 				$send_length = $end - $start + 1;
 				header('HTTP/1.1 206 Partial Content');
