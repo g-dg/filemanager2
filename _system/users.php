@@ -112,41 +112,64 @@ class Users
 
 	public static function getId($username)
 	{
-		$query_result = Database::query('SELECT "id" FROM "users" WHERE "name" = ?;', [$username]);
-		if (isset($query_result[0])) {
-			return (int)$query_result[0]['id'];
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $username === Auth::getCurrentUserName()) {
+			$query_result = Database::query('SELECT "id" FROM "users" WHERE "name" = ?;', [$username]);
+			if (isset($query_result[0])) {
+				return (int)$query_result[0]['id'];
+			}
 		}
 		return null;
 	}
 	public static function getName($user_id)
 	{
-		$query_result = Database::query('SELECT "name" FROM "users" WHERE "id" = ?;', [$user_id]);
-		if (isset($query_result[0])) {
-			return $query_result[0]['name'];
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT "name" FROM "users" WHERE "id" = ?;', [$user_id]);
+			if (isset($query_result[0])) {
+				return $query_result[0]['name'];
+			}
 		}
 		return null;
 	}
 	public static function getEnabled($user_id)
 	{
-		$query_result = Database::query('SELECT "enabled" FROM "users" WHERE "id" = ?;', [$user_id]);
-		if (isset($query_result[0])) {
-			return $query_result[0]['enabled'] != 0;
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT "enabled" FROM "users" WHERE "id" = ?;', [$user_id]);
+			if (isset($query_result[0])) {
+				return $query_result[0]['enabled'] != 0;
+			}
 		}
 		return null;
 	}
 	public static function getType($user_id)
 	{
-		$query_result = Database::query('SELECT "type" FROM "users" WHERE "id" = ?;', [$user_id]);
-		if (isset($query_result[0])) {
-			return (int)$query_result[0]['type'];
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT "type" FROM "users" WHERE "id" = ?;', [$user_id]);
+			if (isset($query_result[0])) {
+				return (int)$query_result[0]['type'];
+			}
 		}
 		return null;
 	}
 	public static function getComment($user_id)
 	{
-		$query_result = Database::query('SELECT "comment" FROM "users" WHERE "id" = ?;', [$user_id]);
-		if (isset($query_result[0])) {
-			return $query_result[0]['comment'];
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT "comment" FROM "users" WHERE "id" = ?;', [$user_id]);
+			if (isset($query_result[0])) {
+				return $query_result[0]['comment'];
+			}
+		}
+		return null;
+	}
+
+	public static function getGroups($user_id)
+	{
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
+			$query_result = Database::query('SELECT "group_id" FROM "users_in_groups" WHERE "user_id" = ?;', [$user_id]);
+			$group_ids = [];
+			foreach ($query_result as $record) {
+				$group_ids[] = $record[0];
+			}
+			return $group_ids;
 		}
 		return null;
 	}

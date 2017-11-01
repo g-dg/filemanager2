@@ -207,6 +207,7 @@ class Users {
 	function getEnabled($user_id)
 	function getType($user_id)
 	function getComment($user_id)
+	function getGroups($user_id)
 	function getCurrentId()
 	function getAll($enabled_only = false)
 }
