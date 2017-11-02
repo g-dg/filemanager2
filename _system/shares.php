@@ -180,7 +180,7 @@ class Shares {
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			/*
-				SELECT
+				SELECT DISTINCT
 					"shares"."id" AS "id"
 				FROM
 					"users",
@@ -197,7 +197,7 @@ class Shares {
 					"groups"."enabled" != 0 AND
 					"shares"."enabled" != 0;
 			*/
-			$query_result = Database::query('SELECT
+			$query_result = Database::query('SELECT DISTINCT
 						"shares"."id" AS "id"
 					FROM
 						"users_in_groups",
