@@ -77,7 +77,7 @@ Router::registerPage('browse', function($path) {
 
 				echo '<td>';
 				$mtime = Filesystem::filemtime($file);
-				echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date(/*'Y-m-d H:i'*/'r', Filesystem::filemtime($file))).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
+				echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', Filesystem::filemtime($file))).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
 				$mtimediff = time() - $mtime;
 				if ($mtimediff < 60) {
 					$seconds = $mtimediff;
