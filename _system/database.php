@@ -50,7 +50,7 @@ class Database
 
 			self::query('PRAGMA foreign_keys = ON;', [], false);
 
-			self::$cache_enabled = GlobalSettings::get('_database.cache_enabled', 'false') === 'true';
+			self::$cache_enabled = GlobalSettings::get('_database.cache_enabled', 'true') === 'true';
 		}
 	}
 
