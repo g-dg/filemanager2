@@ -118,48 +118,62 @@ class Shares {
 		return null;
 	}
 
+	protected static $users_can_read = [];
 	public static function canRead($share_id, $user_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
-			$query_result = Database::query('SELECT
-						COUNT()
-					FROM
-						"users_in_groups",
-						"groups",
-						"shares_in_groups",
-						"shares"
-					WHERE
-						"users_in_groups"."user_id" = ? AND
-						"shares"."id" = ? AND
-						"users_in_groups"."group_id" = "groups"."id" AND
-						"shares_in_groups"."group_id" = "groups"."id" AND
-						"shares_in_groups"."share_id" = "shares"."id" AND
-						"groups"."enabled" != 0 AND
-						"shares"."enabled" != 0;', [$user_id, $share_id]);
-			return $query_result[0][0] > 0;
+			if (isset(self::$users_can_read[$user_id]) && isset(self::$users_can_read[$user_id][$share_id])) {
+				return self::$users_can_read[$user_id][$share_id];
+			} else {
+				$query_result = Database::query('SELECT
+							COUNT()
+						FROM
+							"users_in_groups",
+							"groups",
+							"shares_in_groups",
+							"shares"
+						WHERE
+							"users_in_groups"."user_id" = ? AND
+							"shares"."id" = ? AND
+							"users_in_groups"."group_id" = "groups"."id" AND
+							"shares_in_groups"."group_id" = "groups"."id" AND
+							"shares_in_groups"."share_id" = "shares"."id" AND
+							"groups"."enabled" != 0 AND
+							"shares"."enabled" != 0;', [$user_id, $share_id], false);
+				$can_read = $query_result[0][0] > 0;
+				self::$users_can_read[$user_id][$share_id] = $can_read;
+				return $can_read;
+			}
 		}
 		return null;
 	}
+	protected static $users_can_write = [];
 	public static function canWrite($share_id, $user_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
-			$query_result = Database::query('SELECT
-						COUNT()
-					FROM
-						"users_in_groups",
-						"groups",
-						"shares_in_groups",
-						"shares"
-					WHERE
-						"users_in_groups"."id" = ? AND
-						"shares"."id" = ? AND
-						"users_in_groups"."group_id" = "groups"."id" AND
-						"shares_in_groups"."group_id" = "groups"."id" AND
-						"shares_in_groups"."share_id" = "shares"."id" AND
-						"shares_in_groups"."writable" != 0 AND
-						"groups"."enabled" != 0 AND
-						"shares"."enabled" != 0;', [$user_id, $share_id]);
-			return $query_result[0][0] > 0;
+			if (isset(self::$users_can_write[$user_id]) && isset(self::$users_can_write[$user_id][$share_id])) {
+				return self::$users_can_write[$user_id][$share_id];
+			} else {
+				$query_result = Database::query('SELECT
+							COUNT()
+						FROM
+							"users_in_groups",
+							"groups",
+							"shares_in_groups",
+							"shares"
+						WHERE
+							"users_in_groups"."id" = ? AND
+							"shares"."id" = ? AND
+							"users_in_groups"."group_id" = "groups"."id" AND
+							"shares_in_groups"."group_id" = "groups"."id" AND
+							"shares_in_groups"."share_id" = "shares"."id" AND
+							"shares_in_groups"."writable" != 0 AND
+							"groups"."enabled" != 0 AND
+							"shares"."enabled" != 0;', [$user_id, $share_id], false);
+				$can_write = $query_result[0][0] > 0;
+				self::$users_can_write[$user_id][$share_id] = $can_write;
+				return $can_write;
+			}
 		}
 		return null;
 	}
