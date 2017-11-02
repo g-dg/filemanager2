@@ -34,6 +34,8 @@ Router::registerPage('browse', function($path) {
 				$file = $path.'/'.$filename;
 				echo '<tr>';
 
+
+				// icon
 				if (Filesystem::is_readable($file) && Filesystem::is_file($file)) {
 					$mime_type = Filesystem::getMimeType($file);
 					switch (explode('/', $mime_type, 2)[0]) {
@@ -59,6 +61,8 @@ Router::registerPage('browse', function($path) {
 					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/unknown.png').'" alt="[ ? ]" /></td>';
 				}
 
+
+				// filename
 				echo '<td>';
 				if (Filesystem::is_readable($file)) {
 					if (Filesystem::is_dir($file)) {
@@ -75,6 +79,8 @@ Router::registerPage('browse', function($path) {
 				}
 				echo '</td>';
 
+
+				// last modified
 				echo '<td>';
 				$mtime = Filesystem::filemtime($file);
 				echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', Filesystem::filemtime($file))).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
@@ -125,6 +131,8 @@ Router::registerPage('browse', function($path) {
 				echo '</span>';
 				echo '</td>';
 
+
+				// size
 				echo '<td>';
 				if (Filesystem::is_dir($file)) {
 					$filecount = Filesystem::fileCount($file);
@@ -162,11 +170,14 @@ Router::registerPage('browse', function($path) {
 				echo '</span>';
 				echo '</td>';
 
+
+				// download
 				echo '<td>';
-				if (Filesystem::is_file($file)) {
+				if (Filesystem::is_file($file) && Filesystem::is_readable($file)) {
 					echo '<a href="'.Router::getHtmlReadyUri('/download/'.$file).'">Download</a>';
 				}
 				echo '</td>';
+
 
 				echo '</tr>';
 			}
