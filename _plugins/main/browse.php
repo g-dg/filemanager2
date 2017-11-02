@@ -15,6 +15,10 @@ Router::registerPage('browse', function($path) {
 
 	Auth::authenticate();
 
+	if (Filesystem::is_file($path)) {
+		Router::redirect('/file/'.Session::getSessionId().'/'.$path);
+	}
+
 	MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/browse.css') . '" type="text/css" />');
 	echo '		<div class="overflow"><table class="u-full-width listing"><thead><tr><th></th><th>Name</th><th>Last Modified</th><th>Size</th><th></th></tr></thead><tbody>';
 	$dirlist = Filesystem::scandir($path);
