@@ -64,6 +64,12 @@ if (
 			$stmt = $newdbcon->prepare('INSERT INTO "users"("name", "password") VALUES (?, ?);');
 			$stmt->execute([$username, $password]);
 
+			// if the username is "guest", they are a guest
+			if ($username === 'guest') {
+				$stmt = $newdbcon->prepare('UPDATE "users" SET "type" = 0 WHERE "name" = ?;');
+				$stmt->execute([$username]);
+			}
+
 			// get user id
 			$stmt = $newdbcon->prepare('SELECT "id" FROM "users" WHERE "name" = ?;');
 			$stmt->execute([$username]);
