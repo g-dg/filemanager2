@@ -21,7 +21,7 @@ Router::registerPage('browse', function($path) {
 	if ($dirlist) {
 		natcasesort($dirlist);
 		if ($path !== '') {
-			echo '<tr><td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[..]" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td></tr>';
+			echo '<tr><td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td></tr>';
 		}
 		foreach ($dirlist as $filename) {
 			if (substr($filename, 0, 1) !== '.') {
@@ -29,11 +29,28 @@ Router::registerPage('browse', function($path) {
 				echo '<tr>';
 
 				if (Filesystem::is_file($file)) {
-					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/generic.png').'" alt="[FILE]" /></td>';
+					$mime_type = Filesystem::getMimeType($file);
+					switch (explode('/', $mime_type, 2)[0]) {
+						case 'audio':
+							echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/audio.png').'" alt="[SND]" /></td>';
+							break;
+						case 'image':
+							echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/image.png').'" alt="[IMG]" /></td>';
+							break;
+						case 'text':
+							echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/text.png').'" alt="[TXT]" /></td>';
+							break;
+						case 'video':
+							echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/video.png').'" alt="[VID]" /></td>';
+							break;
+						default:
+							echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/generic.png').'" alt="[   ]" /></td>';
+							break;
+					}
 				} else if (Filesystem::is_dir($file)) {
 					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/folder.png').'" alt="[DIR]" /></td>';
 				} else {
-					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/unknown.png').'" alt="[?]" /></td>';
+					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/unknown.png').'" alt="[ ? ]" /></td>';
 				}
 
 				echo '<td>';
@@ -88,6 +105,9 @@ Resources::register('main/icons/generic.png', function(){
 });
 Resources::register('main/icons/image.png', function(){
 	Resources::serveFile('_plugins/main/resources/icons/image.png');
+});
+Resources::register('main/icons/text.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/text.png');
 });
 Resources::register('main/icons/unknown.png', function(){
 	Resources::serveFile('_plugins/main/resources/icons/unknown.png');
