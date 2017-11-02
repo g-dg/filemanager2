@@ -1,5 +1,14 @@
+.listing td {
+	padding: .5em;
+	padding-right: 2em;
+}
+
 .listing > tbody > tr > td:first-child {
 	margin: 0px;
 	padding: 4px;
 	width: 24px;
+}
+
+.listing {
+	white-space: nowrap;
 }
