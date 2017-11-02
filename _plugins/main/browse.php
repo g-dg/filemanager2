@@ -23,7 +23,9 @@ Router::registerPage('browse', function($path) {
 		if ($path !== '') {
 			echo '<tr><td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td></tr>';
 		}
+		$file_id = 0;
 		foreach ($dirlist as $filename) {
+			$file_id++;
 			if (substr($filename, 0, 1) !== '.') {
 				$file = $path.'/'.$filename;
 				echo '<tr>';
@@ -70,15 +72,90 @@ Router::registerPage('browse', function($path) {
 				echo '</td>';
 
 				echo '<td>';
-				echo date('Y-m-d H:i', Filesystem::filemtime($file));
+				$mtime = Filesystem::filemtime($file);
+				echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('Y-m-d H:i', Filesystem::filemtime($file))).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
+				$mtimediff = time() - $mtime;
+				if ($mtimediff < 60) {
+					$seconds = $mtimediff;
+					if ($seconds != 1) {
+						echo $seconds . ' seconds ago';
+					} else {
+						echo '1 second ago';
+					}
+				} else if ($mtimediff < 3600) {
+					$minutes = floor($mtimediff / 60);
+					if ($minutes != 1) {
+						echo $minutes . ' minutes ago';
+					} else {
+						echo '1 minute ago';
+					}
+				} else if ($mtimediff < 86400) {
+					$hours = floor($mtimediff / 3600);
+					if ($hours != 1) {
+						echo $hours . ' hours ago';
+					} else {
+						echo '1 hour ago';
+					}
+				} else if ($mtimediff < 2592000) {
+					$days = floor($mtimediff / 86400);
+					if ($days != 1) {
+						echo $days . ' days ago';
+					} else {
+						echo '1 day ago';
+					}
+				} else if ($mtimediff < 31536000) {
+					$months = floor($mtimediff / 2592000);
+					if ($months != 1) {
+						echo $months . ' months ago';
+					} else {
+						echo '1 month ago';
+					}
+				} else {
+					$years = floor($mtimediff / 31536000);
+					if ($years != 1) {
+						echo $years . ' years ago';
+					} else {
+						echo '1 year ago';
+					}
+				}
+				echo '</span>';
 				echo '</td>';
 
 				echo '<td>';
 				if (Filesystem::is_dir($file)) {
-					echo Filesystem::fileCount($file);
+					$filecount = Filesystem::fileCount($file);
+					if ($filecount != 1) {
+						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filecount).' files" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					} else {
+						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filecount).' file" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					}
+					if ($filecount < 1000) {
+						echo sprintf("%d", $filecount);
+					} else if ($filecount < 1000000) {
+						echo sprintf("%01.1f K", ($filecount / 1000));
+					} else if ($filecount < 1000000000) {
+						echo sprintf("%01.1f M", ($filecount / 1000000));
+					} else {
+						echo sprintf("%01.1f G", ($filecount / 1000000000));
+					}
 				} else {
-					echo Filesystem::filesize($file);
+					$filesize = Filesystem::filesize($file);
+					if ($filesize != 1) {
+						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filesize).' bytes" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					} else {
+						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					}
+					if ($filesize < 1024) {
+						echo sprintf("%d B", $filesize);
+					} else if ($filesize < 1048576) {
+						echo sprintf("%01.1f KiB", ($filesize / 1024));
+					} else if ($filesize < 1073741824) {
+						echo sprintf("%01.1f MiB", ($filesize / 1048576));
+					} else {
+						echo sprintf("%01.1f GiB", ($filesize / 1073741824));
+					}
 				}
+				echo '</span>';
 				echo '</td>';
 
 				echo '<td>';
@@ -94,6 +171,7 @@ Router::registerPage('browse', function($path) {
 	echo '</tbody></table></div>';
 	MainUiTemplate::footer();
 });
+
 
 Resources::register('main/browse.css', function(){
 	Resources::serveFile('_plugins/main/resources/browse.css');
