@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Garnet DeGelder's File Manager 2.0 Setup</title>
+	</head>
+	<body>
+		<h1>Setup</h1>
+		<p>
+			Already set up? Click <a href="upgrade_scripts/">here</a> to upgrade.
+		</p>
+		<p>
+			Please rename or copy the sample configuration file "<code>_config.php.sample</code>" to "<code>_config.php</code>",
+			fill in your specific configuration details in the configuration file,
+			create the database file (must be empty (ie. 0 bytes), readable and writable) that your configuration points to,
+			fill out this form and click "Set up":
+		</p>
+		<p>
+			If, for some reason, the setup cannot be done, you will be redirected back to this page.
+		</p>
+		<form action="setup.php" method="post">
+			<fieldset>
+				<legend>Administrator setup</legend>
+				Username: <input name="username" type="text" value="" required="required" />(required)<br />
+				Password: <input name="password1" type="password" value="" /><br />
+				Password (again): <input name="password2" type="password" value="" /><br />
+			</fieldset>
+			<br />
+			<input name="submit" type="submit" value="Set up" />
+		</form>
+	</body>
+</html>

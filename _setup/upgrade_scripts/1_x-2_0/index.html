@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Garnet DeGelder's File Manager Setup</title>
+	</head>
+	<body>
+		<h1>Upgrade from 1.x to 2.0</h1>
+		<p>
+			Be sure to fill in the database details in the configuration file "<code>_setup/upgrade_scripts/1_x-2_0/config.php</code>".
+		</p>
+		<p>
+			The old database must use a schema compatible with the 1.x series,
+			and the new database must be an empty (ie. 0 bytes), readable and writable file.
+		</p>
+		<p>
+			The new database file is taken from the new config file.
+			Make sure you set up the main config file "<code>_config.php</code>" properly.
+		</p>
+		<p>
+			The paths in the configuration file are relative to the root of the application.
+		</p>
+		<p>
+			If, for some reason, the upgrade cannot be done, you will be redirected back to this page.
+		</p>
+		<p>Click <a href="upgrade.php">here</a> to upgrade</p>
+	</body>
+</html>
