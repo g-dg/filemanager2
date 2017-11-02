@@ -70,7 +70,7 @@ if (count($groups) > 0) {
 		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/groups', ['group' => $group_id]).'" method="post">';
 
 		echo '<div>';
-		echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" />';
+		echo '<input id="name_'.htmlspecialchars($group_id).'" name="name" type="text" value="'.htmlspecialchars(Groups::getName($group_id)).'" placeholder="Name" required="required" />';
 		echo '<input id="update_name_'.htmlspecialchars($group_id).'" name="update_name" type="submit" value="Update" />';
 		echo '</div>';
 

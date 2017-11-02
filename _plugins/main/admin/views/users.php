@@ -28,7 +28,7 @@ echo '
 			<div class="row">
 				<div class="six columns">
 					<label for="create_name">Username:</label>
-					<input id="create_name" name="name" type="text" value="" placeholder="Username" class="u-full-width" />
+					<input id="create_name" name="name" type="text" value="" placeholder="Username" class="u-full-width" required="required" />
 				</div>
 				<div class="three columns">
 					<label for="create_password1">Password:</label>
@@ -87,7 +87,7 @@ if (count($users) > 0) {
 		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/users', ['user' => $user_id]).'" method="post">';
 
 		echo '<div>';
-		echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" />';
+		echo '<input id="name_'.htmlspecialchars($user_id).'" name="name" type="text" value="'.htmlspecialchars(Users::getName($user_id)).'" placeholder="Name" required="required" />';
 		echo '<input id="update_name_'.htmlspecialchars($user_id).'" name="update_name" type="submit" value="Update" />';
 		echo '</div>';
 

@@ -27,11 +27,11 @@ echo '
 			<div class="row">
 				<div class="three columns">
 					<label for="create_name">Name:</label>
-					<input id="create_name" name="name" type="text" value="" placeholder="Name" class="u-full-width" />
+					<input id="create_name" name="name" type="text" value="" placeholder="Name" class="u-full-width" required="required" />
 				</div>
 				<div class="three columns">
 					<label for="create_path">Path:</label>
-					<input id="create_path" name="path" type="text" value="" placeholder="Path" class="u-full-width" />
+					<input id="create_path" name="path" type="text" value="" placeholder="Path" class="u-full-width" required="required" />
 				</div>
 				<div class="two columns">
 					<label for="create_enabled">Enabled:</label>
@@ -76,12 +76,12 @@ if (count($shares) > 0) {
 		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/shares', ['share' => $share_id]).'" method="post">';
 
 		echo '<div>';
-		echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" />';
+		echo '<input id="name_'.htmlspecialchars($share_id).'" name="name" type="text" value="'.htmlspecialchars(Shares::getName($share_id)).'" placeholder="Name" required="required" />';
 		echo '<input id="update_name_'.htmlspecialchars($share_id).'" name="update_name" type="submit" value="Update" />';
 		echo '</div>';
 
 		echo '<div>';
-		echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" />';
+		echo '<input id="path_'.htmlspecialchars($share_id).'" name="path" type="text" value="'.htmlspecialchars(Shares::getPath($share_id)).'" placeholder="Name" required="required" />';
 		echo '<input id="update_path_'.htmlspecialchars($share_id).'" name="update_path" type="submit" value="Update" />';
 		echo '</div>';
 

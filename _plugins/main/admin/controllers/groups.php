@@ -8,6 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 if ( // create group
 	isset($_POST['create'], $_POST['name'],  $_POST['enabled'], $_POST['comment']) &&
+	!empty($_POST['name']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
 	switch ($_POST['enabled']) {
@@ -22,7 +23,8 @@ if ( // create group
 
 
 } else if ( // update name
-	isset($_POST['update_name'], $_GET['group'], $_POST['name'])
+	isset($_POST['update_name'], $_GET['group'], $_POST['name']) &&
+	!empty($_POST['name'])
 ) {
 	Session::set('_main_admin_status', Groups::setName($_GET['group'], $_POST['name']));
 

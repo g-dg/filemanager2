@@ -8,6 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 if ( // create user
 	isset($_POST['create'], $_POST['name'], $_POST['password1'], $_POST['password2'], $_POST['type'], $_POST['enabled'], $_POST['comment']) &&
+	!empty($_POST['name']) &&
 	$_POST['password1'] === $_POST['password2'] &&
 	($_POST['type'] === 'admin' || $_POST['type'] === 'standard' || $_POST['type'] === 'guest') &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
@@ -35,7 +36,8 @@ if ( // create user
 
 
 } else if ( // update name
-	isset($_POST['update_name'], $_GET['user'], $_POST['name'])
+	isset($_POST['update_name'], $_GET['user'], $_POST['name']) &&
+	!empty($_POST['name'])
 ) {
 	Session::set('_main_admin_status', Users::setName($_GET['user'], $_POST['name']));
 

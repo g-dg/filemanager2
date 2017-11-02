@@ -8,6 +8,8 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 if ( // create share
 	isset($_POST['create'], $_POST['name'], $_POST['path'], $_POST['enabled'], $_POST['comment']) &&
+	!empty($_POST['name']) &&
+	!empty($_POST['path']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
 	switch ($_POST['enabled']) {
@@ -22,13 +24,15 @@ if ( // create share
 
 
 } else if ( // update name
-	isset($_POST['update_name'], $_GET['share'], $_POST['name'])
+	isset($_POST['update_name'], $_GET['share'], $_POST['name']) &&
+	!empty($_POST['name'])
 ) {
 	Session::set('_main_admin_status', Shares::setName($_GET['share'], $_POST['name']));
 
 
 } else if ( // update path
-	isset($_POST['update_path'], $_GET['share'], $_POST['path'])
+	isset($_POST['update_path'], $_GET['share'], $_POST['path']) &&
+	!empty($_POST['path'])
 ) {
 	Session::set('_main_admin_status', Shares::setPath($_GET['share'], $_POST['path']));
 
