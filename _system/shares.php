@@ -155,6 +155,7 @@ class Shares {
 						"shares"."id" = ? AND
 						"users_in_groups"."group_id" = "groups"."id" AND
 						"shares_in_groups"."group_id" = "groups"."id" AND
+						"shares_in_groups"."share_id" = "shares"."id" AND
 						"shares_in_groups"."writable" != 0 AND
 						"groups"."enabled" != 0 AND
 						"shares"."enabled" != 0;', [$user_id, $share_id]);
