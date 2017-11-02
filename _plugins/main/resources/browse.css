@@ -13,3 +13,7 @@
 .listing {
 	white-space: nowrap;
 }
+
+.listing tbody tr:hover {
+	background-color: #eee;
+}
