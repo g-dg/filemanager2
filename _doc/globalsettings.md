@@ -13,3 +13,5 @@ Global Settings
 
 `_session.max_age` : 86400
 
+`_httprange.buffersize` : 4096
+
