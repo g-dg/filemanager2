@@ -3,7 +3,7 @@ Global Settings
 
 `_auth.login_page` : login
 
-`_database.cache_enabled` : 0
+`_database.cache_enabled` : 1
 
 `_router.default_page` : index
 
