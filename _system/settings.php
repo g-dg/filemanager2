@@ -62,8 +62,9 @@ class UserSettings
 		}
 
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
-			if (isset(self::$settings_cache[$key])) {
-				return self::$settings_cache[$key];
+			$settings_cache = Session::get('_settings.guest_cache', []);
+			if (isset($settings_cache[$key])) {
+				return $settings_cache[$key];
 			} else {
 				return $default;
 			}
@@ -86,7 +87,9 @@ class UserSettings
 		}
 
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
-			self::$settings_cache[$key] = $value;
+			$settings_cache = Session::get('_settings.guest_cache', []);
+			$settings_cache[$key] = $value;
+			Session::set('_settings.guest_cache', $settings_cache);
 			return;
 		}
 
@@ -102,7 +105,8 @@ class UserSettings
 		}
 
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
-			return isset(self::$settings_cache[$key]);
+			$settings_cache = Session::get('_settings.guest_cache', []);
+			return isset($settings_cache[$key]);
 		}
 
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
@@ -117,7 +121,9 @@ class UserSettings
 		}
 
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
-			unset(self::$settings_cache[$key]);
+			$settings_cache = Session::get('_settings.guest_cache', []);
+			unset($settings_cache[$key]);
+			Session::set('_settings.guest_cache', $settings_cache);
 		}
 
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
@@ -132,8 +138,9 @@ class UserSettings
 		}
 
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
+			$settings_cache = Session::get('_settings.guest_cache', []);
 			$keys = [];
-			foreach (self::$cached_settings as $key => $value) {
+			foreach ($settings_cache as $key => $value) {
 				$keys[] = $key;
 			}
 			return $keys;
