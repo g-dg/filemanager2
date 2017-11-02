@@ -2,10 +2,10 @@
 namespace GarnetDG\FileManager;
 
 //TODO: remove error reporting for release
-error_reporting(E_ALL);
-ini_set('display_errors', 'On');
+//error_reporting(E_ALL);
+//ini_set('display_errors', 'On');
 
-define('GARNETDG_FILEMANAGER_VERSION', '2.0.0-dev');
+define('GARNETDG_FILEMANAGER_VERSION', '2.0.0-alpha.1');
 
 set_time_limit(3600);
 ignore_user_abort(true);
