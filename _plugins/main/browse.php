@@ -15,6 +15,10 @@ Router::registerPage('browse', function($path) {
 
 	Auth::authenticate();
 
+	if (!Filesystem::file_exists($path)) {
+		http_response_code(404);
+	}
+
 	if (Filesystem::is_file($path)) {
 		Router::redirect('/file/'.Session::getSessionId().'/'.$path);
 	}
