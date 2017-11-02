@@ -51,8 +51,9 @@ class HttpRange
 				}
 
 				$sent = 0;
+				$buffersize = (int)GlobalSettings::get('_httprange.buffersize', 4096);
 				while (!feof($fd) && !connection_aborted() && $sent < $send_length) {
-					$buffer = fread($fd, 4096);
+					$buffer = fread($fd, $buffersize);
 					echo $buffer;
 					flush();
 					$sent += strlen($buffer);
