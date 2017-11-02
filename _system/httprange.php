@@ -61,12 +61,12 @@ class HttpRange
 
 				fclose($fd);
 			} else {
-				Log::error('Could not open file "' . $full_path . '" to send to "' . Auth::getCurrentUserName() . '"');
+				Log::notice('Could not open file "' . $full_path . '" to send to "' . Auth::getCurrentUserName() . '"');
 				http_response_code(404);
 				exit();
 			}
 		} else {
-			Log::error('Could not send file "' . $full_path . '" to "' . Auth::getCurrentUserName() . '", possibly they don\'t have the necessary permissions, or the file does not exist');
+			Log::notice('Could not send file "' . $full_path . '" to "' . Auth::getCurrentUserName() . '", possibly they don\'t have the necessary permissions, or the file does not exist');
 			http_response_code(404);
 			exit();
 		}

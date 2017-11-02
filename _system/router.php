@@ -44,7 +44,7 @@ class Router
 
 	public static function execErrorPage($http_error)
 	{
-		Log::error('HTTP Error ' . $http_error);
+		Log::notice('HTTP Error ' . $http_error);
 		http_response_code($http_error);
 		if (isset(self::$registered_error_pages[$http_error])) {
 			call_user_func(self::$registered_error_pages[$http_error], $http_error, self::getCurrentPageAndParameters());
