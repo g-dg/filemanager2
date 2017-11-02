@@ -16,7 +16,7 @@ Router::registerPage('browse', function($path) {
 	Auth::authenticate();
 
 	MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/browse.css') . '" type="text/css" />');
-	echo '		<div class="overflow"><table class="u-full-width listing"><thead><tr><th></th><th>Name</th><th>Last Modified</th><th>Size</th><th>Download</th></tr></thead><tbody>';
+	echo '		<div class="overflow"><table class="u-full-width listing"><thead><tr><th></th><th>Name</th><th>Last Modified</th><th>Size</th><th></th></tr></thead><tbody>';
 	$dirlist = Filesystem::scandir($path);
 	if ($dirlist) {
 		natcasesort($dirlist);
@@ -28,7 +28,7 @@ Router::registerPage('browse', function($path) {
 				$file = $path.'/'.$filename;
 				echo '<tr>';
 
-				if (Filesystem::is_file($file)) {
+				if (Filesystem::is_readable($file) && Filesystem::is_file($file)) {
 					$mime_type = Filesystem::getMimeType($file);
 					switch (explode('/', $mime_type, 2)[0]) {
 						case 'audio':
@@ -47,17 +47,25 @@ Router::registerPage('browse', function($path) {
 							echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/generic.png').'" alt="[   ]" /></td>';
 							break;
 					}
-				} else if (Filesystem::is_dir($file)) {
+				} else if (Filesystem::is_readable($file) && Filesystem::is_dir($file)) {
 					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/folder.png').'" alt="[DIR]" /></td>';
 				} else {
 					echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/unknown.png').'" alt="[ ? ]" /></td>';
 				}
 
 				echo '<td>';
-				if (Filesystem::is_dir($file)) {
-					echo '<a href="'.htmlspecialchars($filename).'/">'.htmlspecialchars($filename).'/</a><br/>';
+				if (Filesystem::is_readable($file)) {
+					if (Filesystem::is_dir($file)) {
+						echo '<a href="'.htmlspecialchars($filename).'/">'.htmlspecialchars($filename).'/</a>';
+					} else {
+						echo '<a href="'.Router::getHtmlReadyUri('/file/'.Session::getSessionId().'/'.$file).'" target="_blank">'.htmlspecialchars($filename).'</a>';
+					}
 				} else {
-					echo '<a href="'.Router::getHtmlReadyUri('/file/'.Session::getSessionId().'/'.$file).'" target="_blank">'.htmlspecialchars($filename).'</a><br/>';
+					if (Filesystem::is_dir($file)) {
+						echo '<span style="text-decoration:underline; color: #666;">'.htmlspecialchars($filename).'/</span>';
+					} else {
+						echo '<span style="text-decoration:underline; color: #666;">'.htmlspecialchars($filename).'</span>';
+					}
 				}
 				echo '</td>';
 
