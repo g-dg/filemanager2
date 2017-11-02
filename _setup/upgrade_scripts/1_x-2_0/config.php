@@ -1,3 +1,3 @@
 <?php
 
-$config['old_database'] = '/var/db/php_filemanager.sqlite3';
+$config['old_database'] = null;
