@@ -13,6 +13,7 @@ class Session
 	const SESSION_ID_LENGTH = 32;
 	const GARBAGE_COLLECT_PROBABLILITY = 1000;
 	const SESSION_MAX_AGE = 86400;
+	const SESSION_TIMESTAMP_UPDATE_INTERVAL = 60;
 
 	protected static $session_id = null;
 	protected static $session_name = self::SESSION_NAME;
@@ -49,7 +50,7 @@ class Session
 				Session::set('_csrf_token', self::generateSessionId());
 			} else {
 				// update timestamp
-				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ?;', [self::$session_id], false);
+				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ? AND "timestamp" < STRFTIME(\'%s\', \'now\') - '.(int)self::SESSION_TIMESTAMP_UPDATE_INTERVAL.';', [self::$session_id], false);
 			}
 
 			// generate new session id if ip address doesn't match
