@@ -17,3 +17,10 @@
 .listing tbody tr:hover {
 	background-color: #eee;
 }
+
+.listing a.disabled {
+	text-decoration:underline;
+	color: #666;
+	/*pointer-events: none;*/
+	cursor: pointer;
+}

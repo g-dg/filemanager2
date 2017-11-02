@@ -76,9 +76,9 @@ Router::registerPage('browse', function($path) {
 					}
 				} else {
 					if (Filesystem::is_dir($file)) {
-						echo '<span style="text-decoration:underline; color: #666;">'.htmlspecialchars($filename).'/</span>';
+						echo '<a class="disabled" href="">'.htmlspecialchars($filename).'/</a>';
 					} else {
-						echo '<span style="text-decoration:underline; color: #666;">'.htmlspecialchars($filename).'</span>';
+						echo '<a class="disabled" href="">'.htmlspecialchars($filename).'</a>';
 					}
 				}
 				echo '</td>';
