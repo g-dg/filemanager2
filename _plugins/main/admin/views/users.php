@@ -58,7 +58,7 @@ echo '
 					<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 					<label for="create">Create User:</label>
 					<input id="create" name="create" type="submit" value="Create User" class="u-full-width button-primary" />
-					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
+					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" formnovalidate="formnovalidate" />
 				</div>
 			</div>
 		</form>
@@ -130,11 +130,11 @@ if (count($users) > 0) {
 		echo '</div>';
 
 		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" />';
+		echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" />';
 		echo '</div>';
 
 		echo '<div>';
-		echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" />';
+		echo '<input id="cancel_'.htmlspecialchars($user_id).'" name="reset" type="reset" value="Cancel" formnovalidate="formnovalidate" />';
 		echo '</div>';
 
 		echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
