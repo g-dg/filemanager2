@@ -91,7 +91,7 @@ class Log
 				$tries++;
 				$fh = fopen(Config::get('log_file'), 'a');
 				if (!$fh) {
-					usleep(1000);
+					usleep(mt_rand(1000, 2000));
 				}
 			}
 			if (!$fh) {

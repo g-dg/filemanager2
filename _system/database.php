@@ -100,7 +100,7 @@ class Database
 					if (time() - $start_time > 60) {
 						throw $e;
 					}
-					usleep(1000);
+					usleep(mt_rand(1000, 10000));
 				}
 			}
 		}
