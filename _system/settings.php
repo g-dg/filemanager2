@@ -20,7 +20,7 @@ class GlobalSettings
 
 	public static function set($key, $value, $force = false)
 	{
-		if (Auth::getCurrentUserType() >= Auth::USER_TYPE_ADMIN || $force) {
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('INSERT INTO "global_settings" ("key", "value") VALUES (?, ?);', [$key, (string)$value]);
 		}
 	}
@@ -32,7 +32,7 @@ class GlobalSettings
 
 	public static function unset($key, $force = false)
 	{
-		if (Auth::getCurrentUserType() >= Auth::USER_TYPE_ADMIN || $force) {
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('DELETE FROM "global_settings" WHERE "key" = ?;', [$key]);
 		}
 	}
@@ -53,13 +53,23 @@ class GlobalSettings
 
 class UserSettings
 {
+	protected static $settings_cache = [];
+
 	public static function get($key, $default = null, $user = null, $force = false)
 	{
 		if (is_null($user)) {
 			$user = Auth::getCurrentUserId();
 		}
+
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
+			if (isset(self::$settings_cache[$key])) {
+				return self::$settings_cache[$key];
+			} else {
+				return $default;
+			}
+		}
 		
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
 			$query_result = Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user]);
 			if (isset($query_result[0])) {
 				return $query_result[0][0];
@@ -75,7 +85,12 @@ class UserSettings
 			$user = Auth::getCurrentUserId();
 		}
 
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
+			self::$settings_cache[$key] = $value;
+			return;
+		}
+
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('INSERT INTO "user_settings" ("key", "user_id", "value") VALUES (?, ?, ?);', [$key, $user, (string)$value]);
 		}
 	}
@@ -86,7 +101,11 @@ class UserSettings
 			$user = Auth::getCurrentUserId();
 		}
 
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
+			return isset(self::$settings_cache[$key]);
+		}
+
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
 			return Database::query('SELECT COUNT() from "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0] > 0;
 		}
 	}
@@ -97,7 +116,11 @@ class UserSettings
 			$user = Auth::getCurrentUserId();
 		}
 
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType >= Auth::USER_TYPE_ADMIN || $force) {
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
+			unset(self::$settings_cache[$key]);
+		}
+
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('DELETE FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user]);
 		}
 	}
@@ -106,6 +129,14 @@ class UserSettings
 	{
 		if (is_null($user)) {
 			$user = Auth::getCurrentUserId();
+		}
+
+		if (Auth::getCurrentUserType() === Auth::USER_TYPE_GUEST) {
+			$keys = [];
+			foreach (self::$cached_settings as $key => $value) {
+				$keys[] = $key;
+			}
+			return $keys;
 		}
 
 		if ($user = Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
