@@ -39,7 +39,7 @@ Router::registerPage('browse', function($path) {
 
 	Auth::authenticate();
 
-	if (!(Filesystem::file_exists($path) && Filesystem::is_readable($path))) {
+	if ($path !== '' && !(Filesystem::file_exists($path) && Filesystem::is_readable($path))) {
 		http_response_code(404);
 	}
 
