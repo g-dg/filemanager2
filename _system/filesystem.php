@@ -269,8 +269,8 @@ class Filesystem
 						}
 					}
 				}
+				fclose($fh);
 			}
-			fclose($fh);
 		}
 
 		// try checking the content
