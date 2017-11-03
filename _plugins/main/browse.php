@@ -299,7 +299,7 @@ Router::registerPage('browse', function($path) {
 			if ($is_dir) {
 				$filecount = Filesystem::fileCount($file);
 				if ($filecount != 1) {
-					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filecount).' files" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filecount, 0, '.', ',')).' files" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 				} else {
 					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filecount).' file" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 				}
@@ -315,7 +315,7 @@ Router::registerPage('browse', function($path) {
 			} else {
 				$filesize = Filesystem::filesize($file);
 				if ($filesize != 1) {
-					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filesize).' bytes" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 				} else {
 					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 				}
