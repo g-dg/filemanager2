@@ -154,51 +154,72 @@ Router::registerPage('browse', function($path) {
 	}
 	$file_id = -1;
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
+
+	// cache various function calls
+	$audio_icon_path = Router::getHtmlReadyUri('/resource/main/icons/audio.png');
+	$image_icon_path = Router::getHtmlReadyUri('/resource/main/icons/image.png');
+	$text_icon_path = Router::getHtmlReadyUri('/resource/main/icons/text.png');
+	$video_icon_path = Router::getHtmlReadyUri('/resource/main/icons/video.png');
+	$generic_icon_path = Router::getHtmlReadyUri('/resource/main/icons/generic.png');
+	$folder_icon_path = Router::getHtmlReadyUri('/resource/main/icons/folder.png');
+	$unkown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
+
+	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId()).'/';
+	$download_serve_prefix = Router::getHtmlReadyUri('/download').'/';
+
 	foreach ($dirlist as $filename) {
 		$file_id++;
+
 		if ($show_hidden || substr($filename, 0, 1) !== '.') {
 			$file = $path.'/'.$filename;
+
+			$is_readable = Filesystem::is_readable($file);
+			$is_dir = Filesystem::is_dir($file);
+			$is_file = Filesystem::is_file($file);
+
 			echo '
 					<tr>';
 
 
 			// icon
-			if (Filesystem::is_readable($file) && Filesystem::is_file($file)) {
-				$mime_type = Filesystem::getMimeType($file);
-				switch (explode('/', $mime_type, 2)[0]) {
-					case 'audio':
-						echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/audio.png').'" alt="[SND]" /></td>';
-						break;
-					case 'image':
-						echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/image.png').'" alt="[IMG]" /></td>';
-						break;
-					case 'text':
-						echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/text.png').'" alt="[TXT]" /></td>';
-						break;
-					case 'video':
-						echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/video.png').'" alt="[VID]" /></td>';
-						break;
-					default:
-						echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/generic.png').'" alt="[   ]" /></td>';
-						break;
+			if ($is_readable) {
+				if ($is_file) {
+					$mime_type = Filesystem::getMimeType($file);
+					switch (explode('/', $mime_type, 2)[0]) {
+						case 'audio':
+							echo '<td><img src="'.$audio_icon_path.'" alt="[SND]" /></td>';
+							break;
+						case 'image':
+							echo '<td><img src="'.$image_icon_path.'" alt="[IMG]" /></td>';
+							break;
+						case 'text':
+							echo '<td><img src="'.$text_icon_path.'" alt="[TXT]" /></td>';
+							break;
+						case 'video':
+							echo '<td><img src="'.$video_icon_path.'" alt="[VID]" /></td>';
+							break;
+						default:
+							echo '<td><img src="'.$generic_icon_path.'" alt="[   ]" /></td>';
+							break;
+					}
+				} else if ($is_dir) {
+					echo '<td><img src="'.$folder_icon_path.'" alt="[DIR]" /></td>';
 				}
-			} else if (Filesystem::is_readable($file) && Filesystem::is_dir($file)) {
-				echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/folder.png').'" alt="[DIR]" /></td>';
 			} else {
-				echo '<td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/unknown.png').'" alt="[ ? ]" /></td>';
+				echo '<td><img src="'.$unkown_icon_path.'" alt="[ ? ]" /></td>';
 			}
 
 
 			// filename
 			echo '<td>';
-			if (Filesystem::is_readable($file)) {
-				if (Filesystem::is_dir($file)) {
+			if ($is_readable) {
+				if ($is_dir) {
 					echo '<a href="'.htmlspecialchars($filename).'/">'.htmlspecialchars($filename).'/</a>';
 				} else {
-					echo '<a href="'.Router::getHtmlReadyUri('/file/'.Session::getSessionId().'/'.$file).'" target="_blank">'.htmlspecialchars($filename).'</a>';
+					echo '<a href="'.$file_serve_prefix . htmlspecialchars($file).'" target="_blank">'.htmlspecialchars($filename).'</a>';
 				}
 			} else {
-				if (Filesystem::is_dir($file)) {
+				if ($is_dir) {
 					echo '<a class="disabled" href="">'.htmlspecialchars($filename).'/</a>';
 				} else {
 					echo '<a class="disabled" href="">'.htmlspecialchars($filename).'</a>';
@@ -210,7 +231,7 @@ Router::registerPage('browse', function($path) {
 			// last modified
 			echo '<td>';
 			$mtime = Filesystem::filemtime($file);
-			echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', Filesystem::filemtime($file))).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
+			echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
 			$mtimediff = time() - $mtime;
 			if ($mtimediff < 60) {
 				$seconds = $mtimediff;
@@ -261,7 +282,7 @@ Router::registerPage('browse', function($path) {
 
 			// size
 			echo '<td>';
-			if (Filesystem::is_dir($file)) {
+			if ($is_dir) {
 				$filecount = Filesystem::fileCount($file);
 				if ($filecount != 1) {
 					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filecount).' files" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
@@ -300,8 +321,8 @@ Router::registerPage('browse', function($path) {
 
 			// download
 			echo '<td>';
-			if (Filesystem::is_file($file) && Filesystem::is_readable($file)) {
-				echo '<a href="'.Router::getHtmlReadyUri('/download/'.$file).'">Download</a>';
+			if ($is_file && $is_readable) {
+				echo '<a href="'.$download_serve_prefix . htmlspecialchars($file).'">Download</a>';
 			}
 			echo '</td>';
 
