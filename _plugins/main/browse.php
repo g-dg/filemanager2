@@ -153,7 +153,6 @@ Router::registerPage('browse', function($path) {
 ';
 	if ($path !== '') {
 		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td>';
-		var_dump($path);
 		Hooks::exec('_main_browse_tbody', [Filesystem::sanitizePath($path . '/..')]);
 		echo '<!--<td></td><td></td><td></td>--></tr>';
 	}
@@ -326,8 +325,10 @@ Router::registerPage('browse', function($path) {
 					echo sprintf("%01.1f KiB", ($filesize / 1024));
 				} else if ($filesize < 1073741824) {
 					echo sprintf("%01.1f MiB", ($filesize / 1048576));
-				} else {
+				} else if ($filesize < 1099511627776) {
 					echo sprintf("%01.1f GiB", ($filesize / 1073741824));
+				} else {
+					echo sprintf("%01.1f TiB", ($filesize / 1099511627776));
 				}
 			}
 			echo '</span>';
