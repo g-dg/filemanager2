@@ -142,9 +142,9 @@ Router::registerPage('browse', function($path) {
 			break;
 	}
 
-	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'">'.$sort_arrow_name.'Name</a></th>';
-	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'">'.$sort_arrow_mtime.'Last Modified</a></th>';
-	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'">'.$sort_arrow_size.'Size</a></th>';
+	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'" title="Sort by name">'.$sort_arrow_name.'Name</a></th>';
+	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'" title="Sort by last modified time">'.$sort_arrow_mtime.'Last Modified</a></th>';
+	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'" title="Sort by size">'.$sort_arrow_size.'Size</a></th>';
 	echo '<th></th><th></th><th></th><th></th></tr>
 				</thead>
 				<tbody>
