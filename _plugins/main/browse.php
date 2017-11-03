@@ -26,7 +26,7 @@ Router::registerPage('browse', function($path) {
 			Session::set('_main.browse.sort_field', $sort_field);
 		}
 		if (is_null($sort_order)) {
-			$sort_order = UserSettings::get('_main.browse.sort_order', 'asc');
+			$sort_order = UserSettings::get('_main.browse.sort_order', 'desc');
 			Session::set('_main.browse.sort_order', $sort_order);
 		}
 	}
@@ -56,10 +56,10 @@ Router::registerPage('browse', function($path) {
 				switch ($sort_order) {
 					case 'asc':
 						natcasesort($dirlist);
+						$dirlist = array_reverse($dirlist);
 						break;
 					case 'desc':
 						natcasesort($dirlist);
-						$dirlist = array_reverse($dirlist);
 					break;
 				}
 				break;
@@ -92,10 +92,10 @@ Router::registerPage('browse', function($path) {
 				}
 				switch ($sort_order) {
 					case 'asc':
-						uasort($size_dirlist, function($a, $b){return ($a < $b)? -1 : 1;});
+						uasort($size_dirlist, function($a, $b){return ($a > $b)? -1 : 1;});
 						break;
 					case 'desc':
-						uasort($size_dirlist, function($a, $b){return ($a > $b)? -1 : 1;});
+						uasort($size_dirlist, function($a, $b){return ($a < $b)? -1 : 1;});
 						break;
 				}
 				$dirlist = [];
