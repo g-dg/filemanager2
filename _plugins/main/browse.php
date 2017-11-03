@@ -145,12 +145,17 @@ Router::registerPage('browse', function($path) {
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'" title="Sort by name">'.$sort_arrow_name.'Name</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'" title="Sort by last modified time">'.$sort_arrow_mtime.'Last Modified</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'" title="Sort by size">'.$sort_arrow_size.'Size</a></th>';
-	echo '<th></th><!--<th></th><th></th><th></th>--></tr>
+	echo '<th></th>';
+	Hooks::exec('_main_browse_thead');
+	echo '<!--<th></th><th></th><th></th>--></tr>
 				</thead>
 				<tbody>
 ';
 	if ($path !== '') {
-		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td><!--<td></td><td></td><td></td>--></tr>';
+		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td>';
+		var_dump($path);
+		Hooks::exec('_main_browse_tbody', [Filesystem::sanitizePath($path . '/..')]);
+		echo '<!--<td></td><td></td><td></td>--></tr>';
 	}
 	$file_id = -1;
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
@@ -326,6 +331,7 @@ Router::registerPage('browse', function($path) {
 			echo '</span>';
 			echo '</td>';
 
+			Hooks::exec('_main_browse_tbody', [$file]);
 
 			// download
 			echo '<td class="img">';
