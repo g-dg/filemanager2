@@ -162,7 +162,7 @@ class Shares {
 							"shares_in_groups",
 							"shares"
 						WHERE
-							"users_in_groups"."id" = ? AND
+							"users_in_groups"."user_id" = ? AND
 							"shares"."id" = ? AND
 							"users_in_groups"."group_id" = "groups"."id" AND
 							"shares_in_groups"."group_id" = "groups"."id" AND
