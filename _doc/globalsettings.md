@@ -1,15 +1,15 @@
 Global Settings
 ===============
 
-`_auth.login_page` : login
+`_auth.login_page` : `login`
 
-`_database.cache_enabled` : 1
+`_database.cache_enabled` : `true`
 
-`_router.default_page` : index
+`_router.default_page` : `index`
 
 `_session.garbage_collect.inverse_probability` : 1000
 
-`_session.name` : SESSID
+`_session.name` : `SESSID`
 
 `_session.max_age` : 86400
 
