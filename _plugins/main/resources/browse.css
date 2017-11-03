@@ -3,7 +3,7 @@
 	padding-right: 2em;
 }
 
-.listing > tbody > tr > td:first-child {
+.listing > tbody > tr > td.img {
 	margin: 0px;
 	padding: 4px;
 	width: 24px;

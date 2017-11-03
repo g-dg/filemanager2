@@ -145,12 +145,12 @@ Router::registerPage('browse', function($path) {
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'">'.$sort_arrow_name.'Name</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'">'.$sort_arrow_mtime.'Last Modified</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'">'.$sort_arrow_size.'Size</a></th>';
-	echo '<th></th></tr>
+	echo '<th></th><th></th><th></th><th></th></tr>
 				</thead>
 				<tbody>
 ';
 	if ($path !== '') {
-		echo '					<tr><td><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td></tr>';
+		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
 	}
 	$file_id = -1;
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
@@ -164,6 +164,11 @@ Router::registerPage('browse', function($path) {
 	$folder_icon_path = Router::getHtmlReadyUri('/resource/main/icons/folder.png');
 	$unkown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
 
+	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
+	$copy_icon_path = Router::getHtmlReadyUri('/resource/main/icons/copy.png');
+	$rename_icon_path = Router::getHtmlReadyUri('/resource/main/icons/rename.png');
+	$delete_icon_path = Router::getHtmlReadyUri('/resource/main/icons/delete.png');
+
 	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId()).'/';
 	$download_serve_prefix = Router::getHtmlReadyUri('/download').'/';
 
@@ -174,6 +179,7 @@ Router::registerPage('browse', function($path) {
 			$file = $path.'/'.$filename;
 
 			$is_readable = Filesystem::is_readable($file);
+			$is_writable = Filesystem::is_writable($file);
 			$is_dir = Filesystem::is_dir($file);
 			$is_file = Filesystem::is_file($file);
 
@@ -182,32 +188,34 @@ Router::registerPage('browse', function($path) {
 
 
 			// icon
+			echo '<td class="img">';
 			if ($is_readable) {
 				if ($is_file) {
 					$mime_type = Filesystem::getMimeType($file, false, true);
 					switch (explode('/', $mime_type, 2)[0]) {
 						case 'audio':
-							echo '<td><img src="'.$audio_icon_path.'" alt="[SND]" /></td>';
+							echo '<img src="'.$audio_icon_path.'" alt="[SND]" />';
 							break;
 						case 'image':
-							echo '<td><img src="'.$image_icon_path.'" alt="[IMG]" /></td>';
+							echo '<img src="'.$image_icon_path.'" alt="[IMG]" />';
 							break;
 						case 'text':
-							echo '<td><img src="'.$text_icon_path.'" alt="[TXT]" /></td>';
+							echo '<img src="'.$text_icon_path.'" alt="[TXT]" />';
 							break;
 						case 'video':
-							echo '<td><img src="'.$video_icon_path.'" alt="[VID]" /></td>';
+							echo '<img src="'.$video_icon_path.'" alt="[VID]" />';
 							break;
 						default:
-							echo '<td><img src="'.$generic_icon_path.'" alt="[   ]" /></td>';
+							echo '<img src="'.$generic_icon_path.'" alt="[   ]" />';
 							break;
 					}
 				} else if ($is_dir) {
-					echo '<td><img src="'.$folder_icon_path.'" alt="[DIR]" /></td>';
+					echo '<img src="'.$folder_icon_path.'" alt="[DIR]" />';
 				}
 			} else {
-				echo '<td><img src="'.$unkown_icon_path.'" alt="[ ? ]" /></td>';
+				echo '<img src="'.$unkown_icon_path.'" alt="[ ? ]" />';
 			}
+			echo '</td>';
 
 
 			// filename
@@ -320,9 +328,33 @@ Router::registerPage('browse', function($path) {
 
 
 			// download
-			echo '<td>';
+			echo '<td class="img">';
 			if ($is_file && $is_readable) {
-				echo '<a href="'.$download_serve_prefix . htmlspecialchars($file).'">Download</a>';
+				echo '<a href="'.$download_serve_prefix . htmlspecialchars($file).'"><img src="'.$download_icon_path.'" alt="Download" /></a>';
+			}
+			echo '</td>';
+
+
+			// copy
+			echo '<td class="img">';
+			if ($is_readable && $is_file) {
+				echo '<a href=""><img src="'.$copy_icon_path.'" alt="Copy" /></a>';
+			}
+			echo '</td>';
+
+
+			// rename
+			echo '<td class="img">';
+			if ($is_readable && $is_writable && $path !== '') {
+				echo '<a href=""><img src="'.$rename_icon_path.'" alt="Rename" /></a>';
+			}
+			echo '</td>';
+
+
+			// delete
+			echo '<td class="img">';
+			if ($is_readable && $is_writable && $is_file && $path !== '') {
+				echo '<a href=""><img src="'.$delete_icon_path.'" alt="Delete" /></a>';
 			}
 			echo '</td>';
 
@@ -365,4 +397,17 @@ Resources::register('main/icons/unknown.png', function(){
 });
 Resources::register('main/icons/video.png', function(){
 	Resources::serveFile('_plugins/main/resources/icons/video.png');
+});
+
+Resources::register('main/icons/download.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/download.png');
+});
+Resources::register('main/icons/copy.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/copy.png');
+});
+Resources::register('main/icons/rename.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/rename.png');
+});
+Resources::register('main/icons/delete.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/delete.png');
 });
