@@ -145,12 +145,12 @@ Router::registerPage('browse', function($path) {
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'" title="Sort by name">'.$sort_arrow_name.'Name</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'" title="Sort by last modified time">'.$sort_arrow_mtime.'Last Modified</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'" title="Sort by size">'.$sort_arrow_size.'Size</a></th>';
-	echo '<th></th><th></th><th></th><th></th></tr>
+	echo '<th></th><!--<th></th><th></th><th></th>--></tr>
 				</thead>
 				<tbody>
 ';
 	if ($path !== '') {
-		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td><!--<td></td><td></td><td></td>--></tr>';
 	}
 	$file_id = -1;
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
@@ -165,9 +165,9 @@ Router::registerPage('browse', function($path) {
 	$unkown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
 
 	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
-	$copy_icon_path = Router::getHtmlReadyUri('/resource/main/icons/copy.png');
-	$rename_icon_path = Router::getHtmlReadyUri('/resource/main/icons/rename.png');
-	$delete_icon_path = Router::getHtmlReadyUri('/resource/main/icons/delete.png');
+	//$copy_icon_path = Router::getHtmlReadyUri('/resource/main/icons/copy.png');
+	//$rename_icon_path = Router::getHtmlReadyUri('/resource/main/icons/rename.png');
+	//$delete_icon_path = Router::getHtmlReadyUri('/resource/main/icons/delete.png');
 
 	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId()).'/';
 	$download_serve_prefix = Router::getHtmlReadyUri('/download').'/';
@@ -335,28 +335,30 @@ Router::registerPage('browse', function($path) {
 			echo '</td>';
 
 
-			// copy
+			
+			/*/ copy
 			echo '<td class="img">';
 			if ($is_readable && $is_file) {
-				echo '<a href=""><img src="'.$copy_icon_path.'" alt="Copy" title="Copy" /></a>';
+				echo '<a href="'.$file.'"><img src="'.$copy_icon_path.'" alt="Copy" title="Copy" /></a>';
 			}
-			echo '</td>';
+			echo '</td>';*/
 
 
-			// rename
+			/*/ rename
 			echo '<td class="img">';
 			if ($is_readable && $is_writable && $path !== '') {
 				echo '<a href=""><img src="'.$rename_icon_path.'" alt="Rename" title="Rename" /></a>';
 			}
-			echo '</td>';
+			echo '</td>';*/
 
 
-			// delete
+			/*/ delete
 			echo '<td class="img">';
 			if ($is_readable && $is_writable && $is_file && $path !== '') {
 				echo '<a href=""><img src="'.$delete_icon_path.'" alt="Delete" title="Delete" /></a>';
 			}
-			echo '</td>';
+			echo '</td>';*/
+			
 
 
 			echo '</tr>';
