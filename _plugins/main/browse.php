@@ -246,7 +246,9 @@ Router::registerPage('browse', function($path) {
 			$mtime = Filesystem::filemtime($file);
 			echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
 			$mtimediff = time() - $mtime;
-			if ($mtimediff < 60) {
+			if ($mtimediff < 0) {
+				echo 'In the future';
+			} else if ($mtimediff < 60) {
 				$seconds = $mtimediff;
 				if ($seconds != 1) {
 					echo $seconds . ' seconds ago';
