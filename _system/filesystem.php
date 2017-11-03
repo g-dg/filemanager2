@@ -231,7 +231,8 @@ class Filesystem
 		return false;
 	}
 
-	public static function getMimeType($filename, $is_filesystem_path = false)
+	protected static $extension_mime_types = [];
+	public static function getMimeType($filename, $is_filesystem_path = false, $cache = false)
 	{
 		if (!$is_filesystem_path) {
 			$filename = self::mapSharePathToFilesystemPath($filename);
@@ -242,16 +243,29 @@ class Filesystem
 
 		// check the extension
 		if (isset(pathinfo($filename)['extension'])) {
-			$fh = fopen('_res/mime.types', 'r');
-			while (($line = fgets($fh)) !== false) {
-				if (strlen($line) > 0 &&
-						substr($line, 0, 1) !== '#' &&
-						preg_match_all('/([^\s]+)/', $line, $record) &&
-						isset($record[1]) &&
-						($count = count($record[1])) > 1) {
-					for ($i = 1; $i < $count; $i++) {
-						if ($record[1][$i] == pathinfo($filename)['extension']) {
-							return $record[1][0];
+			if ($cache && count(self::$extension_mime_types) > 0) {
+				if (isset(self::$extension_mime_types[pathinfo($filename)['extension']])) {
+					return self::$extension_mime_types[pathinfo($filename)['extension']];
+				}
+			} else {
+				$fh = fopen('_res/mime.types', 'r');
+				while (($line = fgets($fh)) !== false) {
+					if (strlen($line) > 0 &&
+							substr($line, 0, 1) !== '#' &&
+							preg_match_all('/([^\s]+)/', $line, $record) &&
+							isset($record[1]) &&
+							($count = count($record[1])) > 1) {
+						for ($i = 1; $i < $count; $i++) {
+							if ($cache) {
+								self::$extension_mime_types[$record[1][$i]] = $record[1][0];
+							} else {
+								if ($record[1][$i] == pathinfo($filename)['extension']) {
+									return $record[1][0];
+								}
+							}
+						}
+						if (isset(self::$extension_mime_types[pathinfo($filename)['extension']])) {
+							return self::$extension_mime_types[pathinfo($filename)['extension']];
 						}
 					}
 				}
@@ -270,7 +284,7 @@ class Filesystem
 		}
 		if (function_exists('mime_content_type')) {
 			if ($unprocessed_content_type = @mime_content_type($filename)) {
-				return preg_replace('~^(.+);.*$~', '$1', $unprocessed_content_type);
+				return preg_replace('/^(.+);.*$/', '$1', $unprocessed_content_type);
 			}
 		}
 

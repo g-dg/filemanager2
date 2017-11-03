@@ -184,7 +184,7 @@ Router::registerPage('browse', function($path) {
 			// icon
 			if ($is_readable) {
 				if ($is_file) {
-					$mime_type = Filesystem::getMimeType($file);
+					$mime_type = Filesystem::getMimeType($file, false, true);
 					switch (explode('/', $mime_type, 2)[0]) {
 						case 'audio':
 							echo '<td><img src="'.$audio_icon_path.'" alt="[SND]" /></td>';
