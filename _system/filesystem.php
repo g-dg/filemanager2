@@ -118,9 +118,10 @@ class Filesystem
 	}
 	public static function is_writable($filename)
 	{
+		$share_filename = $filename;
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			if (self::isPathWritable($filename)) {
+			if (self::isPathWritable($share_filename)) {
 				return @is_writable($filename);
 			}
 		}
