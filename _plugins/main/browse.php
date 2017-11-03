@@ -150,7 +150,7 @@ Router::registerPage('browse', function($path) {
 				<tbody>
 ';
 	if ($path !== '') {
-		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
 	}
 	$file_id = -1;
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
@@ -194,26 +194,26 @@ Router::registerPage('browse', function($path) {
 					$mime_type = Filesystem::getMimeType($file, false, true);
 					switch (explode('/', $mime_type, 2)[0]) {
 						case 'audio':
-							echo '<img src="'.$audio_icon_path.'" alt="[SND]" />';
+							echo '<img src="'.$audio_icon_path.'" alt="[SND]" title="Audio" />';
 							break;
 						case 'image':
-							echo '<img src="'.$image_icon_path.'" alt="[IMG]" />';
+							echo '<img src="'.$image_icon_path.'" alt="[IMG]" title="Image" />';
 							break;
 						case 'text':
-							echo '<img src="'.$text_icon_path.'" alt="[TXT]" />';
+							echo '<img src="'.$text_icon_path.'" alt="[TXT]" title="Text" />';
 							break;
 						case 'video':
-							echo '<img src="'.$video_icon_path.'" alt="[VID]" />';
+							echo '<img src="'.$video_icon_path.'" alt="[VID]" title="Video" />';
 							break;
 						default:
-							echo '<img src="'.$generic_icon_path.'" alt="[   ]" />';
+							echo '<img src="'.$generic_icon_path.'" alt="[   ]" title="File" />';
 							break;
 					}
 				} else if ($is_dir) {
-					echo '<img src="'.$folder_icon_path.'" alt="[DIR]" />';
+					echo '<img src="'.$folder_icon_path.'" alt="[DIR]" title="Folder" />';
 				}
 			} else {
-				echo '<img src="'.$unkown_icon_path.'" alt="[ ? ]" />';
+				echo '<img src="'.$unkown_icon_path.'" alt="[ ? ]" title="Inaccessible" />';
 			}
 			echo '</td>';
 
@@ -330,7 +330,7 @@ Router::registerPage('browse', function($path) {
 			// download
 			echo '<td class="img">';
 			if ($is_file && $is_readable) {
-				echo '<a href="'.$download_serve_prefix . htmlspecialchars($file).'"><img src="'.$download_icon_path.'" alt="Download" /></a>';
+				echo '<a href="'.$download_serve_prefix . htmlspecialchars($file).'"><img src="'.$download_icon_path.'" alt="Download" title="Download" /></a>';
 			}
 			echo '</td>';
 
@@ -338,7 +338,7 @@ Router::registerPage('browse', function($path) {
 			// copy
 			echo '<td class="img">';
 			if ($is_readable && $is_file) {
-				echo '<a href=""><img src="'.$copy_icon_path.'" alt="Copy" /></a>';
+				echo '<a href=""><img src="'.$copy_icon_path.'" alt="Copy" title="Copy" /></a>';
 			}
 			echo '</td>';
 
@@ -346,7 +346,7 @@ Router::registerPage('browse', function($path) {
 			// rename
 			echo '<td class="img">';
 			if ($is_readable && $is_writable && $path !== '') {
-				echo '<a href=""><img src="'.$rename_icon_path.'" alt="Rename" /></a>';
+				echo '<a href=""><img src="'.$rename_icon_path.'" alt="Rename" title="Rename" /></a>';
 			}
 			echo '</td>';
 
@@ -354,7 +354,7 @@ Router::registerPage('browse', function($path) {
 			// delete
 			echo '<td class="img">';
 			if ($is_readable && $is_writable && $is_file && $path !== '') {
-				echo '<a href=""><img src="'.$delete_icon_path.'" alt="Delete" /></a>';
+				echo '<a href=""><img src="'.$delete_icon_path.'" alt="Delete" title="Delete" /></a>';
 			}
 			echo '</td>';
 
