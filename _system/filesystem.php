@@ -293,6 +293,24 @@ class Filesystem
 		return 'application/octet-stream';
 	}
 
+	public static function sanitizePath($path)
+	{
+		$raw_path_array = explode('/', $path);
+		$path_array = [];
+		foreach ($raw_path_array as $raw_path_part) {
+			if (strlen($raw_path_part) > 0 && $raw_path_part !== '.') {
+				if ($raw_path_part === '..') {
+					if (count($path_array) > 0) {
+						array_pop($path_array);
+					}
+				} else {
+					array_push($path_array, $raw_path_part);
+				}
+			}
+		}
+		return '/' . implode('/', $path_array);
+	}
+
 
 	protected static function isPathToRoot($path)
 	{
@@ -325,24 +343,6 @@ class Filesystem
 			}
 		}
 		return null;
-	}
-
-	protected static function sanitizePath($path)
-	{
-		$raw_path_array = explode('/', $path);
-		$path_array = [];
-		foreach ($raw_path_array as $raw_path_part) {
-			if (strlen($raw_path_part) > 0 && $raw_path_part !== '.') {
-				if ($raw_path_part === '..') {
-					if (count($path_array) > 0) {
-						array_pop($path_array);
-					}
-				} else {
-					array_push($path_array, $raw_path_part);
-				}
-			}
-		}
-		return '/' . implode('/', $path_array);
 	}
 
 	// looks for the file or directory's name in the directory listing of dirname()
