@@ -12,10 +12,11 @@ class Filesystem
 
 	public static function copy($source, $dest)
 	{
+		$dest_share_path = $dest;
 		$source = self::mapSharePathToFilesystemPath($source);
 		$dest = self::mapSharePathToFilesystemPath($dest);
 		if (!is_null($source) && !is_null($dest)) {
-			if (self::isPathWritable($dest)) {
+			if (self::isPathWritable($dest_share_path)) {
 				return @copy($source, $dest);
 			}
 		}
@@ -39,9 +40,10 @@ class Filesystem
 	}
 	public static function file_put_contents($filename, $data)
 	{
+		$filename_share_path = $filename;
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			if (self::isPathWritable($filename)) {
+			if (self::isPathWritable($filename_share_path)) {
 				return @file_put_contents($filename, $data);
 			}
 		}
@@ -129,9 +131,10 @@ class Filesystem
 	}
 	public static function mkdir($filename)
 	{
+		$filename_share_path = $filename;
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			if (self::isPathWritable($filename)) {
+			if (self::isPathWritable($filename_share_path)) {
 				return @mkdir($filename);
 			}
 		}
@@ -139,10 +142,12 @@ class Filesystem
 	}
 	public static function rename($oldname, $newname)
 	{
+		$oldname_share_path = $oldname;
+		$newname_share_path = $newname;
 		$oldname = self::mapSharePathToFilesystemPath($oldname);
 		$newname = self::mapSharePathToFilesystemPath($newname);
 		if (!is_null($oldname) && !is_null($newname)) {
-			if (self::isPathWritable($oldname) && self::isPathWritable($newname)) {
+			if (self::isPathWritable($oldname_share_path) && self::isPathWritable($newname_share_path)) {
 				return @rename($oldname, $newname);
 			}
 		}
@@ -150,9 +155,10 @@ class Filesystem
 	}
 	public static function rmdir($dirname)
 	{
-		$filename = self::mapSharePathToFilesystemPath($filename);
-		if (!is_null($filename)) {
-			if (self::isPathWritable($dirname)) {
+		$dirname_share_path = $dirname;
+		$dirname = self::mapSharePathToFilesystemPath($dirname);
+		if (!is_null($dirname)) {
+			if (self::isPathWritable($dirname_share_path)) {
 				return @rmdir($dirname);
 			}
 		}
@@ -160,9 +166,10 @@ class Filesystem
 	}
 	public static function touch($filename)
 	{
+		$filename_share_path = $filename;
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			if (self::isPathWritable($filename)) {
+			if (self::isPathWritable($filename_share_path)) {
 				return @touch($filename);
 			}
 		}
@@ -170,9 +177,10 @@ class Filesystem
 	}
 	public static function unlink($filename)
 	{
+		$filename_share_path = $filename;
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			if (self::isPathWritable($filename)) {
+			if (self::isPathWritable($filename_share_path)) {
 				return @unlink($filename);
 			}
 		}
@@ -221,9 +229,10 @@ class Filesystem
 
 	public static function processFileUpload($form_upload_element_name, $dest_filename)
 	{
+		$dest_share_path = $dest_filename;
 		$dest_filename = self::mapSharePathToFilesystemPath($dest_filename);
 		if (!is_null($dest_filename)) {
-			if (self::isPathWritable($dest_filename)) {
+			if (self::isPathWritable($dest_share_path)) {
 				if (move_uploaded_file($_FILES[$form_upload_element_name]['tmp_name'], $dest_filename)) {
 					return true;
 				}
