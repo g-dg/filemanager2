@@ -50,9 +50,9 @@ foreach ($users as $user_id) {
 		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/users_in_groups', ['user' => $user_id, 'group' => $group_id]).'" method="post">';
 			echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
 			if (Groups::userInGroup($group_id, $user_id)) {
-				echo '<input id="user_'.htmlspecialchars($user_id).'_group_'.htmlspecialchars($group_id).'" name="remove" type="submit" value="Allowed" title="Click to deny" style="background-color: #6f6; color: #000; width: 12.5em;" />';
+				echo '<input name="remove" type="submit" value="Allowed" title="Click to deny" style="background-color: #6f6; color: #000; width: 12.5em;" />';
 			} else {
-				echo '<input id="user_'.htmlspecialchars($user_id).'_group_'.htmlspecialchars($group_id).'" name="add" type="submit" value="Denied" title="Click to allow" style="background-color: #f66; color: #000;  width: 12.5em;" />';
+				echo '<input name="add" type="submit" value="Denied" title="Click to allow" style="background-color: #f66; color: #000;  width: 12.5em;" />';
 			}
 		echo '</form>';
 		echo '</div>';
