@@ -16,3 +16,7 @@
 .table form {
 	margin-bottom: 0px;
 }
+
+.table .th {
+	vertical-align: middle;
+}
