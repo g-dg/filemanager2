@@ -9,16 +9,16 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 MainUiTemplate::header('Shares - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
 Session::lock();
+echo '<div class="message">';
 if (Session::isset('_main_admin_status')) {
-	echo '<div class="message">';
 	if (Session::get('_main_admin_status')) {
 		echo 'The last action completed successfully.';
 	} else {
 		echo 'A problem occurred during the last action.';
 	}
-	echo '</div>';
 	Session::unset('_main_admin_status');
 }
+echo '</div>';
 Session::unlock();
 
 echo '

@@ -20,3 +20,7 @@
 .table .th {
 	vertical-align: middle;
 }
+
+.message {
+	height: 1em;
+}
