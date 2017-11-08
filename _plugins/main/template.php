@@ -56,7 +56,11 @@ class MainUiTemplate
 		echo '<li><a href="'.Router::getHtmlReadyUri('/account').'">My Account</a></li>';
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
-			echo '<a href="'.Router::getHtmlReadyUri('/logout').'">Logout</a>';
+			if (Auth::isAuthenticated()) {
+				echo htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName()));
+			} else {
+				echo '<em>Not logged in</em>';
+			}
 			echo '<ul>';
 				echo '<li><a href="'.Router::getHtmlReadyUri('/logout/switchuser').'">Switch User</a></li>';
 				echo '<li><a href="'.Router::getHtmlReadyUri('/logout/logout').'">Log Out</a></li>';

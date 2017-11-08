@@ -29,12 +29,22 @@ Router::registerPage('account', function($subpage) {
 			<p>Username: <code>'.htmlspecialchars(Auth::getCurrentUserName()).'</code></p>
 		</fieldset>
 ';
+			echo '
+		<fieldset>
+			<legend>Full Name</legend>
+			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
+				<input name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" placeholder="Full name" class="u-full-width" />
+				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
+				<input name="change_fullname" type="submit" value="Update full name" class="u-full-width button-primary" />
+			</form>
+		</fieldset>
+';
 			if (Auth::getCurrentUserType() !== Auth::USER_TYPE_GUEST) {
 				echo '		<fieldset>
 			<legend>Password</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
-				<input name="password1" type="password" value="" placeholder="Password" class="u-full-width" />
-				<input name="password2" type="password" value="" placeholder="Password (again)" class="u-full-width" />
+				<input name="password1" type="password" value="" placeholder="New password" class="u-full-width" />
+				<input name="password2" type="password" value="" placeholder="New password (again)" class="u-full-width" />
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 				<input name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
 			</form>
@@ -64,8 +74,16 @@ Router::registerPage('account', function($subpage) {
 			if (
 				isset($_POST['change_password'], $_POST['password1'], $_POST['password2'], $_POST['csrf_token']) &&
 				$_POST['password1'] === $_POST['password2'] &&
-				$_POST['csrf_token'] === Session::get('_csrf_token')) {
+				$_POST['csrf_token'] === Session::get('_csrf_token')
+			) {
 				Session::set('_main_admin_status', Users::setPassword(Auth::getCurrentUserId(), $_POST['password1']));
+
+			} else if (
+				isset($_POST['change_fullname'], $_POST['fullname'], $_POST['csrf_token']) &&
+				$_POST['csrf_token'] === Session::get('_csrf_token')
+			) {
+				Session::set('_main_admin_status', UserSettings::set('_main.account.full_name', $_POST['fullname']));
+
 			} else {
 				Session::set('_main_admin_status', false);
 			}
