@@ -33,9 +33,15 @@ Router::registerPage('account', function($subpage) {
 		<fieldset>
 			<legend>Full Name</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
-				<input name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" placeholder="Full name" class="u-full-width" />
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-				<input name="change_fullname" type="submit" value="Update full name" class="u-full-width button-primary" />
+				<div class="row">
+					<div class="nine columns">
+						<input name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" placeholder="Full name" class="u-full-width" />
+					</div>
+					<div class="three columns">
+						<input name="change_fullname" type="submit" value="Save" class="u-full-width button-primary" />
+					</div>
+				</div>
 			</form>
 		</fieldset>
 ';
@@ -43,10 +49,20 @@ Router::registerPage('account', function($subpage) {
 				echo '		<fieldset>
 			<legend>Password</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
-				<input name="password1" type="password" value="" placeholder="New password" class="u-full-width" />
-				<input name="password2" type="password" value="" placeholder="New password (again)" class="u-full-width" />
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-				<input name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
+				<div class="row">
+					<div class="six columns">
+						<input name="password1" type="password" value="" placeholder="New password" class="u-full-width" />
+					</div>
+					<div class="six columns">
+						<input name="password2" type="password" value="" placeholder="New password (again)" class="u-full-width" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="twelve columns">
+						<input name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
+					</div>
+				</div>
 			</form>
 		</fieldset>
 ';
