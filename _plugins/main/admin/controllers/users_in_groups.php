@@ -7,12 +7,13 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 if (
-	isset($_POST['update'], $_GET['user'], $_GET['group'], $_POST['user_in_group']) &&
-	($_POST['user_in_group'] === 'true' || $_POST['user_in_group'] === 'false')
+	isset($_GET['user'], $_GET['group'], $_POST['csrf_token']) &&
+	(isset($_POST['add']) || $_POST['remove']) &&
+	$_POST['csrf_token'] === Session::get('_csrf_token')
 ) {
-	if ($_POST['user_in_group'] == 'true') {
+	if (isset($_POST['add'])) {
 		Session::set('_main_admin_status', Groups::addUser($_GET['group'], $_GET['user']));
-	} else {
+	} else if (isset($_POST['remove'])) {
 		Session::set('_main_admin_status', Groups::removeUser($_GET['group'], $_GET['user']));
 	}
 } else {
