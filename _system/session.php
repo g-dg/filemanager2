@@ -46,6 +46,7 @@ class Session
 				// create the session record
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+				setcookie(self::$session_name, self::$session_id, 0, '/');
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				Session::set('_csrf_token', self::generateSessionId());
 			} else {
@@ -57,13 +58,12 @@ class Session
 			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+				setcookie(self::$session_name, self::$session_id, 0, '/');
 				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				Session::set('_csrf_token', self::generateSessionId());
 			}
 
 			Database::unlock();
-
-			setcookie(self::$session_name, self::$session_id, 0, '/');
 		}
 	}
 
