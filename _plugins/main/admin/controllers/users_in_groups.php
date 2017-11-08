@@ -8,8 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 if (
 	isset($_GET['user'], $_GET['group'], $_POST['csrf_token']) &&
-	(isset($_POST['add']) || $_POST['remove']) &&
-	$_POST['csrf_token'] === Session::get('_csrf_token')
+	(isset($_POST['add']) || $_POST['remove'])
 ) {
 	if (isset($_POST['add'])) {
 		Session::set('_main_admin_status', Groups::addUser($_GET['group'], $_GET['user']));
