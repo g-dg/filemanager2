@@ -179,6 +179,7 @@ Router::registerPage('browse', function($path) {
 
 		if ($show_hidden || substr($filename, 0, 1) !== '.') {
 			$file = $path.'/'.$filename;
+			$file = trim($file, '/');
 
 			$is_readable = Filesystem::is_readable($file);
 			$is_writable = Filesystem::is_writable($file);
@@ -345,7 +346,7 @@ Router::registerPage('browse', function($path) {
 
 
 			// properties
-			echo '<td class="img"><a href="'.rtrim($properties_prefix, '/') . htmlspecialchars($file).'"><img src="'.$manage_icon_path.'" alt="Properties" title="Properties" /></a></td>';
+			echo '<td class="img"><a href="'.$properties_prefix . htmlspecialchars($file).'"><img src="'.$manage_icon_path.'" alt="Properties" title="Properties" /></a></td>';
 
 
 			echo '</tr>';
