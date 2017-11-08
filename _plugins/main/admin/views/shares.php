@@ -100,7 +100,7 @@ if (count($shares) > 0) {
 		echo '</div>';
 
 		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" style="background-color: #f66; color: #000;" />';
+		echo '<input id="delete_'.htmlspecialchars($share_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete share &quot;\'+document.getElementById(\'name_'.htmlspecialchars($share_id).'\').getAttribute(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" style="color: #c00;" />';
 		echo '</div>';
 
 		echo '<div>';
