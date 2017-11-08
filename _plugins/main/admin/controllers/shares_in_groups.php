@@ -7,19 +7,18 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 if (
-	isset($_POST['update'], $_GET['share'], $_GET['group'], $_POST['share_in_group']) &&
-	($_POST['share_in_group'] === 'none' || $_POST['share_in_group'] === 'read-only' || $_POST['share_in_group'] === 'read-write')
+	isset($_GET['share'], $_GET['group'])
 ) {
-	switch ($_POST['share_in_group']) {
-		case 'none':
-			Session::set('_main_admin_status', Groups::removeShare($_GET['group'], $_GET['share']));
-			break;
-		case 'read-only':
-			Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], false));
-			break;
-		case 'read-write':
-			Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], true));
-			break;
+	if (isset($_POST['allow'])) {
+		Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], false));
+	} else if (isset($_POST['deny'])) {
+		Session::set('_main_admin_status', Groups::removeShare($_GET['group'], $_GET['share']));
+	} else if (isset($_POST['read-only'])) {
+		Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], false));
+	} else if (isset($_POST['read-write'])) {
+		Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], true));
+	} else {
+		Session::set('_main_admin_status', false);
 	}
 } else {
 	Session::set('_main_admin_status', false);

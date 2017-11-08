@@ -27,7 +27,7 @@ echo '		<div class="overflow">
 				<div class="table">
 ';
 
-echo '					<div><div></div>';
+echo '					<div><div><pre style="margin: 0px;"><code style="margin: 0px;"><strong>       Groups &gt;<br />Shares<br />  v</strong></code></pre></div>';
 
 Database::lock();
 $groups = Groups::getAll();
@@ -48,19 +48,19 @@ foreach ($shares as $share_id) {
 	foreach ($groups as $group_id) {
 		echo '<div>';
 		echo '<form action="'.Router::getHtmlReadyUri('/admin/action/shares_in_groups', ['share' => $share_id, 'group' => $group_id]).'" method="post">';
-			echo '<select id="share_'.htmlspecialchars($share_id).'_group_'.htmlspecialchars($group_id).'" name="share_in_group">';
+			echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
 			if (Groups::shareInGroup($group_id, $share_id)) {
 				if (Groups::getShareWritable($group_id, $share_id)) {
-					echo '<option value="none">No Access</option><option value="read-only">Read-Only</option><option value="read-write" selected="selected">Read-Write</option>';
+					echo '<input name="deny" type="submit" value="Allowed" title="Click to deny" style="background-color: #6f6; color: #000; width: 15em; display: block;" />';
+					echo '<input name="read-only" type="submit" value="Read-Write" title="Click to set to read-only" style="background-color: #6f6; color: #000; width: 15em; display: block;" />';
 				} else {
-					echo '<option value="none">No Access</option><option value="read-only" selected="selected">Read-Only</option><option value="read-write">Read-Write</option>';
+					echo '<input name="deny" type="submit" value="Allowed" title="Click to deny" style="background-color: #6f6; color: #000; width: 15em; display: block;" />';
+					echo '<input name="read-write" type="submit" value="Read-Only" title="Click to set to read-write" style="background-color: #ff6; color: #000; width: 15em; display: block;" />';
 				}
 			} else {
-				echo '<option value="none" selected="selected">No Access</option><option value="read-only">Read-Only</option><option value="read-write">Read-Write</option>';
+				echo '<input name="allow" type="submit" value="Denied" title="Click to allow" style="background-color: #f66; color: #000; width: 15em; display: block;" />';
+				echo '<input name="noaccess" type="submit" value="&lt;No Access&gt;" disabled="disabled" style="background-color: #ccc; width: 15em; display: block; pointer-events: none;" />';
 			}
-			echo '</select>';
-			echo '<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />';
-			echo '<input id="update_share_'.htmlspecialchars($share_id).'_group_'.htmlspecialchars($group_id).'" name="update" type="submit" value="Update" />';
 		echo '</form>';
 		echo '</div>';
 	}
