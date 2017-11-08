@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 MainUiTemplate::header('Users in Groups - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
 
-/*Session::lock();
+Session::lock();
 if (Session::isset('_main_admin_status')) {
 	echo '<div class="message">';
 	if (Session::get('_main_admin_status')) {
@@ -19,7 +19,7 @@ if (Session::isset('_main_admin_status')) {
 	echo '</div>';
 	Session::unset('_main_admin_status');
 }
-Session::unlock();*/
+Session::unlock();
 
 echo '		<div class="overflow">
 			<fieldset>
