@@ -16,6 +16,7 @@ require_once('error.php');
 require_once('file.php');
 require_once('login.php');
 require_once('logout.php');
+require_once('properties.php');
 require_once('settings.php');
 
 Router::registerPage('index', function() {
