@@ -40,7 +40,10 @@ Router::registerPage('browse', function($path) {
 	}
 
 	if ($path !== '' && !(Filesystem::file_exists($path) && Filesystem::is_readable($path))) {
-		http_response_code(404);
+		MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/browse.css') . '" type="text/css" />');
+		echo '		<h1>Not Found</h1><p>The requested URL '.htmlspecialchars($path).' was not found on this server.</p><hr /><em>Garnet DeGelder\'s File Manager 2.0.0-alpha.6 at phoenix port 80</em>';
+		MainUiTemplate::footer();
+		exit();
 	}
 
 	if (Filesystem::is_file($path)) {
