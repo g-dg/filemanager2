@@ -7,6 +7,8 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 Router::registerPage('browse', function($path) {
+	Auth::authenticate();
+
 	// get sort order
 	if (isset($_GET['sort'], $_GET['order'])) {
 		if (
@@ -37,8 +39,6 @@ Router::registerPage('browse', function($path) {
 		exit();
 	}
 
-	Auth::authenticate();
-
 	if ($path !== '' && !(Filesystem::file_exists($path) && Filesystem::is_readable($path))) {
 		http_response_code(404);
 	}
@@ -49,17 +49,15 @@ Router::registerPage('browse', function($path) {
 
 	$dirlist = Filesystem::scandir($path);
 	if ($dirlist) {
-
 		// sort the directory listing
 		switch ($sort_field) {
 			case 'name':
 				switch ($sort_order) {
 					case 'asc':
-						natcasesort($dirlist);
-						$dirlist = array_reverse($dirlist);
+						usort($dirlist, function($a, $b){return strnatcasecmp($b, $a);});
 						break;
 					case 'desc':
-						natcasesort($dirlist);
+						usort($dirlist, function($a, $b){return strnatcasecmp($a, $b);});
 					break;
 				}
 				break;
@@ -104,7 +102,6 @@ Router::registerPage('browse', function($path) {
 				}
 				break;
 		}
-
 	} else {
 		$dirlist = [];
 	}
@@ -145,16 +142,15 @@ Router::registerPage('browse', function($path) {
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'" title="Sort by name">'.$sort_arrow_name.'Name</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'" title="Sort by last modified time">'.$sort_arrow_mtime.'Last Modified</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'" title="Sort by size">'.$sort_arrow_size.'Size</a></th>';
-	echo '<th></th>';
 	Hooks::exec('_main_browse_thead');
-	echo '<th></th><th></th><th></th></tr>
+	echo '<th></th><th></th></tr>
 				</thead>
 				<tbody>
 ';
 	if ($path !== '') {
-		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td><td></td>';
+		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td>';
 		Hooks::exec('_main_browse_tbody', [Filesystem::sanitizePath($path . '/..')]);
-		echo '<td></td><td></td><td></td></tr>';
+		echo '<td></td><td></td></tr>';
 	}
 	$file_id = -1;
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
@@ -169,12 +165,11 @@ Router::registerPage('browse', function($path) {
 	$unkown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
 
 	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
-	$copy_icon_path = Router::getHtmlReadyUri('/resource/main/icons/copy.png');
-	$rename_icon_path = Router::getHtmlReadyUri('/resource/main/icons/rename.png');
-	$delete_icon_path = Router::getHtmlReadyUri('/resource/main/icons/delete.png');
+	$manage_icon_path = Router::getHtmlReadyUri('/resource/main/icons/properties.png');
 
 	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId()).'/';
 	$download_serve_prefix = Router::getHtmlReadyUri('/download').'/';
+	$properties_prefix = Router::getHtmlReadyUri('/properties').'/';
 
 	foreach ($dirlist as $filename) {
 		$file_id++;
@@ -334,7 +329,9 @@ Router::registerPage('browse', function($path) {
 			echo '</span>';
 			echo '</td>';
 
+
 			Hooks::exec('_main_browse_tbody', [$file]);
+
 
 			// download
 			echo '<td class="img">';
@@ -344,30 +341,8 @@ Router::registerPage('browse', function($path) {
 			echo '</td>';
 
 
-			
-			// copy
-			echo '<td class="img">';
-			if ($is_readable && $is_file) {
-				echo '<a href=""><img src="'.$copy_icon_path.'" alt="Copy" title="Copy" /></a>';
-			}
-			echo '</td>';
-
-
-			// rename
-			echo '<td class="img">';
-			if ($is_readable && $is_writable && $path !== '') {
-				echo '<a href=""><img src="'.$rename_icon_path.'" alt="Rename" title="Rename" /></a>';
-			}
-			echo '</td>';
-
-
-			// delete
-			echo '<td class="img">';
-			if ($is_readable && $is_writable && $is_file && $path !== '') {
-				echo '<a href=""><img src="'.$delete_icon_path.'" alt="Delete" title="Delete" /></a>';
-			}
-			echo '</td>';
-			
+			// properties
+			echo '<td class="img"><a href="'.rtrim($properties_prefix, '/') . htmlspecialchars($file).'"><img src="'.$manage_icon_path.'" alt="Properties" title="Properties" /></a></td>';
 
 
 			echo '</tr>';
@@ -413,12 +388,6 @@ Resources::register('main/icons/video.png', function(){
 Resources::register('main/icons/download.png', function(){
 	Resources::serveFile('_plugins/main/resources/icons/download.png');
 });
-Resources::register('main/icons/copy.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/copy.png');
-});
-Resources::register('main/icons/rename.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/rename.png');
-});
-Resources::register('main/icons/delete.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/delete.png');
+Resources::register('main/icons/properties.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/properties.png');
 });
