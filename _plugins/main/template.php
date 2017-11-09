@@ -52,7 +52,7 @@ class MainUiTemplate
 				echo '</ul>';
 			echo '</li>';
 		}
-		Hooks::exec('_main_ui_shortcuts');
+		Hooks::exec('_main.template.shortcuts');
 		echo '<li><a href="'.Router::getHtmlReadyUri('/account').'">My Account</a></li>';
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';

@@ -111,6 +111,14 @@ Router::registerPage('browse', function($path) {
 
 
 	MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/browse.css') . '" type="text/css" />');
+
+
+	echo '		<ul class="head_hooks">';
+	Hooks::exec('_main.browse.head', ['/' . Filesystem::sanitizePath($path)]);
+	echo '</ul>
+';
+
+
 	echo '		<div class="overflow">
 			<table class="u-full-width listing">
 				<thead>
@@ -145,14 +153,14 @@ Router::registerPage('browse', function($path) {
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'name', 'order'=>$new_order]).'" title="Sort by name">'.$sort_arrow_name.'Name</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'last-modified', 'order'=>$new_order]).'" title="Sort by last modified time">'.$sort_arrow_mtime.'Last Modified</a></th>';
 	echo '<th><a href="'.Router::getHtmlReadyUri('/browse/'.$path, ['sort'=>'size', 'order'=>$new_order]).'" title="Sort by size">'.$sort_arrow_size.'Size</a></th>';
-	Hooks::exec('_main_browse_thead');
+	Hooks::exec('_main.browse.thead');
 	echo '<th></th><th></th></tr>
 				</thead>
 				<tbody>
 ';
 	if ($path !== '') {
 		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td>';
-		Hooks::exec('_main_browse_tbody', [Filesystem::sanitizePath($path . '/..')]);
+		Hooks::exec('_main.browse.tbody', [Filesystem::sanitizePath($path . '/..')]);
 		echo '<td></td><td></td></tr>';
 	}
 	$file_id = -1;
@@ -334,7 +342,7 @@ Router::registerPage('browse', function($path) {
 			echo '</td>';
 
 
-			Hooks::exec('_main_browse_tbody', [$file]);
+			Hooks::exec('_main.browse.tbody', [$file]);
 
 
 			// download

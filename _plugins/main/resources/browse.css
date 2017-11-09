@@ -24,3 +24,8 @@
 	/*pointer-events: none;*/
 	cursor: pointer;
 }
+
+ul.head_hooks {
+	list-style-type: none;
+	display: inline;
+}
