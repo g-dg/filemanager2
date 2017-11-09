@@ -10,7 +10,7 @@ Router::registerPage('properties', function($path) {
 	Auth::authenticate();
 	MainUiTemplate::header('Properties of /'.$path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/properties.css') . '" type="text/css" />');
 
-	echo '<a href="'.Router::getHtmlReadyUri(pathinfo('/browse/'.$path)['dirname']).'">&lt; Back</a>';
+	echo '<a href="'.Router::getHtmlReadyUri(pathinfo('/browse/'.$path)['dirname']).'/">&lt; Back</a>';
 
 	echo '<fieldset><legend>Properties</legend>';
 	echo '<h3 style="margin-top: .5em;">'.htmlspecialchars('/'.$path).'</h3>';
