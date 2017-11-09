@@ -12,15 +12,15 @@ Router::registerPage('account', function($subpage) {
 		case '':
 			MainUiTemplate::header('My Account');
 			Session::lock();
-			if (Session::isset('_main_admin_status')) {
+			if (Session::isset('_main_account_status')) {
 				echo '<div class="message">';
-				if (Session::get('_main_admin_status')) {
+				if (Session::get('_main_account_status')) {
 					echo 'The last action completed successfully.';
 				} else {
 					echo 'A problem occurred during the last action.';
 				}
 				echo '</div>';
-				Session::unset('_main_admin_status');
+				Session::unset('_main_account_status');
 			}
 			Session::unlock();
 			echo '
@@ -92,16 +92,17 @@ Router::registerPage('account', function($subpage) {
 				$_POST['password1'] === $_POST['password2'] &&
 				$_POST['csrf_token'] === Session::get('_csrf_token')
 			) {
-				Session::set('_main_admin_status', Users::setPassword(Auth::getCurrentUserId(), $_POST['password1']));
+				Session::set('_main_account_status', Users::setPassword(Auth::getCurrentUserId(), $_POST['password1']));
 
 			} else if (
 				isset($_POST['change_fullname'], $_POST['fullname'], $_POST['csrf_token']) &&
 				$_POST['csrf_token'] === Session::get('_csrf_token')
 			) {
-				Session::set('_main_admin_status', UserSettings::set('_main.account.full_name', $_POST['fullname']));
+				UserSettings::set('_main.account.full_name', $_POST['fullname']);
+				Session::set('_main_account_status', true);
 
 			} else {
-				Session::set('_main_admin_status', false);
+				Session::set('_main_account_status', false);
 			}
 			Router::redirect('/account');
 			break;
