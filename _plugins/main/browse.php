@@ -173,7 +173,8 @@ Router::registerPage('browse', function($path) {
 	$video_icon_path = Router::getHtmlReadyUri('/resource/main/icons/video.png');
 	$generic_icon_path = Router::getHtmlReadyUri('/resource/main/icons/generic.png');
 	$folder_icon_path = Router::getHtmlReadyUri('/resource/main/icons/folder.png');
-	$unkown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
+	$inaccessible_icon_path = Router::getHtmlReadyUri('/resource/main/icons/inaccessible.png');
+	$unknown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
 
 	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
 	$manage_icon_path = Router::getHtmlReadyUri('/resource/main/icons/properties.png');
@@ -222,9 +223,11 @@ Router::registerPage('browse', function($path) {
 					}
 				} else if ($is_dir) {
 					echo '<img src="'.$folder_icon_path.'" alt="[DIR]" title="Folder" />';
+				} else {
+					echo '<img src="'.$unknown_icon_path.'" alt="[ ? ]" title="Unknown" />';
 				}
 			} else {
-				echo '<img src="'.$unkown_icon_path.'" alt="[ ? ]" title="Inaccessible" />';
+				echo '<img src="'.$inaccessible_icon_path.'" alt="[ ! ]" title="Inaccessible" />';
 			}
 			echo '</td>';
 
@@ -398,6 +401,9 @@ Resources::register('main/icons/generic.png', function(){
 });
 Resources::register('main/icons/image.png', function(){
 	Resources::serveFile('_plugins/main/resources/icons/image.png');
+});
+Resources::register('main/icons/inaccessible.png', function(){
+	Resources::serveFile('_plugins/main/resources/icons/inaccessible.png');
 });
 Resources::register('main/icons/text.png', function(){
 	Resources::serveFile('_plugins/main/resources/icons/text.png');
