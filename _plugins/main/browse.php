@@ -187,7 +187,7 @@ Router::registerPage('browse', function($path) {
 
 		if ($show_hidden || substr($filename, 0, 1) !== '.') {
 			$file = $path.'/'.$filename;
-			$file = trim($file, '/');
+			$file = '/'.trim($file, '/');
 
 			$is_readable = Filesystem::is_readable($file);
 			$is_writable = Filesystem::is_writable($file);
