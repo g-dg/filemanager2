@@ -179,9 +179,9 @@ Router::registerPage('browse', function($path) {
 	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
 	$manage_icon_path = Router::getHtmlReadyUri('/resource/main/icons/properties.png');
 
-	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId()).'/';
-	$download_serve_prefix = Router::getHtmlReadyUri('/download').'/';
-	$properties_prefix = Router::getHtmlReadyUri('/properties').'/';
+	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId());
+	$download_serve_prefix = Router::getHtmlReadyUri('/download');
+	$properties_prefix = Router::getHtmlReadyUri('/properties');
 
 	foreach ($dirlist as $filename) {
 		$file_id++;
