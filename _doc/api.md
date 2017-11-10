@@ -58,7 +58,7 @@ class Filesystem {
 	function scandir($path)
 	function fileCount($path)
 	function processFileUpload($form_upload_element_name, $dest_filename)
-	function getMimeType($filename, $is_filesystem_path = false, $cache = false)
+	function getContentType($filename, $is_filesystem_path = false, $cache = false)
 	function sanitizePath($path)
 }
 

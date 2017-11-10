@@ -202,7 +202,7 @@ Router::registerPage('browse', function($path) {
 			echo '<td class="img">';
 			if ($is_readable) {
 				if ($is_file) {
-					$mime_type = Filesystem::getMimeType($file, false, true);
+					$mime_type = Filesystem::getContentType($file, false, true);
 					switch (explode('/', $mime_type, 2)[0]) {
 						case 'audio':
 							echo '<img src="'.$audio_icon_path.'" alt="[SND]" title="Audio" />';

@@ -242,7 +242,7 @@ class Filesystem
 	}
 
 	protected static $extension_mime_types = [];
-	public static function getMimeType($filename, $is_filesystem_path = false, $cache = false)
+	public static function getContentType($filename, $is_filesystem_path = false, $cache = false)
 	{
 		if (!$is_filesystem_path) {
 			$filename = self::mapSharePathToFilesystemPath($filename);

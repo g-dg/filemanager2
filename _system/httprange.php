@@ -14,7 +14,7 @@ class HttpRange
 		if (Filesystem::is_file($full_path) && Filesystem::is_readable($full_path)) {
 			$content_length = Filesystem::filesize($full_path);
 			$content_disposition = basename($full_path);
-			$content_type = Filesystem::getMimeType($full_path);
+			$content_type = Filesystem::getContentType($full_path);
 
 			if (ini_get('zlib.output_compression')) {
 				ini_set('zlib.output_compression', 'Off');
