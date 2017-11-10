@@ -40,7 +40,7 @@ Router::registerPage('properties', function($path) {
 		if ($filecount === 1) {
 			echo '1 file';
 		} else if ($filecount < 1000) {
-			echo $filecount . 'files';
+			echo $filecount . ' files';
 		} else if ($filecount < 1000000) {
 			echo sprintf("%01.1f K files (%s files)", ($filecount / 1000), number_format($filecount, 0, '.', ','));
 		} else if ($filecount < 1000000000) {
@@ -59,7 +59,7 @@ Router::registerPage('properties', function($path) {
 			if ($filesize === 1) {
 				echo '1 byte';
 			} else if ($filesize < 1024) {
-				echo $filesize . 'bytes';
+				echo $filesize . ' bytes';
 			} else if ($filesize < 1048576) {
 				echo sprintf("%01.1f KiB (%s bytes)", ($filesize / 1024), number_format($filesize, 0, '.', ','));
 			} else if ($filesize < 1073741824) {
@@ -128,6 +128,24 @@ Router::registerPage('properties', function($path) {
 		echo ' ('.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).')';
 	} else {
 		echo 'Unknown';
+	}
+	echo '</td></tr>';
+
+
+	echo '<tr><td>Readable:</td><td>';
+	if (Filesystem::is_readable($path)) {
+		echo 'Yes';
+	} else {
+		echo 'No';
+	}
+	echo '</td></tr>';
+
+
+	echo '<tr><td>Writable:</td><td>';
+	if (Filesystem::is_writable($path)) {
+		echo 'Yes';
+	} else {
+		echo 'No';
 	}
 	echo '</td></tr>';
 
