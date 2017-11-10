@@ -47,7 +47,7 @@ Router::registerPage('login', function($subpage) {
 	echo '	</div>
 	</form>
 	<footer>
-		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' ' . MainUiTemplate::COPYRIGHT_NOTICE . '<p>
+		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' ' . GARNETDG_FILEMANAGER_COPYRIGHT . '<p>
 	</footer>
 </body>
 </html>

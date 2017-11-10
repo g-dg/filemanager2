@@ -6,6 +6,7 @@ namespace GarnetDG\FileManager;
 //ini_set('display_errors', 'On');
 
 define('GARNETDG_FILEMANAGER_VERSION', '2.0.0-alpha.7');
+define('GARNETDG_FILEMANAGER_COPYRIGHT', 'Copyright &copy; 2017 Garnet DeGelder');
 
 set_time_limit(3600);
 ignore_user_abort(true);

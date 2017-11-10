@@ -8,8 +8,6 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 class MainUiTemplate
 {
-	const COPYRIGHT_NOTICE = 'Copyright &copy; 2017 Garnet DeGelder.';
-
 	public static function header($title = null, $head_html = '')
 	{
 		if (is_null($title)) {
@@ -77,7 +75,7 @@ class MainUiTemplate
 		echo '
 	</main>
 	<footer class="footer">
-		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '. ' . self::COPYRIGHT_NOTICE . '<p>
+		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '. ' . GARNETDG_FILEMANAGER_COPYRIGHT . '<p>
 	</footer>
 </body>
 </html>
