@@ -77,7 +77,7 @@ class MainUiTemplate
 		echo '
 	</main>
 	<footer class="footer">
-		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . '. ' . self::COPYRIGHT_NOTICE . '<p>
+		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '. ' . self::COPYRIGHT_NOTICE . '<p>
 	</footer>
 </body>
 </html>
