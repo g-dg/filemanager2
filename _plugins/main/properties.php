@@ -48,21 +48,25 @@ Router::registerPage('properties', function($path) {
 		}
 	} else {
 		$filesize = Filesystem::filesize($path);
-		if ($filesize != 1) {
-			echo '<span id="file_size" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
+		if ($filesize !== false) {
+			if ($filesize != 1) {
+				echo '<span id="file_size" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
+			} else {
+				echo '<span id="file_size" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
+			}
+			if ($filesize < 1024) {
+				echo sprintf("%d byte(s)", $filesize);
+			} else if ($filesize < 1048576) {
+				echo sprintf("%01.1f KiB (%s bytes)", ($filesize / 1024), number_format($filesize, 0, '.', ','));
+			} else if ($filesize < 1073741824) {
+				echo sprintf("%01.1f MiB (%s bytes)", ($filesize / 1048576), number_format($filesize, 0, '.', ','));
+			} else if ($filesize < 1099511627776) {
+				echo sprintf("%01.1f GiB (%s bytes)", ($filesize / 1073741824), number_format($filesize, 0, '.', ','));
+			} else {
+				echo sprintf("%01.1f TiB (%s bytes", ($filesize / 1099511627776), number_format($filesize, 0, '.', ','));
+			}
 		} else {
-			echo '<span id="file_size" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
-		}
-		if ($filesize < 1024) {
-			echo sprintf("%d byte(s)", $filesize);
-		} else if ($filesize < 1048576) {
-			echo sprintf("%01.1f KiB (%s bytes)", ($filesize / 1024), number_format($filesize, 0, '.', ','));
-		} else if ($filesize < 1073741824) {
-			echo sprintf("%01.1f MiB (%s bytes)", ($filesize / 1048576), number_format($filesize, 0, '.', ','));
-		} else if ($filesize < 1099511627776) {
-			echo sprintf("%01.1f GiB (%s bytes)", ($filesize / 1073741824), number_format($filesize, 0, '.', ','));
-		} else {
-			echo sprintf("%01.1f TiB (%s bytes", ($filesize / 1099511627776), number_format($filesize, 0, '.', ','));
+			echo 'Unknown';
 		}
 	}
 	echo '</td></tr>';
@@ -70,53 +74,57 @@ Router::registerPage('properties', function($path) {
 
 	echo '<tr><td>Last Modified:</td><td>';
 	$mtime = Filesystem::filemtime($path);
-	$mtimediff = time() - $mtime;
-	if ($mtimediff < 0) {
-		echo 'In the future';
-	} else if ($mtimediff < 60) {
-		$seconds = $mtimediff;
-		if ($seconds != 1) {
-			echo $seconds . ' seconds ago';
+	if ($mtime !== false) {
+		$mtimediff = time() - $mtime;
+		if ($mtimediff < 0) {
+			echo 'In the future';
+		} else if ($mtimediff < 60) {
+			$seconds = $mtimediff;
+			if ($seconds != 1) {
+				echo $seconds . ' seconds ago';
+			} else {
+				echo '1 second ago';
+			}
+		} else if ($mtimediff < 3600) {
+			$minutes = floor($mtimediff / 60);
+			if ($minutes != 1) {
+				echo $minutes . ' minutes ago';
+			} else {
+				echo '1 minute ago';
+			}
+		} else if ($mtimediff < 86400) {
+			$hours = floor($mtimediff / 3600);
+			if ($hours != 1) {
+				echo $hours . ' hours ago';
+			} else {
+				echo '1 hour ago';
+			}
+		} else if ($mtimediff < 2592000) {
+			$days = floor($mtimediff / 86400);
+			if ($days != 1) {
+				echo $days . ' days ago';
+			} else {
+				echo '1 day ago';
+			}
+		} else if ($mtimediff < 31536000) {
+			$months = floor($mtimediff / 2592000);
+			if ($months != 1) {
+				echo $months . ' months ago';
+			} else {
+				echo '1 month ago';
+			}
 		} else {
-			echo '1 second ago';
+			$years = floor($mtimediff / 31536000);
+			if ($years != 1) {
+				echo $years . ' years ago';
+			} else {
+				echo '1 year ago';
+			}
 		}
-	} else if ($mtimediff < 3600) {
-		$minutes = floor($mtimediff / 60);
-		if ($minutes != 1) {
-			echo $minutes . ' minutes ago';
-		} else {
-			echo '1 minute ago';
-		}
-	} else if ($mtimediff < 86400) {
-		$hours = floor($mtimediff / 3600);
-		if ($hours != 1) {
-			echo $hours . ' hours ago';
-		} else {
-			echo '1 hour ago';
-		}
-	} else if ($mtimediff < 2592000) {
-		$days = floor($mtimediff / 86400);
-		if ($days != 1) {
-			echo $days . ' days ago';
-		} else {
-			echo '1 day ago';
-		}
-	} else if ($mtimediff < 31536000) {
-		$months = floor($mtimediff / 2592000);
-		if ($months != 1) {
-			echo $months . ' months ago';
-		} else {
-			echo '1 month ago';
-		}
+		echo ' ('.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).')';
 	} else {
-		$years = floor($mtimediff / 31536000);
-		if ($years != 1) {
-			echo $years . ' years ago';
-		} else {
-			echo '1 year ago';
-		}
+		echo 'Unknown';
 	}
-	echo ' ('.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).')';
 	echo '</td></tr>';
 
 
