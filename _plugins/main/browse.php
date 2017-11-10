@@ -185,7 +185,7 @@ Router::registerPage('browse', function($path) {
 	foreach ($dirlist as $filename) {
 		$file_id++;
 
-		if ($show_hidden || substr($filename, 0, 1) !== '.') {
+		if (($show_hidden && $filename !== '.' && $filename !== '..') || substr($filename, 0, 1) !== '.') {
 			$file = $path.'/'.$filename;
 			$file = '/'.trim($file, '/');
 
