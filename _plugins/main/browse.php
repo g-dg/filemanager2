@@ -312,10 +312,12 @@ Router::registerPage('browse', function($path) {
 				if ($filecount != 1) {
 					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filecount, 0, '.', ',')).' files" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 				} else {
-					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filecount).' file" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					echo '<span id="file_size_'.$file_id.'" title="1 file" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 				}
-				if ($filecount < 1000) {
-					echo sprintf("%d", $filecount);
+				if ($filecount === 1) {
+					echo '1';
+				} else if ($filecount < 1000) {
+					echo $filecount;
 				} else if ($filecount < 1000000) {
 					echo sprintf("%01.1f K", ($filecount / 1000));
 				} else if ($filecount < 1000000000) {
@@ -329,10 +331,12 @@ Router::registerPage('browse', function($path) {
 					if ($filesize != 1) {
 						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 					} else {
-						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+						echo '<span id="file_size_'.$file_id.'" title="1 byte" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
 					}
-					if ($filesize < 1024) {
-						echo sprintf("%d B", $filesize);
+					if ($filesize === 1) {
+						echo '1 B';
+					} else if ($filesize < 1024) {
+						echo $filesize . ' B';
 					} else if ($filesize < 1048576) {
 						echo sprintf("%01.1f KiB", ($filesize / 1024));
 					} else if ($filesize < 1073741824) {

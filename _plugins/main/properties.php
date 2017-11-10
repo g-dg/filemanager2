@@ -37,8 +37,10 @@ Router::registerPage('properties', function($path) {
 	echo '<tr><td>Size:</td><td>';
 	if (Filesystem::is_dir($path)) {
 		$filecount = Filesystem::fileCount($path);
-		if ($filecount < 1000) {
-			echo sprintf("%d file(s)", $filecount);
+		if ($filecount === 1) {
+			echo '1 file';
+		} else if ($filecount < 1000) {
+			echo $filecount . 'files';
 		} else if ($filecount < 1000000) {
 			echo sprintf("%01.1f K files (%s files)", ($filecount / 1000), number_format($filecount, 0, '.', ','));
 		} else if ($filecount < 1000000000) {
@@ -54,8 +56,10 @@ Router::registerPage('properties', function($path) {
 			} else {
 				echo '<span id="file_size" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
 			}
-			if ($filesize < 1024) {
-				echo sprintf("%d byte(s)", $filesize);
+			if ($filesize === 1) {
+				echo '1 byte';
+			} else if ($filesize < 1024) {
+				echo $filesize . 'bytes';
 			} else if ($filesize < 1048576) {
 				echo sprintf("%01.1f KiB (%s bytes)", ($filesize / 1024), number_format($filesize, 0, '.', ','));
 			} else if ($filesize < 1073741824) {
