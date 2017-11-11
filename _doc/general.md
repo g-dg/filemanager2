@@ -7,11 +7,11 @@
 ```
 root_dir
 	`- _doc
+	`- _extensions
 	`- _res
 	`- _setup
 		`- upgrade_scripts
 	`- _system
-	`- _plugins
 	`- _config.php
 	`- index.php
 ```
@@ -32,8 +32,8 @@ root_dir
 		- Register init functions
 	2) Run registered inits
 		- Register hooks, pages, resources, etc.
-5) Run plugin loader
-	1) Include main files for all plugins in `_plugins` directory
+5) Run extension loader
+	1) Include main files for all extensions in `_extensions` directory
 		- Include other files
 		- Register classes, functions, etc.
 		- Register init functions
@@ -44,5 +44,5 @@ root_dir
 	1) Run current page if registered, else show 404 page
 
 
-## Plugins
-Stored in `_plugins` directory, main file is named like this: `_plugins/<plugin name>/<plugin name>.php`
+## Extensions
+Stored in `_extensions` directory, main file is named like this: `_extensions/<extension name>/<extension name>.php`

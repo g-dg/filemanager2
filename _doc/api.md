@@ -131,9 +131,9 @@ class Log {
 }
 
 
-class Plugins {
+class Extensions {
 	function loadAll()
-	function exists($plugin)
+	function exists($extension)
 	function registerInit($init_function)
 }
 

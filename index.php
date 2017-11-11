@@ -20,7 +20,7 @@ Log::info('Request started');
 require_once('_system/loader.php');
 Loader::loadAll();
 
-Plugins::loadAll();
+Extensions::loadAll();
 
 Router::execCurrentPage();
 

@@ -105,5 +105,5 @@ Router::registerPage('admin', function($subpage) {
 });
 
 Resources::register('main/admin.css', function() {
-	Resources::serveFile('_plugins/main/resources/admin.css');
+	Resources::serveFile('_extensions/main/resources/admin.css');
 });

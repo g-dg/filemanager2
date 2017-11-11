@@ -157,5 +157,5 @@ Router::registerPage('properties', function($path) {
 });
 
 Resources::register('main/properties.css', function(){
-	Resources::serveFile('_plugins/main/resources/properties.css');
+	Resources::serveFile('_extensions/main/resources/properties.css');
 });

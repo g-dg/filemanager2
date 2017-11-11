@@ -85,5 +85,5 @@ Router::registerPage('login', function($subpage) {
 });
 
 Resources::register('main/login.css', function() {
-	Resources::serveFile('_plugins/main/resources/login.css');
+	Resources::serveFile('_extensions/main/resources/login.css');
 });

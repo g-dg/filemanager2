@@ -84,17 +84,17 @@ class MainUiTemplate
 }
 
 Resources::register('main/favicon.ico', function() {
-	Resources::serveFile('_plugins/main/resources/favicon.ico');
+	Resources::serveFile('_extensions/main/resources/favicon.ico');
 });
 
 Resources::register('main/main.css', function() {
-	Resources::serveFile('_plugins/main/resources/main.css');
+	Resources::serveFile('_extensions/main/resources/main.css');
 });
 
 Resources::register('main/normalize.css', function() {
-	Resources::serveFile('_plugins/main/resources/normalize.css');
+	Resources::serveFile('_extensions/main/resources/normalize.css');
 });
 
 Resources::register('main/skeleton.css', function() {
-	Resources::serveFile('_plugins/main/resources/skeleton.css');
+	Resources::serveFile('_extensions/main/resources/skeleton.css');
 });

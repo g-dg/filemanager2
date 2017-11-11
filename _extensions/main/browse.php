@@ -384,40 +384,40 @@ Router::registerPage('browse', function($path) {
 
 
 Resources::register('main/browse.css', function(){
-	Resources::serveFile('_plugins/main/resources/browse.css');
+	Resources::serveFile('_extensions/main/resources/browse.css');
 });
 
 Resources::register('main/icons/audio.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/audio.png');
+	Resources::serveFile('_extensions/main/resources/icons/audio.png');
 });
 Resources::register('main/icons/back.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/back.png');
+	Resources::serveFile('_extensions/main/resources/icons/back.png');
 });
 Resources::register('main/icons/folder.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/folder.png');
+	Resources::serveFile('_extensions/main/resources/icons/folder.png');
 });
 Resources::register('main/icons/generic.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/generic.png');
+	Resources::serveFile('_extensions/main/resources/icons/generic.png');
 });
 Resources::register('main/icons/image.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/image.png');
+	Resources::serveFile('_extensions/main/resources/icons/image.png');
 });
 Resources::register('main/icons/inaccessible.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/inaccessible.png');
+	Resources::serveFile('_extensions/main/resources/icons/inaccessible.png');
 });
 Resources::register('main/icons/text.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/text.png');
+	Resources::serveFile('_extensions/main/resources/icons/text.png');
 });
 Resources::register('main/icons/unknown.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/unknown.png');
+	Resources::serveFile('_extensions/main/resources/icons/unknown.png');
 });
 Resources::register('main/icons/video.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/video.png');
+	Resources::serveFile('_extensions/main/resources/icons/video.png');
 });
 
 Resources::register('main/icons/download.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/download.png');
+	Resources::serveFile('_extensions/main/resources/icons/download.png');
 });
 Resources::register('main/icons/properties.png', function(){
-	Resources::serveFile('_plugins/main/resources/icons/properties.png');
+	Resources::serveFile('_extensions/main/resources/icons/properties.png');
 });
