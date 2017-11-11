@@ -26,12 +26,14 @@
 }
 
 ul.head_hooks {
+	font-weight: bold;
 	list-style-type: none;
 	text-align: right;
 	width: 100%;
 	background-color: #eee;
-	/*padding: .25em 0px;*/
 	margin: 0px;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 ul.head_hooks li {
 	/*display: inline-block;*/
@@ -40,21 +42,6 @@ ul.head_hooks li {
 	margin: 0px;
 }
 
-/*ul.head_hooks li ul {
-	display: none;
-}
-ul.head_hooks li:hover > ul,
-ul.head_hooks li:active > ul {
-	display: block;
-	background-color: #eee;
-}*/
-
-ul.head_hooks > li:hover {
+/*ul.head_hooks > li:hover {
 	background-color: #ddd;
-}
-/*ul.head_hooks li > ul > li:hover {
-	background-color: #ccc;
-}
-ul.head_hooks li > ul > li > ul > li:hover {
-	background-color: #bbb;
 }*/
