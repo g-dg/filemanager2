@@ -41,7 +41,7 @@ Router::registerPage('browse', function($path) {
 
 	if ($path !== '' && !(Filesystem::file_exists($path) && Filesystem::is_readable($path))) {
 		MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/browse.css') . '" type="text/css" />');
-		echo '		<h1>Not Found</h1><p>The requested URL '.htmlspecialchars($path).' was not found on this server.</p><hr /><em>Garnet DeGelder\'s File Manager 2.0.0-alpha.6 at phoenix port 80</em>';
+		echo '		<h1>Not Found</h1><p>The requested URL '.htmlspecialchars($path).' was not found on this server.</p><hr /><em>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . ' port ' . htmlspecialchars($_SERVER['SERVER_PORT']) . '</em>';
 		MainUiTemplate::footer();
 		exit();
 	}
@@ -156,10 +156,10 @@ Router::registerPage('browse', function($path) {
 	Hooks::exec('_main.browse.thead');
 	echo '<th></th><th></th></tr>
 				</thead>
-				<tbody>
-';
+				<tbody>';
 	if ($path !== '') {
-		echo '					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td>';
+		echo '
+					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td>';
 		Hooks::exec('_main.browse.tbody', [Filesystem::sanitizePath($path . '/..')]);
 		echo '<td></td><td></td></tr>';
 	}
