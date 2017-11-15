@@ -114,7 +114,7 @@ Router::registerPage('browse', function($path) {
 
 
 	echo '		<ul class="head_hooks">';
-	Hooks::exec('_main.browse.head', ['/' . Filesystem::sanitizePath($path)]);
+	Hooks::exec('_main.browse.head', [Filesystem::sanitizePath($path)]);
 	echo '</ul>
 ';
 
