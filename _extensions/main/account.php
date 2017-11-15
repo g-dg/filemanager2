@@ -51,11 +51,14 @@ Router::registerPage('account', function($subpage) {
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 				<div class="row">
-					<div class="six columns">
-						<input name="password1" type="password" value="" placeholder="New password" class="u-full-width" />
+					<div class="four columns">
+						<input name="old_password" type="password" value="" placeholder="Current password" class="u-full-width" />
 					</div>
-					<div class="six columns">
-						<input name="password2" type="password" value="" placeholder="New password (again)" class="u-full-width" />
+					<div class="four columns">
+						<input name="new_password1" type="password" value="" placeholder="New password" class="u-full-width" />
+					</div>
+					<div class="four columns">
+						<input name="new_password2" type="password" value="" placeholder="New password (again)" class="u-full-width" />
 					</div>
 				</div>
 				<div class="row">
@@ -88,11 +91,12 @@ Router::registerPage('account', function($subpage) {
 			break;
 		case 'action':
 			if (
-				isset($_POST['change_password'], $_POST['password1'], $_POST['password2'], $_POST['csrf_token']) &&
-				$_POST['password1'] === $_POST['password2'] &&
+				isset($_POST['change_password'], $_POST['old_password'], $_POST['new_password1'], $_POST['new_password2'], $_POST['csrf_token']) &&
+				$_POST['new_password1'] === $_POST['new_password2'] &&
+				Auth::checkPassword(Auth::getCurrentUserId(), $_POST['old_password']) &&
 				$_POST['csrf_token'] === Session::get('_csrf_token')
 			) {
-				Session::set('_main_account_status', Users::setPassword(Auth::getCurrentUserId(), $_POST['password1']));
+				Session::set('_main_account_status', Users::setPassword(Auth::getCurrentUserId(), $_POST['new_password1']));
 
 			} else if (
 				isset($_POST['change_fullname'], $_POST['fullname'], $_POST['csrf_token']) &&
