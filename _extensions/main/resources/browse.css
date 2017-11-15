@@ -14,6 +14,10 @@
 	white-space: nowrap;
 }
 
+.listing tbody tr {
+	background-color: #fff;
+	transition: background-color 0.1s ease-in;
+}
 .listing tbody tr:hover {
 	background-color: #eee;
 }
