@@ -14,8 +14,8 @@ class Loader
 	{
 		if (is_dir('_system') && $dh = opendir('_system')) {
 			while (($file = readdir($dh)) !== false) {
-				// check if ends in '.php' and doesn't start with a dot
-				if (substr($file, -4, 4) === '.php' && substr($file, 0, 1) !== '.') {
+				// check if ends in '.php' and doesn't start with a dot or underscore
+				if (substr($file, -4, 4) === '.php' && substr($file, 0, 1) !== '.' && substr($file, 0, 1) !== '_') {
 					require_once('_system/' . $file);
 				}
 			}

@@ -15,6 +15,7 @@ class Extensions
 		if (is_dir('_extensions') && $extension_directory_handle = opendir('_extensions')) {
 			while (($extension = readdir($extension_directory_handle)) !== false) {
 				if (substr($extension, 0, 1) !== '.' &&
+						substr($extension, 0, 1) !== '_' &&
 						is_dir('_extensions/' . $extension) &&
 						is_readable('_extensions/' . $extension) &&
 						is_file('_extensions/' . $extension . '/' . $extension . '.php') &&
