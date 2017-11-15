@@ -21,15 +21,14 @@ class Config
 	public static function get($key, $default = null)
 	{
 		if (!self::$loaded) {
-			self::$loaded = true;
 			require_once('_config.php');
 			foreach ($config as $option => $value) {
-				self::$config[ $option ] = $value;
+				self::$config[$option] = $value;
 			}
-			unset($config);
+			self::$loaded = true;
 		}
-		if (isset(self::$config[ $key ])) {
-			return self::$config[ $key ];
+		if (isset(self::$config[$key])) {
+			return self::$config[$key];
 		} else {
 			return $default;
 		}

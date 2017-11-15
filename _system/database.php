@@ -12,7 +12,6 @@ class Database
 	protected static $max_version = 2999999;
 
 	public static $connection = null;
-	protected static $db_file = '_database.sqlite3';
 
 	protected static $lock_level = 0;
 
@@ -22,15 +21,15 @@ class Database
 	public static function connect()
 	{
 		if (is_null(self::$connection)) {
-			self::$db_file = Config::get('database_file');
-			if (!is_file(self::$db_file) ||
-					!is_readable(self::$db_file) ||
-					!is_writable(self::$db_file)) {
+			$db_file = Config::get('database_file', '_database.sqlite3');
+			if (!is_file($db_file) ||
+					!is_readable($db_file) ||
+					!is_writable($db_file)) {
 				Log::alert('The database is not set up or is inaccessible');
 				throw new \Exception('The database is not set up or is inaccessible');
 			}
 
-			$dsn = 'sqlite:' . self::$db_file;
+			$dsn = 'sqlite:' . $db_file;
 
 			self::$connection = new \PDO($dsn);
 
@@ -50,7 +49,7 @@ class Database
 
 			self::query('PRAGMA foreign_keys = ON;', [], false);
 
-			self::$cache_enabled = GlobalSettings::get('_database.cache_enabled', 'true') === 'true';
+			self::$cache_enabled = (GlobalSettings::get('_database.cache_enabled', 'true') === 'true');
 		}
 	}
 
@@ -58,18 +57,15 @@ class Database
 	{
 		self::connect();
 		if (self::$lock_level <= 0) {
-			//if (!self::$connection->inTransaction()) {
-				self::$connection->beginTransaction();
-			//}
+			self::$connection->beginTransaction();
 		}
 		self::$lock_level++;
 	}
 	public static function unlock()
 	{
+		self::connect();
 		if (self::$lock_level == 1) {
-			//if (self::$connection->inTransaction()) {
-				self::$connection->commit();
-			//}
+			self::$connection->commit();
 		}
 		self::$lock_level--;
 	}

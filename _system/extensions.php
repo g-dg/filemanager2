@@ -14,12 +14,14 @@ class Extensions
 	{
 		if (is_dir('_extensions') && $extension_directory_handle = opendir('_extensions')) {
 			while (($extension = readdir($extension_directory_handle)) !== false) {
-				if (substr($extension, 0, 1) !== '.' &&
-						substr($extension, 0, 1) !== '_' &&
-						is_dir('_extensions/' . $extension) &&
-						is_readable('_extensions/' . $extension) &&
-						is_file('_extensions/' . $extension . '/' . $extension . '.php') &&
-						is_readable('_extensions/' . $extension . '/' . $extension . '.php')) {
+				if (
+					substr($extension, 0, 1) !== '.' &&
+					substr($extension, 0, 1) !== '_' &&
+					is_dir('_extensions/' . $extension) &&
+					is_readable('_extensions/' . $extension) &&
+					is_file('_extensions/' . $extension . '/' . $extension . '.php') &&
+					is_readable('_extensions/' . $extension . '/' . $extension . '.php')
+				) {
 					require_once('_extensions/' . $extension . '/' . $extension . '.php');
 				}
 			}
@@ -36,12 +38,14 @@ class Extensions
 
 	public static function exists($extension)
 	{
-		return (is_dir('_extensions') &&
-				is_readable('_extensions') &&
-				is_dir('_extensions/' . $extension) &&
-				is_readable('_extensions/' . $extension) &&
-				is_file('_extensions/' . $extension . '/' . $extension . '.php') &&
-				is_readable('_extensions/' . $extension . '/' . $extension . '.php'));
+		return (
+			is_dir('_extensions') &&
+			is_readable('_extensions') &&
+			is_dir('_extensions/' . $extension) &&
+			is_readable('_extensions/' . $extension) &&
+			is_file('_extensions/' . $extension . '/' . $extension . '.php') &&
+			is_readable('_extensions/' . $extension . '/' . $extension . '.php')
+		);
 	}
 
 	public static function registerInit($init_function)

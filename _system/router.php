@@ -42,6 +42,7 @@ class Router
 		}
 	}
 
+	// note: does not stop the script
 	public static function execErrorPage($http_error)
 	{
 		Log::notice('HTTP Error ' . $http_error);
@@ -98,14 +99,14 @@ class Router
 	}
 
 	// $params is a key-value array of get parameters
-	// note: if a key is numeric, the value is interpreted as a single parameter
+	// note: if a key is numeric, the value is interpreted as a parameter without a value
 	public static function getHttpReadyUri($full_path, $params = [])
 	{
 		$raw_path_array = explode('/', $full_path);
 		$encoded_path_array = [];
 		foreach ($raw_path_array as $pathpart) {
 			if ($pathpart !== '') {
-				// urlencode changes spaces into plus's. That only works with get request strings, not paths.
+				// urlencode changes spaces into pluses. That only works with get request strings, not paths.
 				$encoded_path_array[] = str_replace('+', '%20', urlencode($pathpart));
 			}
 		}

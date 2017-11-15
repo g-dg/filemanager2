@@ -13,9 +13,8 @@ class GlobalSettings
 		$query_result = Database::query('SELECT "value" FROM "global_settings" WHERE "key" = ?;', [$key]);
 		if (isset($query_result[0])) {
 			return $query_result[0][0];
-		} else {
-			return $default;
 		}
+		return $default;
 	}
 
 	public static function set($key, $value, $force = false)
@@ -27,7 +26,7 @@ class GlobalSettings
 
 	public static function isset($key, $force = false)
 	{
-		return Database::query('SELECT COUNT() from "global_settings" WHERE "key" = ?;', [$key])[0][0] > 0;
+		return (Database::query('SELECT COUNT() from "global_settings" WHERE "key" = ?;', [$key])[0][0] > 0);
 	}
 
 	public static function unset($key, $force = false)
@@ -65,18 +64,16 @@ class UserSettings
 			$settings_cache = Session::get('_settings.guest_cache', []);
 			if (isset($settings_cache[$key])) {
 				return $settings_cache[$key];
-			} else {
-				return $default;
 			}
+			return $default;
 		}
 		
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
 			$query_result = Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user]);
 			if (isset($query_result[0])) {
 				return $query_result[0][0];
-			} else {
-				return $default;
 			}
+			return $default;
 		}
 	}
 
@@ -90,10 +87,7 @@ class UserSettings
 			$settings_cache = Session::get('_settings.guest_cache', []);
 			$settings_cache[$key] = $value;
 			Session::set('_settings.guest_cache', $settings_cache);
-			return;
-		}
-
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
+		} else if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('INSERT INTO "user_settings" ("key", "user_id", "value") VALUES (?, ?, ?);', [$key, $user, (string)$value]);
 		}
 	}
@@ -110,7 +104,7 @@ class UserSettings
 		}
 
 		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
-			return Database::query('SELECT COUNT() from "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0] > 0;
+			return (Database::query('SELECT COUNT() from "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0] > 0);
 		}
 	}
 

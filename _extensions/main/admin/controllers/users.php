@@ -24,14 +24,7 @@ if ( // create user
 			$type = Users::USER_TYPE_GUEST;
 			break;
 	}
-	switch ($_POST['enabled']) {
-		case 'enabled':
-			$enabled = true;
-			break;
-		case 'disabled':
-			$enabled = false;
-			break;
-	}
+	$enabled = ($_POST['enabled'] == 'enabled');
 	Session::set('_main_admin_status', Users::create($_POST['name'], $_POST['password1'], $type, $enabled, $_POST['comment']));
 
 
@@ -71,14 +64,7 @@ if ( // create user
 	isset($_POST['update_enabled'], $_GET['user'], $_POST['enabled']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
-	switch ($_POST['enabled']) {
-		case 'enabled':
-			$enabled = true;
-			break;
-		case 'disabled':
-			$enabled = false;
-			break;
-	}
+	$enabled = ($_POST['enabled'] == 'enabled');
 	Session::set('_main_admin_status', Users::setEnabled($_GET['user'], $enabled));
 
 

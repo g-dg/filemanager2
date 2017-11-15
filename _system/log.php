@@ -104,7 +104,7 @@ class Log
 				$tries++;
 				$result = fwrite($fh, $log_string);
 				if (!$fh) {
-					usleep(1000);
+					usleep(mt_rand(1000, 2000));
 				}
 			}
 			if ($result === FALSE) {

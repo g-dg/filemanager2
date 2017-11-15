@@ -61,7 +61,7 @@ class Groups {
 	{
 		$query_result = Database::query('SELECT "writable" FROM "shares_in_groups" WHERE "share_id" = ? AND "group_id" = ?;', [$share_id, $group_id]);
 		if (isset($query_result[0])) {
-			return $query_result[0]['writable'] != 0;
+			return ($query_result[0]['writable'] != 0);
 		}
 		return null;
 	}
@@ -88,24 +88,20 @@ class Groups {
 	public static function userInGroup($group_id, $user_id)
 	{
 		if ($user_id === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			return Database::query('SELECT COUNT() FROM "users_in_groups" WHERE "group_id" = ? AND "user_id" = ?;', [$group_id, $user_id])[0][0] != 0;
+			return (Database::query('SELECT COUNT() FROM "users_in_groups" WHERE "group_id" = ? AND "user_id" = ?;', [$group_id, $user_id])[0][0] != 0);
 		}
 		return null;
 	}
 
 	public static function shareInGroup($group_id, $share_id)
 	{
-		return Database::query('SELECT COUNT() FROM "shares_in_groups" WHERE "group_id" = ? AND "share_id" = ?;', [$group_id, $share_id])[0][0] > 0;
+		return (Database::query('SELECT COUNT() FROM "shares_in_groups" WHERE "group_id" = ? AND "share_id" = ?;', [$group_id, $share_id])[0][0] > 0);
 	}
 
 	public static function create($name, $enabled = true, $comment = '')
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if (!$enabled) {
-				$enabled_int = 0;
-			} else {
-				$enabled_int = 1;
-			}
+			$enabled_int = $enabled?1:0;
 			try {
 				Database::query('INSERT INTO "groups" ("name", "enabled", "comment") VALUES (?, ?, ?);', [$name, $enabled_int, $comment]);
 				Log::notice('Group "' . $name . '" created by "' . Auth::getCurrentUserName() . '"');
@@ -159,7 +155,7 @@ class Groups {
 	{
 		$query_result = Database::query('SELECT "enabled" FROM "groups" WHERE "id" = ?;', [$group_id]);
 		if (isset($query_result[0])) {
-			return $query_result[0]['enabled'] != 0;
+			return ($query_result[0]['enabled'] != 0);
 		}
 		return null;
 	}
@@ -167,11 +163,7 @@ class Groups {
 	public static function setEnabled($group_id, $enabled)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if (!$enabled) {
-				$enabled_int = 0;
-			} else {
-				$enabled_int = 1;
-			}
+			$enabled_int = $enabled?1:0;
 			Database::query('UPDATE "groups" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $group_id]);
 			Log::notice('Group "' . Groups::getName($group_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
 			return true;
@@ -200,20 +192,17 @@ class Groups {
 
 	public static function getUsersInGroup($group_id, $enabled_only = false)
 	{
-		/*
-			SELECT
-				"users"."id"
-			FROM
-				"users",
-				"users_in_groups"
-			WHERE
-				"users_in_groups"."group_id" = ? AND
-				"users_in_groups"."user_id" = "users"."id" AND
-				"users"."enabled" != 0;
-		*/
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			if ($enabled_only) {
-				$query_result = Database::query('SELECT "users"."id" FROM "users", "users_in_groups" WHERE "users_in_groups"."group_id" = ? AND "users_in_groups"."user_id" = "users"."id" AND "users"."enabled" != 0;', [$group_id]);
+				$query_result = Database::query('SELECT
+						"users"."id"
+					FROM
+						"users",
+						"users_in_groups"
+					WHERE
+						"users_in_groups"."group_id" = ? AND
+						"users_in_groups"."user_id" = "users"."id" AND
+						"users"."enabled" != 0;', [$group_id]);
 			} else {
 				$query_result = Database::query('SELECT "user_id" FROM "users_in_groups" WHERE "group_id" = ?;', [$group_id]);
 			}
@@ -228,20 +217,17 @@ class Groups {
 
 	public static function getSharesInGroup($group_id, $enabled_only = false)
 	{
-		/*
-			SELECT
-				"shares"."id"
-			FROM
-				"shares",
-				"shares_in_groups"
-			WHERE
-				"shares_in_groups"."group_id" = ? AND
-				"shares_in_groups"."share_id" = "shares"."id" AND
-				"shares"."enabled" != 0;
-		*/
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			if ($enabled_only) {
-				$query_result = Database::query('SELECT "shares"."id" FROM "shares", "shares_in_groups" WHERE "shares_in_groups"."group_id" = ? AND "shares_in_groups"."share_id" = "shares"."id" AND "shares"."enabled" != 0;', [$group_id]);
+				$query_result = Database::query('SELECT
+						"shares"."id"
+					FROM
+						"shares",
+						"shares_in_groups"
+					WHERE
+						"shares_in_groups"."group_id" = ? AND
+						"shares_in_groups"."share_id" = "shares"."id" AND
+						"shares"."enabled" != 0;', [$group_id]);
 			} else {
 				$query_result = Database::query('SELECT "share_id" FROM "shares_in_groups" WHERE "group_id" = ?;', [$group_id]);
 			}

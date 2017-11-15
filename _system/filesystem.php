@@ -326,7 +326,7 @@ class Filesystem
 		$path = self::sanitizePath($path);
 		$path_array = explode('/', trim($path, '/'));
 		if (isset($path_array[0])) {
-			return $path_array[0] === '';
+			return ($path_array[0] === '');
 		}
 		return false;
 	}

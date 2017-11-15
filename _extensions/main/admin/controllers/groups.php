@@ -11,14 +11,7 @@ if ( // create group
 	!empty($_POST['name']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
-	switch ($_POST['enabled']) {
-		case 'enabled':
-			$enabled = true;
-			break;
-		case 'disabled':
-			$enabled = false;
-			break;
-	}
+	$enabled = ($_POST['enabled'] == 'enabled');
 	Session::set('_main_admin_status', Groups::create($_POST['name'], $enabled, $_POST['comment']));
 
 
@@ -33,14 +26,7 @@ if ( // create group
 	isset($_POST['update_enabled'], $_GET['group'], $_POST['enabled']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
-	switch ($_POST['enabled']) {
-		case 'enabled':
-			$enabled = true;
-			break;
-		case 'disabled':
-			$enabled = false;
-			break;
-	}
+	$enabled = ($_POST['enabled'] == 'enabled');
 	Session::set('_main_admin_status', Groups::setEnabled($_GET['group'], $enabled));
 
 

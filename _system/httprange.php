@@ -38,7 +38,7 @@ class HttpRange
 				$send_length = $end - $start + 1;
 
 				if ($start > $content_length || $end > $content_length) {
-					Log::warning('Invalid requested range (start: '.$start.', end: '.$end.', filesize: '.$content_length.')');
+					Log::warning('Invalid requested range (start: ' . $start . ', end: ' . $end . ', filesize: ' . $content_length . ')');
 					http_response_code(416); // Requested Range Not Satisfiable
 					header('Content-Length: ' . $content_length);
 					exit();

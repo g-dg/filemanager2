@@ -18,7 +18,7 @@ class Session
 	protected static $session_id = null;
 	protected static $session_name = self::SESSION_NAME;
 
-	// passing $session_id changes the current session id to that session id
+	// passing $session_id sets the current session id to that session id
 	public static function start($session_id = null)
 	{
 		if (is_null(self::$session_id)) {
@@ -72,9 +72,11 @@ class Session
 		return !is_null(self::$session_id);
 	}
 
-	public static function getSessionId()
+	public static function getSessionId($start = true)
 	{
-		self::start();
+		if ($start) {
+			self::start();
+		}
 		return self::$session_id;
 	}
 
@@ -89,11 +91,9 @@ class Session
 		self::start();
 		$query_result = Database::query('SELECT "value" FROM "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key]);
 		if (isset($query_result[0])) {
-			$value = unserialize($query_result[0][0]);
-		} else {
-			$value = $default;
+			return unserialize($query_result[0][0]);
 		}
-		return $value;
+		return $default;
 	}
 
 	public static function unset($key)
@@ -105,7 +105,7 @@ class Session
 	public static function isset($key)
 	{
 		self::start();
-		return Database::query('SELECT COUNT() from "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0] > 0;
+		return (Database::query('SELECT COUNT() from "session_data" WHERE "session_id" = ? AND "key" = ?;', [self::$session_id, $key])[0][0] > 0);
 	}
 
 	public static function garbageCollect()

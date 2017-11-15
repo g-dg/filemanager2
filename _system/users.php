@@ -20,11 +20,7 @@ class Users
 			if ($type !== self::USER_TYPE_ADMIN && $type !== self::USER_TYPE_STANDARD && $type !== self::USER_TYPE_GUEST) {
 				return false;
 			}
-			if ($enabled) {
-				$enabled_int = 1;
-			} else {
-				$enabled_int = 0;
-			}
+			$enabled_int = $enabled?1:0;
 
 			try {
 				Database::query('INSERT INTO "users" ("name", "password", "enabled", "type", "comment") VALUES (?, ?, ?, ?, ?);', [$username, $password_hash, $enabled_int, $type, $comment]);
@@ -67,11 +63,7 @@ class Users
 	public static function setEnabled($user_id, $enabled)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if ($enabled) {
-				$enabled_int = 1;
-			} else {
-				$enabled_int = 0;
-			}
+			$enabled_int = $enabled?1:0;
 			Database::query('UPDATE "users" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $user_id]);
 			Log::notice('User "' . Users::getName($user_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
 			return true;
@@ -135,7 +127,7 @@ class Users
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
 			$query_result = Database::query('SELECT "enabled" FROM "users" WHERE "id" = ?;', [$user_id]);
 			if (isset($query_result[0])) {
-				return $query_result[0]['enabled'] != 0;
+				return ($query_result[0]['enabled'] != 0);
 			}
 		}
 		return null;

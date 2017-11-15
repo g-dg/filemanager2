@@ -12,14 +12,7 @@ if ( // create share
 	!empty($_POST['path']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
-	switch ($_POST['enabled']) {
-		case 'enabled':
-			$enabled = true;
-			break;
-		case 'disabled':
-			$enabled = false;
-			break;
-	}
+	$enabled = ($_POST['enabled'] == 'enabled');
 	Session::set('_main_admin_status', Shares::create($_POST['name'], $_POST['path'], $enabled, $_POST['comment']));
 
 
@@ -41,14 +34,7 @@ if ( // create share
 	isset($_POST['update_enabled'], $_GET['share'], $_POST['enabled']) &&
 	($_POST['enabled'] === 'enabled' || $_POST['enabled'] === 'disabled')
 ) {
-	switch ($_POST['enabled']) {
-		case 'enabled':
-			$enabled = true;
-			break;
-		case 'disabled':
-			$enabled = false;
-			break;
-	}
+	$enabled = ($_POST['enabled'] == 'enabled');
 	Session::set('_main_admin_status', Shares::setEnabled($_GET['share'], $enabled));
 
 

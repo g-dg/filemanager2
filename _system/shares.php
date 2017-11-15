@@ -10,11 +10,7 @@ class Shares {
 	public static function create($name, $path, $enabled = true, $comment = '')
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if ($enabled) {
-				$enabled_int = 1;
-			} else {
-				$enabled_int = 0;
-			}
+			$enabled_int = $enabled?1:0;
 			try {
 				Database::query('INSERT INTO "shares" ("name", "path", "enabled", "comment") VALUES (?, ?, ?, ?);', [$name, $path, $enabled_int, $comment]);
 				Log::notice('Share "' . $name . '" created by "' . Auth::getCurrentUserName() . '"');
@@ -56,11 +52,7 @@ class Shares {
 	public static function setEnabled($share_id, $enabled)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
-			if ($enabled) {
-				$enabled_int = 1;
-			} else {
-				$enabled_int = 0;
-			}
+			$enabled_int = $enabled?1:0;
 			Database::query('UPDATE "shares" SET "enabled" = ? WHERE "id" = ?;', [$enabled_int, $share_id]);
 			Log::notice('Share "' . Shares::getName($share_id) . '" ' . ($enabled?'enabled':'disabled') . ' by "' . Auth::getCurrentUserName() . '"');
 			return true;
@@ -105,7 +97,7 @@ class Shares {
 	{
 		$query_result = Database::query('SELECT "enabled" FROM "shares" WHERE "id" = ?;', [$share_id]);
 		if (isset($query_result[0])) {
-			return $query_result[0]['enabled'] != 0;
+			return ($query_result[0]['enabled'] != 0);
 		}
 		return null;
 	}
@@ -195,24 +187,6 @@ class Shares {
 	public static function getAllAccessible($user_id)
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $user_id === Auth::getCurrentUserId()) {
-			/*
-				SELECT DISTINCT
-					"shares"."id" AS "id"
-				FROM
-					"users",
-					"users_in_groups",
-					"groups",
-					"shares_in_groups",
-					"shares"
-				WHERE
-					"users"."id" = ? AND
-					"users_in_groups"."user_id" = "users"."id" AND
-					"users_in_groups"."group_id" = "groups"."id" AND
-					"shares_in_groups"."group_id" = "groups"."id" AND
-					"shares_in_groups"."share_id" = "shares"."id" AND
-					"groups"."enabled" != 0 AND
-					"shares"."enabled" != 0;
-			*/
 			$query_result = Database::query('SELECT DISTINCT
 						"shares"."id" AS "id"
 					FROM
