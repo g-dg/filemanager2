@@ -179,10 +179,6 @@ Router::registerPage('browse', function($path) {
 	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
 	$manage_icon_path = Router::getHtmlReadyUri('/resource/main/icons/properties.png');
 
-	$file_serve_prefix = Router::getHtmlReadyUri('/file/'.Session::getSessionId());
-	$download_serve_prefix = Router::getHtmlReadyUri('/download');
-	$properties_prefix = Router::getHtmlReadyUri('/properties');
-
 	foreach ($dirlist as $filename) {
 		$file_id++;
 
@@ -236,9 +232,9 @@ Router::registerPage('browse', function($path) {
 			echo '<td>';
 			if ($is_readable) {
 				if ($is_dir) {
-					echo '<a href="'.htmlspecialchars(Router::urlencode($filename)).'/">'.htmlspecialchars($filename).'/</a>';
+					echo '<a href="'.Router::getHtmlReadyUri('/browse/'.$file).'/">'.htmlspecialchars($filename).'/</a>';
 				} else {
-					echo '<a href="'.$file_serve_prefix . htmlspecialchars(Router::urlencode($file)).'" target="_blank">'.htmlspecialchars($filename).'</a>';
+					echo '<a href="'.Router::getHtmlReadyUri('/file/'.Session::getSessionId().'/'.$file).'" target="_blank">'.htmlspecialchars($filename).'</a>';
 				}
 			} else {
 				if ($is_dir) {
@@ -363,13 +359,13 @@ Router::registerPage('browse', function($path) {
 			// download
 			echo '<td class="img">';
 			if ($is_file && $is_readable) {
-				echo '<a href="'.$download_serve_prefix . htmlspecialchars(Router::urlencode($file)).'"><img src="'.$download_icon_path.'" alt="Download" title="Download" /></a>';
+				echo '<a href="'.Router::getHtmlReadyUri('/download/'.$file).'"><img src="'.$download_icon_path.'" alt="Download" title="Download" /></a>';
 			}
 			echo '</td>';
 
 
 			// properties
-			echo '<td class="img"><a href="'.$properties_prefix . htmlspecialchars(Router::urlencode($file)).'"><img src="'.$manage_icon_path.'" alt="Properties" title="Properties" /></a></td>';
+			echo '<td class="img"><a href="'.Router::getHtmlReadyUri('/properties/'.$file).'"><img src="'.$manage_icon_path.'" alt="Properties" title="Properties" /></a></td>';
 
 
 			echo '</tr>';
