@@ -11,3 +11,4 @@ $config['index_page'] = 'index.php';
 $config['database_file'] = '_database.sqlite3';
 $config['log_file'] = '_log.txt';
 $config['log_level'] = Log::NOTICE;
+$config['debug'] = false;
