@@ -106,7 +106,7 @@ class Hooks {
 
 class Loader {
 	public static function loadAll()
-	public static function registerInit($init_public static function)
+	public static function registerInit($init_function)
 }
 
 
@@ -135,7 +135,7 @@ class Log {
 class Extensions {
 	public static function loadAll()
 	public static function exists($extension)
-	public static function registerInit($init_public static function)
+	public static function registerInit($init_function)
 }
 
 
