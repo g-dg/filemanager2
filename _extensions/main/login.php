@@ -27,24 +27,33 @@ Router::registerPage('login', function($subpage) {
 		<h1 class="title">Log into Garnet DeGelder\'s File Manager at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
 		<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" class="u-full-width" />
 		<input id="password" name="password" type="password" value="" placeholder="Password" class="u-full-width" />
+		';
+		Hooks::exec('_main.login.form');
+		echo '
 		<input id="submit" name="submit" type="submit" value="Log In" autocomplete="current-password" class="u-full-width button-primary" />
 		<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
+		';
+		Hooks::exec('_main.login.post_form');
+		echo '
 		<div class="message">';
 	if (Session::isset('_auth_status')) {
 		switch (Session::get('_auth_status')) {
 			case Auth::ERROR_DOESNT_EXIST:
-				echo 'User doesn\'t exist';
+				echo '<p>User doesn\'t exist</p>';
 				break;
 			case Auth::ERROR_INCORRECT_PASSWORD:
-				echo 'Incorrect password';
+				echo '<p>Incorrect password</p>';
 				break;
 			case Auth::ERROR_DISABLED:
-				echo 'User is disabled';
+				echo '<p>User is disabled</p>';
 				break;
 		}
 		Session::unset('_auth_status');
 	}
-	echo '	</div>
+	echo '</div>
+	';
+	Hooks::exec('_main.login.message');
+	echo '
 	</form>
 	<footer>
 		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' ' . GARNETDG_FILEMANAGER_COPYRIGHT . '<p>

@@ -47,6 +47,7 @@ class MainUiTemplate
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares_in_groups').'">Shares in Groups</a></li>';
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares').'">Shares</a></li>';
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/settings').'">Global Settings</a></li>';
+					Hooks::exec('_main.admin.page');
 				echo '</ul>';
 			echo '</li>';
 		}
