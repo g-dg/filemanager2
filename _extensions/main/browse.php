@@ -60,7 +60,7 @@ Router::registerPage('browse', function($path) {
 						usort($dirlist, function($a, $b){return strnatcasecmp($b, $a);});
 						break;
 					case 'desc':
-						usort($dirlist, function($a, $b){return strnatcasecmp($a, $b);});
+						natcasesort($dirlist);
 					break;
 				}
 				break;
