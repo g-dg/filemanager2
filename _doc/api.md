@@ -162,7 +162,8 @@ class Router {
 
 class Session {
 	public static function start($session_id = null)
-	public static function getSessionId()
+	public static function started()
+	public static function getSessionId($start = true)
 	public static function set($key, $value)
 	public static function get($key, $default = null)
 	public static function unset($key)
