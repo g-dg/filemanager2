@@ -10,3 +10,4 @@ Hooks
 - `_main.login.form` - must echo the output
 - `_main.admin.page` - must echo the output as "li"s
 - `_main.properties.propertytable` - must echo the output as tr's and td's
+- `_main.settings.easysetting` - must echo the output as a form, see settings.php for examples
