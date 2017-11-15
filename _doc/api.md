@@ -16,6 +16,7 @@ class Auth {
 	function getCurrentUserName($authenticate = true)
 	function getCurrentUserType($authenticate = true)
 	function getCurrentUserComment($authenticate = true)
+	function checkPassword($user_id, $password)
 	function logout($keep_session = true)
 }
 

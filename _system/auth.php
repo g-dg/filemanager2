@@ -158,6 +158,26 @@ class Auth
 		return self::$user_comment;
 	}
 
+	public static function checkPassword($user_id, $password)
+	{
+		$user_record = Database::query('SELECT * FROM "users" WHERE "id" = ?;', [$user_id]);
+		if (isset($user_record[0])) {
+			$user_record = $user_record[0];
+			// user exists
+			if (password_verify($password, $user_record['password']) ||
+					(substr($user_record['password'], 0, 4) === '$6$$' && // compatability for old password format
+					hash('sha512', $password) === substr($user_record['password'], 4, 128))) {
+				// correct password
+				if (password_needs_rehash($user_record['password'], PASSWORD_DEFAULT)) {
+					Database::query('UPDATE "users" SET "password" = ? WHERE "id" = ?;', [password_hash($password, PASSWORD_DEFAULT), $user_id], false);
+					Log::notice('Rehashed password for "'.$user_record['name'].'"');
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static function logout($keep_session = true)
 	{
 		Log::info('User "' . self::getCurrentUserName() . '" logged out');
