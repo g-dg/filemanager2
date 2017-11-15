@@ -10,103 +10,103 @@ class Auth {
 	const ERROR_INCORRECT_PASSWORD
 	const ERROR_DISABLED
 
-	function authenticate($redirect = true, $username = null, $password = null)
-	function isAuthenticated()
-	function getCurrentUserId($authenticate = true)
-	function getCurrentUserName($authenticate = true)
-	function getCurrentUserType($authenticate = true)
-	function getCurrentUserComment($authenticate = true)
-	function checkPassword($user_id, $password)
-	function logout($keep_session = true)
+	public static function authenticate($redirect = true, $username = null, $password = null)
+	public static function isAuthenticated()
+	public static function getCurrentUserId($authenticate = true)
+	public static function getCurrentUserName($authenticate = true)
+	public static function getCurrentUserType($authenticate = true)
+	public static function getCurrentUserComment($authenticate = true)
+	public static function checkPassword($user_id, $password)
+	public static function logout($keep_session = true)
 }
 
 
 class Config {
-	function get($key, $default = null)
+	public static function get($key, $default = null)
 }
 
 
 class Database {
-	$connection
+	public static $connection
 
-	function connect()
-	function lock()
-	function unlock()
-	function query($sql, $params = [], $enable_cache = true)
-	function getVersionString()
+	public static function connect()
+	public static function lock()
+	public static function unlock()
+	public static function query($sql, $params = [], $enable_cache = true)
+	public static function getVersionString()
 }
 
 
 class Filesystem {
-	function copy($source, $dest)
-	function file_exists($filename)
-	function file_get_contents($filename)
-	function file_put_contents($filename, $data)
-	function fileatime($filename)
-	function filemtime($filename)
-	function filesize($filename)
-	function filetype($filename)
-	function fopen($filename, $mode)
-	function is_dir($filename)
-	function is_file($filename)
-	function is_readable($filename)
-	function is_writable($filename)
-	function mkdir($filename)
-	function rename($oldname, $newname)
-	function rmdir($dirname)
-	function touch($filename)
-	function unlink($filename)
-	function scandir($path)
-	function fileCount($path)
-	function processFileUpload($form_upload_element_name, $dest_filename)
-	function getContentType($filename, $is_filesystem_path = false, $cache = false)
-	function sanitizePath($path)
+	public static function copy($source, $dest)
+	public static function file_exists($filename)
+	public static function file_get_contents($filename)
+	public static function file_put_contents($filename, $data)
+	public static function fileatime($filename)
+	public static function filemtime($filename)
+	public static function filesize($filename)
+	public static function filetype($filename)
+	public static function fopen($filename, $mode)
+	public static function is_dir($filename)
+	public static function is_file($filename)
+	public static function is_readable($filename)
+	public static function is_writable($filename)
+	public static function mkdir($filename)
+	public static function rename($oldname, $newname)
+	public static function rmdir($dirname)
+	public static function touch($filename)
+	public static function unlink($filename)
+	public static function scandir($path)
+	public static function fileCount($path)
+	public static function processFileUpload($form_upload_element_name, $dest_filename)
+	public static function getContentType($filename, $is_filesystem_path = false, $cache = false)
+	public static function sanitizePath($path)
 }
 
 
 class GlobalSettings {
-	function get($key, $default = null, $force = false)
-	function set($key, $value, $force = false)
-	function isset($key, $force = false)
-	function unset($key, $force = false)
-	function getAll($force = false)
+	public static function get($key, $default = null, $force = false)
+	public static function set($key, $value, $force = false)
+	public static function isset($key, $force = false)
+	public static function unset($key, $force = false)
+	public static function getAll($force = false)
 }
 
 
 class Groups {
-	function addUser($group_id, $user_id)
-	function removeUser($group_id, $user_id)
-	function addShare($group_id, $share_id, $writable = false)
-	function removeShare($group_id, $share_id)
-	function getShareWritable($group_id, $share_id)
-	function setShareWritable($group_id, $share_id, $writable)
-	function userInGroup($group_id, $user_id)
-	function shareInGroup($group_id, $share_id)
-	function create($name, $enabled = true, $comment = '')
-	function delete($group_id)
-	function getId($name)
-	function getName($group_id)
-	function setName($group_id, $new_name)
-	function getEnabled($group_id)
-	function setEnabled($group_id, $enabled)
-	function getComment($group_id)
-	function setComment($group_id, $comment)
-	function getUsersInGroup($group_id, $enabled_only = false)
-	function getSharesInGroup($group_id, $enabled_only = false)
-	function getAll($enabled_only = false)
+	public static function addUser($group_id, $user_id)
+	public static function removeUser($group_id, $user_id)
+	public static function addShare($group_id, $share_id, $writable = false)
+	public static function removeShare($group_id, $share_id)
+	public static function getShareWritable($group_id, $share_id)
+	public static function setShareWritable($group_id, $share_id, $writable)
+	public static function userInGroup($group_id, $user_id)
+	public static function shareInGroup($group_id, $share_id)
+	public static function create($name, $enabled = true, $comment = '')
+	public static function delete($group_id)
+	public static function getId($name)
+	public static function getName($group_id)
+	public static function setName($group_id, $new_name)
+	public static function getEnabled($group_id)
+	public static function setEnabled($group_id, $enabled)
+	public static function getComment($group_id)
+	public static function setComment($group_id, $comment)
+	public static function getUsersInGroup($group_id, $enabled_only = false)
+	public static function getSharesInGroup($group_id, $enabled_only = false)
+	public static function getAll($enabled_only = false)
 }
 
 
 class Hooks {
-	function register($hook_name, $callback)
-	function exec($hook_name, $arguments = [], $last_only = false)
-	function isRegistered($hook_name)
+	public static function register($hook_name, $callback)
+	public static function exec($hook_name, $arguments = [], $last_only = false)
+	public static function isRegistered($hook_name)
 }
 
 
 class Loader {
-	function loadAll()
-	function registerInit($init_function)
+	public static function loadAll()
+	public static function registerInit($init_public static function)
 }
 
 
@@ -120,77 +120,77 @@ class Log {
 	const INFO
 	const DEBUG
 
-	function emergency($message)
-	function alert($message)
-	function critical($message)
-	function error($message)
-	function warning($message)
-	function notice($message)
-	function info($message)
-	function debug($message)
-	function log($level, $message)
+	public static function emergency($message)
+	public static function alert($message)
+	public static function critical($message)
+	public static function error($message)
+	public static function warning($message)
+	public static function notice($message)
+	public static function info($message)
+	public static function debug($message)
+	public static function log($level, $message)
 }
 
 
 class Extensions {
-	function loadAll()
-	function exists($extension)
-	function registerInit($init_function)
+	public static function loadAll()
+	public static function exists($extension)
+	public static function registerInit($init_public static function)
 }
 
 
 class Resources {
-	function register($name, $callback)
-	function serveFile($filename)
+	public static function register($name, $callback)
+	public static function serveFile($filename)
 }
 
 
 class Router {
-	function registerPage($name, $callback)
-	function registerErrorPage($http_error, $callback)
-	function execCurrentPage()
-	function execErrorPage($http_error)
-	function getCurrentPage()
-	function getCurrentParameters()
-	function getCurrentPageAndParameters()
-	function getHttpReadyUri($full_path, $params = [])
-	function getHtmlReadyUri($full_path, $params = [])
-	function redirect($full_path, $params = [])
-	function getApplicationRelativeHttpPath($relative_path)
+	public static function registerPage($name, $callback)
+	public static function registerErrorPage($http_error, $callback)
+	public static function execCurrentPage()
+	public static function execErrorPage($http_error)
+	public static function getCurrentPage()
+	public static function getCurrentParameters()
+	public static function getCurrentPageAndParameters()
+	public static function getHttpReadyUri($full_path, $params = [])
+	public static function getHtmlReadyUri($full_path, $params = [])
+	public static function redirect($full_path, $params = [])
+	public static function getApplicationRelativeHttpPath($relative_path)
 }
 
 
 class Session {
-	function start($session_id = null)
-	function getSessionId()
-	function set($key, $value)
-	function get($key, $default = null)
-	function unset($key)
-	function isset($key)
-	function garbageCollect()
-	function unsetSession($destroy_session = false)
-	function lock()
-	function unlock()
+	public static function start($session_id = null)
+	public static function getSessionId()
+	public static function set($key, $value)
+	public static function get($key, $default = null)
+	public static function unset($key)
+	public static function isset($key)
+	public static function garbageCollect()
+	public static function unsetSession($destroy_session = false)
+	public static function lock()
+	public static function unlock()
 }
 
 
 class Shares {
-	function create($name, $path, $enabled = true, $comment = '')
-	function delete($share_id)
-	function setName($share_id, $new_name)
-	function setPath($share_id, $new_path)
-	function setEnabled($share_id, $enabled)
-	function setComment($share_id, $new_comment)
-	function getId($name)
-	function getName($share_id)
-	function getPath($share_id)
-	function getEnabled($share_id)
-	function getComment($share_id)
-	function canRead($share_id, $user_id)
-	function canWrite($share_id, $user_id)
-	function getGroups($share_id)
-	function getAllAccessible($user_id)
-	function getAll($enabled_only = false)
+	public static function create($name, $path, $enabled = true, $comment = '')
+	public static function delete($share_id)
+	public static function setName($share_id, $new_name)
+	public static function setPath($share_id, $new_path)
+	public static function setEnabled($share_id, $enabled)
+	public static function setComment($share_id, $new_comment)
+	public static function getId($name)
+	public static function getName($share_id)
+	public static function getPath($share_id)
+	public static function getEnabled($share_id)
+	public static function getComment($share_id)
+	public static function canRead($share_id, $user_id)
+	public static function canWrite($share_id, $user_id)
+	public static function getGroups($share_id)
+	public static function getAllAccessible($user_id)
+	public static function getAll($enabled_only = false)
 }
 
 
@@ -199,30 +199,30 @@ class Users {
 	const USER_TYPE_STANDARD
 	const USER_TYPE_GUEST
 
-	function create($username, $password, $type = self::USER_TYPE_STANDARD, $enabled = true, $comment = '')
-	function delete($user_id)
-	function setName($user_id, $new_name)
-	function setPassword($user_id, $password)
-	function setEnabled($user_id, $enabled)
-	function setType($user_id, $type)
-	function setComment($user_id, $comment)
-	function getId($username)
-	function getName($user_id)
-	function getEnabled($user_id)
-	function getType($user_id)
-	function getComment($user_id)
-	function getGroups($user_id)
-	function getCurrentId()
-	function getAll($enabled_only = false)
+	public static function create($username, $password, $type = self::USER_TYPE_STANDARD, $enabled = true, $comment = '')
+	public static function delete($user_id)
+	public static function setName($user_id, $new_name)
+	public static function setPassword($user_id, $password)
+	public static function setEnabled($user_id, $enabled)
+	public static function setType($user_id, $type)
+	public static function setComment($user_id, $comment)
+	public static function getId($username)
+	public static function getName($user_id)
+	public static function getEnabled($user_id)
+	public static function getType($user_id)
+	public static function getComment($user_id)
+	public static function getGroups($user_id)
+	public static function getCurrentId()
+	public static function getAll($enabled_only = false)
 }
 
 
 class UserSettings {
-	function get($key, $default, $user = null, $force = false)
-	function set($key, $value, $user = null, $force = false)
-	function isset($key, $user = null, $force = false)
-	function unset($key, $user = null, $force = false)
-	function getAll($user = null, $force = false)
+	public static function get($key, $default, $user = null, $force = false)
+	public static function set($key, $value, $user = null, $force = false)
+	public static function isset($key, $user = null, $force = false)
+	public static function unset($key, $user = null, $force = false)
+	public static function getAll($user = null, $force = false)
 }
 
 ```
