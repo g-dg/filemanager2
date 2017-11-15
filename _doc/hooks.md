@@ -11,3 +11,4 @@ Hooks
 - `_main.admin.page` - must echo the output as "li"s
 - `_main.properties.propertytable` - must echo the output as tr's and td's
 - `_main.settings.easysetting` - must echo the output as a form, see settings.php for examples
+- `_main.about.post_license` - must echo the output, should have an &lt;hr /&gt; at the end
