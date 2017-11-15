@@ -16,7 +16,7 @@
 
 .listing tbody tr {
 	background-color: #fff;
-	transition: background-color 0.1s ease-in;
+	transition: background-color 0.1s ease-in-out;
 }
 .listing tbody tr:hover {
 	background-color: #eee;
