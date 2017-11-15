@@ -19,6 +19,9 @@ Router::registerPage('settings', function($subpage) {
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 				<input name="set_key" type="hidden" value="_main.browse.show_hidden" />
 				<div class="row">
+					<div class="one column">
+						<p>Hidden file behaviour:</p>
+					</div>
 					<div class="nine columns">
 						';
 						if (UserSettings::get('_main.browse.show_hidden', 'false') === 'true') {
@@ -28,14 +31,67 @@ Router::registerPage('settings', function($subpage) {
 						}
 						echo '
 					</div>
-					<div class="three columns">
+					<div class="two columns">
 						<input name="set" type="submit" value="Save" class="u-full-width button-primary" />
 					</div>
 				</div>
 			</form>
 
+			<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">
+				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
+				<input name="set_key" type="hidden" value="_main.browse.sort_field" />
+				<div class="row">
+					<div class="one column">
+						<p>Sort field:</p>
+					</div>
+					<div class="nine columns">
+						';
+						switch (UserSettings::get('_main.browse.sort_field', 'name')) {
+							case 'last-modified':
+								echo '<select name="set_value" class="u-full-width"><option value="name">Name</option><option value="last-modified" selected="selected">Last Modified</option><option value="size">Size</option></select>';
+								break;
+							case 'size':
+								echo '<select name="set_value" class="u-full-width"><option value="name">Name</option><option value="last-modified">Last Modified</option><option value="size" selected="selected">Size</option></select>';
+								break;
+							default:
+								echo '<select name="set_value" class="u-full-width"><option value="name" selected="selected">Name</option><option value="last-modified">Last Modified</option><option value="size">Size</option></select>';
+								break;
+						}
+						echo '
+					</div>
+					<div class="two columns">
+						<input name="set" type="submit" value="Save" class="u-full-width button-primary" onclick="alert(\'You will have to log out and log back in for changes to take effect.\');" />
+					</div>
+				</div>
+			</form>
+
+			<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">
+				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
+				<input name="set_key" type="hidden" value="_main.browse.sort_order" />
+				<div class="row">
+					<div class="one column">
+						<p>Sort order:</p>
+					</div>
+					<div class="nine columns">
+						';
+						switch (UserSettings::get('_main.browse.sort_order', 'desc')) {
+							case 'asc':
+								echo '<select name="set_value" class="u-full-width"><option value="asc" selected="selected">Ascending</option><option value="desc">Descending</option></select>';
+								break;
+							default:
+								echo '<select name="set_value" class="u-full-width"><option value="asc">Ascending</option><option value="desc" selected="selected">Descending</option></select>';
+								break;
+						}
+						echo '
+					</div>
+					<div class="two columns">
+						<input name="set" type="submit" value="Save" class="u-full-width button-primary" onclick="alert(\'You will have to log out and log back in for changes to take effect.\');" />
+					</div>
+				</div>
+			</form>
+
 		</fieldset>
-		<input type="button" value="Show advanced settings" onclick="document.getElementById(\'advanced\').setAttribute(\'style\', \'display: block;\');" style="margin-top: 1em;" />
+		<input type="button" value="Advanced" onclick="document.getElementById(\'advanced\').setAttribute(\'style\', \'display: block;\');" style="margin-top: 1em;" />
 		<fieldset id="advanced" style="display: none;">
 			<legend>Advanced Settings</legend>
 			<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">
@@ -91,10 +147,9 @@ Router::registerPage('settings', function($subpage) {
 							</tbody>
 						</table>
 					</fieldset>
-				</form>
-			</fieldset>
-		</div>
-	</form>';
+				</div>
+			</form>
+		</fieldset>';
 			MainUiTemplate::footer();
 			break;
 		
