@@ -36,7 +36,15 @@ class HttpRange
 					$end = (int)$end;
 				}
 				$send_length = $end - $start + 1;
-				header('HTTP/1.1 206 Partial Content');
+
+				if ($start > $content_length || $end > $content_length) {
+					Log::warning('Invalid requested range (start: '.$start.', end: '.$end.', filesize: '.$content_length.')');
+					http_response_code(416); // Requested Range Not Satisfiable
+					header('Content-Length: ' . $content_length);
+					exit();
+				}
+
+				http_response_code(206); // Partial Length
 				header('Content-Length: ' . $send_length);
 				header('Content-Range: bytes ' . $start . '-' . $end . '/' . $content_length);
 			} else {
