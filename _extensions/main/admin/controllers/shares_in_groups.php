@@ -14,9 +14,9 @@ if (
 	} else if (isset($_POST['deny'])) {
 		Session::set('_main_admin_status', Groups::removeShare($_GET['group'], $_GET['share']));
 	} else if (isset($_POST['read-only'])) {
-		Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], false));
+		Session::set('_main_admin_status', Groups::setShareWritable($_GET['group'], $_GET['share'], false));
 	} else if (isset($_POST['read-write'])) {
-		Session::set('_main_admin_status', Groups::addShare($_GET['group'], $_GET['share'], true));
+		Session::set('_main_admin_status', Groups::setShareWritable($_GET['group'], $_GET['share'], true));
 	} else {
 		Session::set('_main_admin_status', false);
 	}
