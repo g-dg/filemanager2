@@ -150,6 +150,9 @@ Router::registerPage('properties', function($path) {
 	echo '</td></tr>';
 
 
+	Hooks::exec('_main.properties.propertytable');
+
+
 	echo '</tbody></table></fieldset>';
 
 
