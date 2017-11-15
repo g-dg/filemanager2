@@ -157,6 +157,7 @@ class Router {
 	public static function getHtmlReadyUri($full_path, $params = [])
 	public static function redirect($full_path, $params = [])
 	public static function getApplicationRelativeHttpPath($relative_path)
+	public static function urlencode($url)
 }
 
 

@@ -172,4 +172,9 @@ class Router
 		}
 		return $base_directory . '/' . implode('/', $encoded_path_array);
 	}
+
+	// for path parts. Replaces slashes
+	public static function urlencode($url) {
+		return str_replace('+', '%20', urlencode($url));
+	}
 }
