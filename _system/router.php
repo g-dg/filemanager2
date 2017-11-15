@@ -170,6 +170,6 @@ class Router
 				$encoded_path_array[] = str_replace('+', '%20', urlencode($pathpart));
 			}
 		}
-		$encoded_path = $base_directory . '/' . implode('/', $encoded_path_array);
+		return $base_directory . '/' . implode('/', $encoded_path_array);
 	}
 }
