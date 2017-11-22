@@ -359,7 +359,7 @@ Router::registerPage('browse', function($path) {
 			// download
 			echo '<td class="img">';
 			if ($is_file && $is_readable) {
-				echo '<a href="'.Router::getHtmlReadyUri('/download/'.$file).'"><img src="'.$download_icon_path.'" alt="Download" title="Download" /></a>';
+				echo '<a href="'.Router::getHtmlReadyUri('/download/'.Session::getSessionId().'/'.$file).'"><img src="'.$download_icon_path.'" alt="Download" title="Download" /></a>';
 			}
 			echo '</td>';
 

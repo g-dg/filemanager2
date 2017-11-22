@@ -15,7 +15,11 @@ Router::registerPage('file', function($path) {
 	HttpRange::send($file);
 });
 
-Router::registerPage('download', function($file) {
+Router::registerPage('download', function($path) {
+	$path_array = explode('/', trim($path, '/'));
+	Session::start($path_array[0]);
 	Auth::authenticate();
+	array_shift($path_array);
+	$file = implode('/', $path_array);
 	HttpRange::send($file, true);
 });
