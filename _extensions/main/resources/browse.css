@@ -12,6 +12,7 @@
 
 .listing {
 	white-space: nowrap;
+	margin: 0px;
 }
 
 .listing tbody tr {
