@@ -324,6 +324,7 @@ Router::registerPage('browse', function($path) {
 				} else {
 					echo sprintf("%01.1f G", ($filecount / 1000000000));
 				}
+				echo '</span>';
 			} else {
 				$filesize = Filesystem::filesize($file);
 				if ($filesize !== false) {
@@ -345,11 +346,11 @@ Router::registerPage('browse', function($path) {
 					} else {
 						echo sprintf("%01.1f TiB", ($filesize / 1099511627776));
 					}
+					echo '</span>';
 				} else {
 					echo 'Unknown';
 				}
 			}
-			echo '</span>';
 			echo '</td>';
 
 
