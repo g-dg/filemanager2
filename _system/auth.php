@@ -106,10 +106,10 @@ class Auth
 			Session::unset('_auth_status');
 		}
 		Session::unlock();
-		if ($auth_status !== true) {
-			Session::set('_auth_status', $auth_status);
-			if ($redirect) {
+		if ($redirect) {
+			if ($auth_status !== true) {
 				Session::lock();
+				Session::set('_auth_status', $auth_status);
 				if (!Session::isset('_login_target')) {
 					Session::set('_login_target', $_SERVER['REQUEST_URI']);
 				}
