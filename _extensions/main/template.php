@@ -57,7 +57,7 @@ class MainUiTemplate
 		Hooks::exec('_main.template.shortcuts');
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
-			if (Auth::isAuthenticated()) {
+			if (Auth::authenticate(false) === true) {
 				echo htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName()));
 			} else {
 				echo '<em>Not logged in</em>';
