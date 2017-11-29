@@ -36,7 +36,10 @@ class MainUiTemplate
 		<ul>
 			';
 		echo '<li><a href="'.Router::getHtmlReadyUri('/browse').'">Browse</a></li>';
-		echo '<li><a href="'.Router::getHtmlReadyUri('/settings').'">Settings</a></li>';
+		echo '<li>';
+		echo '<a href="'.Router::getHtmlReadyUri('/settings').'">Settings</a>';
+		echo '<ul><li><a href="'.Router::getHtmlReadyUri('/account').'">My Account</a></li></ul>';
+		echo '</li>';
 		if (Auth::getCurrentUserType(false) === Auth::USER_TYPE_ADMIN) {
 			echo '<li>';
 				echo '<a href="'.Router::getHtmlReadyUri('/admin').'">Administration</a>';
@@ -52,7 +55,6 @@ class MainUiTemplate
 			echo '</li>';
 		}
 		Hooks::exec('_main.template.shortcuts');
-		echo '<li><a href="'.Router::getHtmlReadyUri('/account').'">My Account</a></li>';
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
 			if (Auth::isAuthenticated()) {
