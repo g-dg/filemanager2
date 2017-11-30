@@ -10,6 +10,7 @@ class MainUiTemplate
 {
 	public static function header($title = null, $head_html = '')
 	{
+		Auth::authenticate(false);
 		if (is_null($title)) {
 			$title = 'Garnet DeGelder\'s File Manager';
 		} else {
@@ -57,7 +58,7 @@ class MainUiTemplate
 		Hooks::exec('_main.template.shortcuts');
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
-			if (Auth::authenticate(false) === true) {
+			if (Auth::isAuthenticated()) {
 				echo str_replace(' ', '&nbsp;', htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())));
 			} else {
 				echo '<em>Not logged in</em>';
