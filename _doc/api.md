@@ -1,4 +1,4 @@
-# Garnet DeGelder's File Manager 2.0 API
+# Garnet DeGelder's File Manager 2.x API
 ```
 
 class Auth {

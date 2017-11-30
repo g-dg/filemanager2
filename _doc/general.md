@@ -1,4 +1,4 @@
-# Garnet DeGelder's File Manager 2.0 - Developer Documentation
+# Garnet DeGelder's File Manager 2.x - Developer Documentation
 
 ## Namespace
 > `GarnetDG\FileManager`
