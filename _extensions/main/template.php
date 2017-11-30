@@ -58,7 +58,7 @@ class MainUiTemplate
 		echo '<li><a href="'.Router::getHtmlReadyUri('/about').'">About</a></li>';
 		echo '<li>';
 			if (Auth::authenticate(false) === true) {
-				echo htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName()));
+				echo str_replace(' ', '&nbsp;', htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())));
 			} else {
 				echo '<em>Not logged in</em>';
 			}

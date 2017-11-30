@@ -19,18 +19,17 @@ Router::registerPage('account', function($subpage) {
 				} else {
 					echo 'A problem occurred during the last action.';
 				}
-				echo '</div>';
+				echo '</div>
+';
 				Session::unset('_main_account_status');
 			}
 			Session::unlock();
-			echo '
-		<fieldset>
+			echo '		<fieldset>
 			<legend>Username</legend>
-			<p>Username: <code>'.htmlspecialchars(Auth::getCurrentUserName()).'</code></p>
+			<p>Username: <code>'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code></p>
 		</fieldset>
 ';
-			echo '
-		<fieldset>
+			echo '		<fieldset>
 			<legend>Full Name</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />

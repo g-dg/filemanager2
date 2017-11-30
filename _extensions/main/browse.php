@@ -232,15 +232,15 @@ Router::registerPage('browse', function($path) {
 			echo '<td>';
 			if ($is_readable) {
 				if ($is_dir) {
-					echo '<a href="'.Router::getHtmlReadyUri('/browse/'.$file).'/">'.htmlspecialchars($filename).'/</a>';
+					echo '<a href="'.Router::getHtmlReadyUri('/browse/'.$file).'/">'.str_replace(' ', '&nbsp;', htmlspecialchars($filename)).'/</a>';
 				} else {
-					echo '<a href="'.Router::getHtmlReadyUri('/file/'.Session::getSessionId().'/'.$file).'" target="_blank">'.htmlspecialchars($filename).'</a>';
+					echo '<a href="'.Router::getHtmlReadyUri('/file/'.Session::getSessionId().'/'.$file).'" target="_blank">'.str_replace(' ', '&nbsp;', htmlspecialchars($filename)).'</a>';
 				}
 			} else {
 				if ($is_dir) {
-					echo '<a class="disabled" href="">'.htmlspecialchars($filename).'/</a>';
+					echo '<a class="disabled" href="">'.str_replace(' ', '&nbsp;', htmlspecialchars($filename)).'/</a>';
 				} else {
-					echo '<a class="disabled" href="">'.htmlspecialchars($filename).'</a>';
+					echo '<a class="disabled" href="">'.str_replace(' ', '&nbsp;', htmlspecialchars($filename)).'</a>';
 				}
 			}
 			echo '</td>';

@@ -34,7 +34,7 @@ $groups = Groups::getAll();
 $users = Users::getAll();
 foreach ($groups as $group_id) {
 	echo '<div class="th">';
-	echo htmlspecialchars(Groups::getName($group_id));
+	echo str_replace(' ', '&nbsp;', htmlspecialchars(Groups::getName($group_id)));
 	echo '</div>';
 }
 echo '</div>'.PHP_EOL;
@@ -42,7 +42,7 @@ echo '</div>'.PHP_EOL;
 foreach ($users as $user_id) {
 	echo '					<div>';
 	echo '<div class="th">';
-	echo htmlspecialchars(Users::getName($user_id));
+	echo str_replace(' ', '&nbsp;', htmlspecialchars(Users::getName($user_id)));
 	echo '</div>';
 
 	foreach ($groups as $group_id) {

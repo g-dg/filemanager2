@@ -49,8 +49,8 @@ echo '		<form action="'.Router::getHtmlReadyUri('/admin/action/settings').'" met
 Database::lock();
 foreach (GlobalSettings::getAll() as $key) {
 	echo '<tr>';
-	echo '<td>'.htmlspecialchars($key).'</td>';
-	echo '<td>'.htmlspecialchars(GlobalSettings::get($key)).'</td>';
+	echo '<td>'.str_replace(' ', '&nbsp;', htmlspecialchars($key)).'</td>';
+	echo '<td>'.str_replace(' ', '&nbsp;', htmlspecialchars(GlobalSettings::get($key))).'</td>';
 	echo '</tr>';
 }
 Database::unlock();

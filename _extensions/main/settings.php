@@ -141,8 +141,8 @@ Router::registerPage('settings', function($subpage) {
 			foreach (UserSettings::getAll() as $key) {
 				if (strlen($key) > 1 && substr($key, 0, 2) !== '__') {
 					echo '<tr>';
-					echo '<td>'.htmlspecialchars($key).'</td>';
-					echo '<td>'.htmlspecialchars(UserSettings::get($key)).'</td>';
+					echo '<td>'.str_replace(' ', '&nbsp;', htmlspecialchars($key)).'</td>';
+					echo '<td>'.str_replace(' ', '&nbsp;', htmlspecialchars(UserSettings::get($key))).'</td>';
 					echo '</tr>';
 				}
 			}
