@@ -26,7 +26,7 @@ Router::registerPage('account', function($subpage) {
 			Session::unlock();
 			echo '		<fieldset>
 			<legend>Username</legend>
-			<p>Username: <code>'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code></p>
+			<p>Username: <code title="User ID: '.htmlspecialchars(Auth::getCurrentUserId()).'">'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code></p>
 		</fieldset>
 ';
 			echo '		<fieldset>
