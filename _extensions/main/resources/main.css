@@ -4,9 +4,11 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
+
 a,
 a:visited {
 	color: #09f;
+	transition: color 0.25s ease;
 }
 a:hover,
 a:active {
@@ -116,7 +118,6 @@ nav.nav li ul {
 nav.nav li:hover > ul,
 nav.nav li:active > ul {
 	display: block;
-	background-color: #eee;
 }
 
 @media (max-width: 767px) {
@@ -142,13 +143,19 @@ nav.nav li:active > ul {
 	}
 }
 
+nav.nav > ul > li {
+	background-color: #fff;
+	transition: background-color 0.1s ease;
+}
 nav.nav > ul > li:hover {
 	background-color: #eee;
 }
 nav.nav > ul > li > ul > li:hover {
+	transition: background-color 0.1s ease;
 	background-color: #ddd;
 }
 nav.nav > ul > li > ul > li > ul > li:hover {
+	transition: background-color 0.1s ease;
 	background-color: #ccc;
 }
 
@@ -245,4 +252,20 @@ footer > p {
 	font-size: 125%;
 	font-style: italic;
 	margin-bottom: 1em;
+}
+
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+	transition: background-color 0.25s ease;
+}
+
+.button,
+button,
+input,
+textarea,
+select {
+	transition: border-color 0.25s ease;
 }

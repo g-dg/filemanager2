@@ -17,10 +17,11 @@
 
 .listing tbody tr {
 	background-color: #fff;
-	transition: background-color 0.1s ease-in-out;
+	transition: background-color 0.25s ease;
 }
 .listing tbody tr:hover {
 	background-color: #eee;
+	background-color: #ddd;
 }
 
 .listing a.disabled {
@@ -45,6 +46,11 @@ ul.head_hooks li {
 	display: inline;
 	padding: .25em .5em;
 	margin: 0px;
+}
+
+ul.head_hooks > li {
+	background-color: inherit;
+	transition: background-color 0.25s ease;
 }
 
 ul.head_hooks > li:hover {
