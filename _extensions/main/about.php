@@ -15,6 +15,7 @@ Router::registerPage('about', function($subpage) {
 <hr />
 
 <h1>License</h1>
+<p>Garnet DeGelder\'s File Manager '.htmlspecialchars(GARNETDG_FILEMANAGER_VERSION).'</p>
 <p>'.GARNETDG_FILEMANAGER_COPYRIGHT.'</p>
 
 <p>This program is free software: you can redistribute it and/or modify
