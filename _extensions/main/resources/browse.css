@@ -46,13 +46,14 @@ ul.head_hooks li {
 	display: inline;
 	padding: .25em .5em;
 	margin: 0px;
+	vertical-align: middle;
 }
 
-ul.head_hooks > li {
+/*ul.head_hooks > li {
 	background-color: inherit;
 	transition: background-color 0.25s ease;
 }
 
 ul.head_hooks > li:hover {
 	background-color: #ddd;
-}
+}*/
