@@ -13,6 +13,10 @@ Router::registerPage('settings', function($subpage) {
 			MainUiTemplate::header('Settings');
 			echo '		
 		<fieldset>
+			<legend>Account Settings</legend>
+			<a href="'.Router::getHtmlReadyUri('/account').'">My Account</a>
+		</fieldset>
+		<fieldset>
 			<legend>Settings</legend>
 
 			<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">
