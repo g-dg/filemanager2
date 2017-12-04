@@ -27,6 +27,7 @@ class MainUiTemplate
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/main.css') . '" type="text/css" />
 	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/favicon.ico') . '" />
 	<title>' . htmlspecialchars($title) . '</title>
+	<script src="'.Router::getHtmlReadyUri('/resource/main/jquery.js').'" type="text/javascript"></script>
 	' . $head_html . '
 </head>
 <body>
@@ -102,4 +103,8 @@ Resources::register('main/normalize.css', function() {
 
 Resources::register('main/skeleton.css', function() {
 	Resources::serveFile('_extensions/main/resources/skeleton.css');
+});
+
+Resources::register('main/jquery.js', function() {
+	Resources::serveFile('_extensions/main/resources/jquery.min.js');
 });
