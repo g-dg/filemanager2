@@ -108,3 +108,7 @@ Resources::register('main/skeleton.css', function() {
 Resources::register('main/jquery.js', function() {
 	Resources::serveFile('_extensions/main/resources/jquery.min.js');
 });
+
+Resources::register('main/icons/close.png', function() {
+	Resources::serveFile('_extensions/main/resources/icons/close.png');
+});
