@@ -191,7 +191,7 @@ class Filesystem
 	{
 		if (self::isPathToRoot($path)) {
 			$share_ids = Shares::getAllAccessible(Auth::getCurrentUserId());
-			$share_names = [];
+			$share_names = ['.'];
 			foreach ($share_ids as $share_id) {
 				$share_names[] = Shares::getname($share_id);
 			}
