@@ -6,7 +6,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-MainUiTemplate::header('Shares in Groups - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+MainUiTemplate::header('Shares in Groups - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/admin.css') . '" type="text/css" />');
 
 Session::lock();
 echo '<div class="message">';

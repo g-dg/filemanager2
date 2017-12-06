@@ -7,7 +7,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 
-MainUiTemplate::header('Users - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+MainUiTemplate::header('Users - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/admin.css') . '" type="text/css" />');
 
 Session::lock();
 echo '<div class="message">';

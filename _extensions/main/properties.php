@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 Router::registerPage('properties', function($path) {
 	Auth::authenticate();
-	MainUiTemplate::header('Properties of /'.$path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/properties.css') . '" type="text/css" />');
+	MainUiTemplate::header('Properties of /'.$path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/properties.css') . '" type="text/css" />');
 
 	echo '<a href="'.Router::getHtmlReadyUri(pathinfo('/browse/'.$path)['dirname']).'/">&lt; Back</a>';
 
@@ -159,6 +159,6 @@ Router::registerPage('properties', function($path) {
 	MainUiTemplate::footer();
 });
 
-Resources::register('main/properties.css', function(){
-	Resources::serveFile('_extensions/main/resources/properties.css');
+Resources::register('main/css/properties.css', function(){
+	Resources::serveFile('_extensions/main/resources/css/properties.css');
 });

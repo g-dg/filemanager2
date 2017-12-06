@@ -22,12 +22,12 @@ class MainUiTemplate
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/normalize.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/skeleton.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/main.css') . '" type="text/css" />
-	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/favicon.ico') . '" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/normalize.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/skeleton.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/main.css') . '" type="text/css" />
+	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/img/favicon.ico') . '" />
 	<title>' . htmlspecialchars($title) . '</title>
-	<script src="'.Router::getHtmlReadyUri('/resource/main/jquery.js').'" type="text/javascript"></script>
+	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'" type="text/javascript"></script>
 	' . $head_html . '
 </head>
 <body>
@@ -89,26 +89,26 @@ class MainUiTemplate
 	}
 }
 
-Resources::register('main/favicon.ico', function() {
-	Resources::serveFile('_extensions/main/resources/favicon.ico');
+Resources::register('main/img/favicon.ico', function() {
+	Resources::serveFile('_extensions/main/resources/img/favicon.ico');
 });
 
-Resources::register('main/main.css', function() {
-	Resources::serveFile('_extensions/main/resources/main.css');
+Resources::register('main/css/main.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/main.css');
 });
 
-Resources::register('main/normalize.css', function() {
-	Resources::serveFile('_extensions/main/resources/normalize.css');
+Resources::register('main/css/normalize.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/normalize.css');
 });
 
-Resources::register('main/skeleton.css', function() {
-	Resources::serveFile('_extensions/main/resources/skeleton.css');
+Resources::register('main/css/skeleton.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/skeleton.css');
 });
 
-Resources::register('main/jquery.js', function() {
-	Resources::serveFile('_extensions/main/resources/jquery.min.js');
+Resources::register('main/js/jquery.js', function() {
+	Resources::serveFile('_extensions/main/resources/js/jquery.min.js');
 });
 
-Resources::register('main/icons/close.png', function() {
-	Resources::serveFile('_extensions/main/resources/icons/close.png');
+Resources::register('main/img/close.png', function() {
+	Resources::serveFile('_extensions/main/resources/img/close.png');
 });

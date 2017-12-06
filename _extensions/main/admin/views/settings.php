@@ -6,7 +6,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 	die();
 }
 
-MainUiTemplate::header('Global Settings - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/admin.css') . '" type="text/css" />');
+MainUiTemplate::header('Global Settings - Administration', '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/admin.css') . '" type="text/css" />');
 echo '		<form action="'.Router::getHtmlReadyUri('/admin/action/settings').'" method="post">
 			<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 			<fieldset>

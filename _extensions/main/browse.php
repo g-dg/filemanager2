@@ -110,7 +110,7 @@ Router::registerPage('browse', function($path) {
 	}
 
 
-	MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/browse.css') . '" type="text/css" />');
+	MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/browse.css') . '" type="text/css" />');
 
 
 	echo '		<ul class="head_hooks">';
@@ -159,7 +159,7 @@ Router::registerPage('browse', function($path) {
 				<tbody>';
 	if ($path !== '') {
 		echo '
-					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/icons/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td>';
+					<tr><td class="img"><img src="'.Router::getHtmlReadyUri('/resource/main/img/back.png').'" alt="[PARENTDIR]" title="Parent Folder" /></td><td><a href="..">[Parent Directory]</a></td><td></td><td></td>';
 		Hooks::exec('_main.browse.tbody', [Filesystem::sanitizePath($path . '/..')]);
 		echo '<td></td><td></td></tr>';
 	}
@@ -167,17 +167,17 @@ Router::registerPage('browse', function($path) {
 	$show_hidden = (UserSettings::get('_main.browse.show_hidden', 'false') === 'true');
 
 	// cache various function calls
-	$audio_icon_path = Router::getHtmlReadyUri('/resource/main/icons/audio.png');
-	$image_icon_path = Router::getHtmlReadyUri('/resource/main/icons/image.png');
-	$text_icon_path = Router::getHtmlReadyUri('/resource/main/icons/text.png');
-	$video_icon_path = Router::getHtmlReadyUri('/resource/main/icons/video.png');
-	$generic_icon_path = Router::getHtmlReadyUri('/resource/main/icons/generic.png');
-	$folder_icon_path = Router::getHtmlReadyUri('/resource/main/icons/folder.png');
-	$inaccessible_icon_path = Router::getHtmlReadyUri('/resource/main/icons/inaccessible.png');
-	$unknown_icon_path = Router::getHtmlReadyUri('/resource/main/icons/unknown.png');
+	$audio_icon_path = Router::getHtmlReadyUri('/resource/main/img/audio.png');
+	$image_icon_path = Router::getHtmlReadyUri('/resource/main/img/image.png');
+	$text_icon_path = Router::getHtmlReadyUri('/resource/main/img/text.png');
+	$video_icon_path = Router::getHtmlReadyUri('/resource/main/img/video.png');
+	$generic_icon_path = Router::getHtmlReadyUri('/resource/main/img/generic.png');
+	$folder_icon_path = Router::getHtmlReadyUri('/resource/main/img/folder.png');
+	$inaccessible_icon_path = Router::getHtmlReadyUri('/resource/main/img/inaccessible.png');
+	$unknown_icon_path = Router::getHtmlReadyUri('/resource/main/img/unknown.png');
 
-	$download_icon_path = Router::getHtmlReadyUri('/resource/main/icons/download.png');
-	$manage_icon_path = Router::getHtmlReadyUri('/resource/main/icons/properties.png');
+	$download_icon_path = Router::getHtmlReadyUri('/resource/main/img/download.png');
+	$manage_icon_path = Router::getHtmlReadyUri('/resource/main/img/properties.png');
 
 	foreach ($dirlist as $filename) {
 		$file_id++;
@@ -380,41 +380,41 @@ Router::registerPage('browse', function($path) {
 });
 
 
-Resources::register('main/browse.css', function(){
-	Resources::serveFile('_extensions/main/resources/browse.css');
+Resources::register('main/css/browse.css', function(){
+	Resources::serveFile('_extensions/main/resources/css/browse.css');
 });
 
-Resources::register('main/icons/audio.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/audio.png');
+Resources::register('main/img/audio.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/audio.png');
 });
-Resources::register('main/icons/back.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/back.png');
+Resources::register('main/img/back.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/back.png');
 });
-Resources::register('main/icons/folder.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/folder.png');
+Resources::register('main/img/folder.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/folder.png');
 });
-Resources::register('main/icons/generic.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/generic.png');
+Resources::register('main/img/generic.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/generic.png');
 });
-Resources::register('main/icons/image.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/image.png');
+Resources::register('main/img/image.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/image.png');
 });
-Resources::register('main/icons/inaccessible.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/inaccessible.png');
+Resources::register('main/img/inaccessible.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/inaccessible.png');
 });
-Resources::register('main/icons/text.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/text.png');
+Resources::register('main/img/text.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/text.png');
 });
-Resources::register('main/icons/unknown.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/unknown.png');
+Resources::register('main/img/unknown.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/unknown.png');
 });
-Resources::register('main/icons/video.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/video.png');
+Resources::register('main/img/video.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/video.png');
 });
 
-Resources::register('main/icons/download.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/download.png');
+Resources::register('main/img/download.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/download.png');
 });
-Resources::register('main/icons/properties.png', function(){
-	Resources::serveFile('_extensions/main/resources/icons/properties.png');
+Resources::register('main/img/properties.png', function(){
+	Resources::serveFile('_extensions/main/resources/img/properties.png');
 });

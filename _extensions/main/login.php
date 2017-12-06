@@ -15,13 +15,13 @@ Router::registerPage('login', function($subpage) {
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/normalize.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/skeleton.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/main.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/login.css') . '" type="text/css" />
-	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/favicon.ico') . '" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/normalize.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/skeleton.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/main.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/login.css') . '" type="text/css" />
+	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/img/favicon.ico') . '" />
 	<title>Login - Garnet DeGelder\'s File Manager</title>
-	<script src="'.Router::getHtmlReadyUri('/resource/main/jquery.js').'" type="text/javascript"></script>
+	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'" type="text/javascript"></script>
 </head>
 <body>
 	<form action="' . htmlspecialchars(Router::getHtmlReadyUri('/login/action')) . '" method="post">
@@ -94,10 +94,10 @@ Router::registerPage('login', function($subpage) {
 	}
 });
 
-Resources::register('main/login.css', function() {
-	Resources::serveFile('_extensions/main/resources/login.css');
+Resources::register('main/css/login.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/login.css');
 });
 
-Resources::register('main/jquery.js', function() {
-	Resources::serveFile('_extensions/main/resources/jquery.min.js');
+Resources::register('main/js/jquery.js', function() {
+	Resources::serveFile('_extensions/main/resources/css/jquery.min.js');
 });
