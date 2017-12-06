@@ -253,9 +253,10 @@ class Filesystem
 
 		// check the extension
 		if (isset(pathinfo($filename)['extension'])) {
+			$extension = strtolower(pathinfo($filename)['extension']);
 			if ($cache && count(self::$extension_mime_types) > 0) {
-				if (isset(self::$extension_mime_types[pathinfo($filename)['extension']])) {
-					return self::$extension_mime_types[pathinfo($filename)['extension']];
+				if (isset(self::$extension_mime_types[$extension])) {
+					return self::$extension_mime_types[$extension];
 				}
 			} else {
 				$fh = fopen('_res/mime.types', 'r');
@@ -269,13 +270,13 @@ class Filesystem
 							if ($cache) {
 								self::$extension_mime_types[$record[1][$i]] = $record[1][0];
 							} else {
-								if ($record[1][$i] == pathinfo($filename)['extension']) {
+								if ($record[1][$i] == $extension) {
 									return $record[1][0];
 								}
 							}
 						}
-						if (isset(self::$extension_mime_types[pathinfo($filename)['extension']])) {
-							return self::$extension_mime_types[pathinfo($filename)['extension']];
+						if (isset(self::$extension_mime_types[$extension])) {
+							return self::$extension_mime_types[$extension];
 						}
 					}
 				}
