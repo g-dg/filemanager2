@@ -99,7 +99,7 @@ Router::registerPage('settings', function($subpage) {
 			echo '
 
 		</fieldset>
-		<input type="button" value="Advanced" onclick="document.getElementById(\'advanced\').setAttribute(\'style\', \'display: block;\');" style="margin-top: 1em;" />
+		<input type="button" value="Advanced" onclick="$(\'#advanced\').toggle();" style="margin-top: 1em;" />
 		<fieldset id="advanced" style="display: none;">
 			<legend>Advanced Settings</legend>
 			<form action="'.Router::getHtmlReadyUri('/settings/action').'" method="post">

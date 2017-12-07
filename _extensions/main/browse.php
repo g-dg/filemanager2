@@ -250,7 +250,7 @@ Router::registerPage('browse', function($path) {
 			echo '<td>';
 			$mtime = Filesystem::filemtime($file);
 			if ($mtime !== false) {
-				echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).'" onclick="alert(document.getElementById(\'file_mtime_'.$file_id.'\').getAttribute(\'title\'));">';
+				echo '<span id="file_mtime_'.$file_id.'" title="'.htmlspecialchars(date('l, F j, Y - g:i:s A', $mtime)).'" onclick="alert($(\'#file_mtime_'.$file_id.'\').attr(\'title\'));">';
 				$mtimediff = time() - $mtime;
 				if ($mtimediff < 0) {
 					echo 'In the future';
@@ -309,9 +309,9 @@ Router::registerPage('browse', function($path) {
 			if ($is_dir) {
 				$filecount = Filesystem::fileCount($file);
 				if ($filecount != 1) {
-					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filecount, 0, '.', ',')).' files" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filecount, 0, '.', ',')).' files" onclick="alert($(\'#file_size_'.$file_id.'\').attr(\'title\'));">';
 				} else {
-					echo '<span id="file_size_'.$file_id.'" title="1 file" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+					echo '<span id="file_size_'.$file_id.'" title="1 file" onclick="alert($(\'#file_size_'.$file_id.'\').attr(\'title\'));">';
 				}
 				if ($filecount === 1) {
 					echo '1';
@@ -329,9 +329,9 @@ Router::registerPage('browse', function($path) {
 				$filesize = Filesystem::filesize($file);
 				if ($filesize !== false) {
 					if ($filesize != 1) {
-						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert($(\'#file_size_'.$file_id.'\').attr(\'title\'));">';
 					} else {
-						echo '<span id="file_size_'.$file_id.'" title="1 byte" onclick="alert(document.getElementById(\'file_size_'.$file_id.'\').getAttribute(\'title\'));">';
+						echo '<span id="file_size_'.$file_id.'" title="1 byte" onclick="alert($(\'#file_size_'.$file_id.'\').attr(\'title\'));">';
 					}
 					if ($filesize === 1) {
 						echo '1 B';

@@ -130,7 +130,7 @@ if (count($users) > 0) {
 		echo '</div>';
 
 		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+document.getElementById(\'name_'.htmlspecialchars($user_id).'\').getAttribute(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" style="color: #c00;" />';
+		echo '<input id="delete_'.htmlspecialchars($user_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete user &quot;\'+$(\'#name_'.htmlspecialchars($user_id).'\').attr(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" style="color: #c00;" />';
 		echo '</div>';
 
 		echo '<div>';

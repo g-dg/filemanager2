@@ -89,7 +89,7 @@ if (count($groups) > 0) {
 		echo '</div>';
 
 		echo '<div>';
-		echo '<input id="delete_'.htmlspecialchars($group_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete group &quot;\'+document.getElementById(\'name_'.htmlspecialchars($group_id).'\').getAttribute(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" style="color: #c00;" />';
+		echo '<input id="delete_'.htmlspecialchars($group_id).'" name="delete" type="submit" value="Delete" onclick="return confirm(\'Delete group &quot;\'+$(\'#name_'.htmlspecialchars($group_id).'\').attr(\'value\')+\'&quot;?\');" formnovalidate="formnovalidate" style="color: #c00;" />';
 		echo '</div>';
 
 		echo '<div>';

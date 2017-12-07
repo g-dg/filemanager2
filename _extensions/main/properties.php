@@ -52,9 +52,9 @@ Router::registerPage('properties', function($path) {
 		$filesize = Filesystem::filesize($path);
 		if ($filesize !== false) {
 			if ($filesize != 1) {
-				echo '<span id="file_size" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
+				echo '<span id="file_size" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert($(\'#file_size\').attr(\'title\'));">';
 			} else {
-				echo '<span id="file_size" title="'.htmlspecialchars($filesize).' byte" onclick="alert(document.getElementById(\'file_size\').getAttribute(\'title\'));">';
+				echo '<span id="file_size" title="'.htmlspecialchars($filesize).' byte" onclick="alert($(\'#file_size\').attr(\'title\'));">';
 			}
 			if ($filesize === 1) {
 				echo '1 byte';
