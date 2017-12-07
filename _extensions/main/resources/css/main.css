@@ -320,6 +320,6 @@ select {
 @media (max-width: 1024px) {
 	.modal .content {
 		width: 90%;
-		height: 90%;
+		height: 95%;
 	}
 }
