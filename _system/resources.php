@@ -44,4 +44,6 @@ class Resources
 	}
 }
 
-Router::registerPage('resource', __NAMESPACE__ . '\\Resources::serve');
+Loader::registerInit(function() {
+	Router::registerPage('resource', __NAMESPACE__ . '\\Resources::serve');
+});
