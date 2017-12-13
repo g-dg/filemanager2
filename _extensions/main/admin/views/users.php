@@ -35,8 +35,8 @@ echo '
 					<input id="create_password1" name="password1" type="password" value="" placeholder="Password" class="u-full-width" />
 				</div>
 				<div class="three columns">
-					<label for="create_password1">Password (again):</label>
-					<input id="create_password2" name="password2" type="password" value="" placeholder="Password (again)" class="u-full-width" />
+					<label for="create_password1">Confirm password:</label>
+					<input id="create_password2" name="password2" type="password" value="" placeholder="Confirm password" class="u-full-width" />
 				</div>
 			</div>
 			<div class="row">
@@ -93,7 +93,7 @@ if (count($users) > 0) {
 
 		echo '<div>';
 		echo '<input id="password1_'.htmlspecialchars($user_id).'" name="password1" type="password" value="" placeholder="Password" />';
-		echo '<input id="password2_'.htmlspecialchars($user_id).'" name="password2" type="password" value="" placeholder="Password (again)" />';
+		echo '<input id="password2_'.htmlspecialchars($user_id).'" name="password2" type="password" value="" placeholder="Confirm password" />';
 		echo '<input id="update_password_'.htmlspecialchars($user_id).'" name="update_password" type="submit" value="Save" />';
 		echo '</div>';
 

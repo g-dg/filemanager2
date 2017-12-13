@@ -57,7 +57,7 @@ Router::registerPage('account', function($subpage) {
 						<input name="new_password1" type="password" value="" placeholder="New password" class="u-full-width" />
 					</div>
 					<div class="four columns">
-						<input name="new_password2" type="password" value="" placeholder="New password (again)" class="u-full-width" />
+						<input name="new_password2" type="password" value="" placeholder="Confirm new password" class="u-full-width" />
 					</div>
 				</div>
 				<div class="row">
