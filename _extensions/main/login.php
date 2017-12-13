@@ -97,7 +97,3 @@ Router::registerPage('login', function($subpage) {
 Resources::register('main/css/login.css', function() {
 	Resources::serveFile('_extensions/main/resources/css/login.css');
 });
-
-Resources::register('main/js/jquery.js', function() {
-	Resources::serveFile('_extensions/main/resources/css/jquery.min.js');
-});
