@@ -210,10 +210,15 @@ td {
 }
 
 fieldset {
-	border-top: 1px #808080 solid;
+	border: 1px #999 solid;
+	padding: 1em 1.5em;
+	border-radius: 5px;
 }
 fieldset > legend {
+	margin-left: -.5em;
+	padding-left: .5em;
 	padding-right: .5em;
+	margin-bottom: 0px;
 }
 
 .overflow {
@@ -251,7 +256,7 @@ footer > p {
 .message {
 	font-size: 125%;
 	font-style: italic;
-	margin-bottom: 1em;
+	margin-bottom: .5em;
 }
 
 .button.button-primary,
@@ -268,6 +273,32 @@ input,
 textarea,
 select {
 	transition: border-color 0.25s ease;
+}
+
+.form-buttons {
+	margin-top: 2em;
+}
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+	background-color: #fbfbfb;
+}
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	background-color: #f7f7f7;
+}
+
+dl, ul, ol, form {
+	margin-bottom: 0px;
 }
 
 .modal {

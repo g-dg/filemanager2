@@ -25,41 +25,38 @@ Session::unlock();
 echo '
 	<fieldset><legend>Create User</legend>
 		<form action="'.Router::getHtmlReadyUri('/admin/action/users').'" method="post">
-			<div class="row">
-				<div class="six columns">
-					<label for="create_name">Username:</label>
-					<input id="create_name" name="name" type="text" value="" placeholder="Username" class="u-full-width" required="required" />
-				</div>
-				<div class="three columns">
-					<label for="create_password1">Password:</label>
-					<input id="create_password1" name="password1" type="password" value="" placeholder="Password" class="u-full-width" />
-				</div>
-				<div class="three columns">
-					<label for="create_password1">Confirm password:</label>
-					<input id="create_password2" name="password2" type="password" value="" placeholder="Confirm password" class="u-full-width" />
-				</div>
+			<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
+
+			<div class="form-inputs">
+				<label for="create_name">Username:</label>
+				<input id="create_name" name="name" type="text" value="" class="u-full-width" required="required" />
+
+				<label for="create_password1">Password:</label>
+				<input id="create_password1" name="password1" type="password" value="" class="u-full-width" />
+
+				<label for="create_password2">Confirm password:</label>
+				<input id="create_password2" name="password2" type="password" value="" class="u-full-width" />
+
+				<label for="create_type">Account type:</label>
+				<select id="create_type" name="type" class="u-full-width">
+					<option value="admin">Administrator</option>
+					<option value="standard" selected="selected">Standard User</option>
+					<option value="guest">Guest</option>
+				</select>
+
+				<label for="create_enabled">Account enabled:</label>
+				<select id="create_enabled" name="enabled" class="u-full-width">
+					<option value="enabled" selected="selected">Enabled</option>
+					<option value="disabled">Disabled</option>
+				</select>
+
+				<label for="create_comment">Comment:</label>
+				<textarea id="create_comment" name="comment" class="u-full-width"></textarea>
 			</div>
-			<div class="row">
-				<div class="three columns">
-					<label for="create_type">Type:</label>
-					<select id="create_type" name="type" class="u-full-width"><option value="admin">Administrator</option><option value="standard" selected="selected">Standard User</option><option value="guest">Guest</option></select>
-				</div>
-				<div class="three columns">
-					<label for="create_enabled">Enabled:</label>
-					<select id="create_enabled" name="enabled" class="u-full-width"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>
-				</div>
-				<div class="six columns">
-					<label for="create_comment">Comment:</label>
-					<textarea id="create_comment" name="comment" placeholder="Comment" class="u-full-width"></textarea>
-				</div>
-			</div>
-			<div class="row">
-				<div class="twelve columns">
-					<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-					<label for="create">Create User:</label>
-					<input id="create" name="create" type="submit" value="Create User" class="u-full-width button-primary" />
-					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
-				</div>
+
+			<div class="form-buttons">
+				<input id="create" name="create" type="submit" value="Create User" class="button-primary u-full-width" />
+				<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
 			</div>
 		</form>
 	</fieldset>

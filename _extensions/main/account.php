@@ -26,21 +26,16 @@ Router::registerPage('account', function($subpage) {
 			Session::unlock();
 			echo '		<fieldset>
 			<legend>Username</legend>
-			<p>Username: <code title="User ID: '.htmlspecialchars(Auth::getCurrentUserId()).'">'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code></p>
+			Username: <code title="User ID: '.htmlspecialchars(Auth::getCurrentUserId()).'">'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code>
 		</fieldset>
 ';
 			echo '		<fieldset>
 			<legend>Full Name</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-				<div class="row">
-					<div class="nine columns">
-						<input name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" placeholder="Full name" class="u-full-width" />
-					</div>
-					<div class="three columns">
-						<input name="change_fullname" type="submit" value="Save" class="u-full-width button-primary" />
-					</div>
-				</div>
+				
+				<input id="fullname" name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" class="u-full-width" />
+				<input name="change_fullname" type="submit" value="Save" class="u-full-width button-primary" />
 			</form>
 		</fieldset>
 ';
@@ -49,21 +44,20 @@ Router::registerPage('account', function($subpage) {
 			<legend>Password</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-				<div class="row">
-					<div class="four columns">
-						<input name="old_password" type="password" value="" placeholder="Current password" class="u-full-width" />
-					</div>
-					<div class="four columns">
-						<input name="new_password1" type="password" value="" placeholder="New password" class="u-full-width" />
-					</div>
-					<div class="four columns">
-						<input name="new_password2" type="password" value="" placeholder="Confirm new password" class="u-full-width" />
-					</div>
+
+				<div class="form-inputs">
+					<label for="old_password">Current password:</label>
+					<input id="old_password" name="old_password" type="password" value="" class="u-full-width" />
+
+					<label for="new_password1">New password:</label>
+					<input id="new_password1" name="new_password1" type="password" value="" class="u-full-width" />
+
+					<label for="new_password2">Confirm new password:</label>
+					<input id="new_password2" name="new_password2" type="password" value="" class="u-full-width" />
 				</div>
-				<div class="row">
-					<div class="twelve columns">
-						<input name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
-					</div>
+				
+				<div class="form-buttons">
+					<input id="change_password" name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
 				</div>
 			</form>
 		</fieldset>

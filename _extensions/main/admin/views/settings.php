@@ -11,27 +11,27 @@ echo '		<form action="'.Router::getHtmlReadyUri('/admin/action/settings').'" met
 			<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 			<fieldset>
 				<legend>Set</legend>
-				<div class="row">
-					<div class="four columns">
-						<input name="set_key" type="text" value="" placeholder="Key" class="u-full-width" />
-					</div>
-					<div class="six columns">
-						<input name="set_value" type="text" value="" placeholder="Value" class="u-full-width" />
-					</div>
-					<div class="two columns">
-						<input name="set" type="submit" value="Set" class="u-full-width button-primary" />
-					</div>
+				<div class="form-inputs">
+					<label for="set_key">Key:</label>
+					<input id="set_key" name="set_key" type="text" value="" class="u-full-width" />
+
+					<label for="set_value">Value:</label>
+					<input id="set_value" name="set_value" type="text" value="" class="u-full-width" />
+				</div>
+
+				<div class="form-buttons">
+					<input name="set" type="submit" value="Set" class="u-full-width button-primary" />
 				</div>
 			</fieldset>
 			<fieldset>
 				<legend>Unset</legend>
-				<div class="row">
-					<div class="ten columns">
-						<input name="unset_key" type="text" value="" placeholder="Key" class="u-full-width" />
-					</div>
-					<div class="two columns">
-						<input name="unset" type="submit" value="Unset" class="u-full-width button-primary" />
-					</div>
+				<div class="form-inputs">
+					<label for="unset_key">Key:</label>
+					<input id="unset_key" name="unset_key" type="text" value="" class="u-full-width" />
+				</div>
+
+				<div class="form-buttons">
+					<input name="unset" type="submit" value="Unset" class="u-full-width button-primary" />
 				</div>
 			</fieldset>
 			<div class="overflow">

@@ -24,27 +24,20 @@ Session::unlock();
 echo '
 	<fieldset><legend>Create Group</legend>
 		<form action="'.Router::getHtmlReadyUri('/admin/action/groups').'" method="post">
-			<div class="row">
-				<div class="four columns">
-					<label for="create_name">Name:</label>
-					<input id="create_name" name="name" type="text" value="" placeholder="Name" class="u-full-width" />
-				</div>
-				<div class="three columns">
-					<label for="create_enabled">Enabled:</label>
-					<select id="create_enabled" name="enabled" class="u-full-width"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>
-				</div>
-				<div class="five columns">
-					<label for="create_comment">Comment:</label>
-					<textarea id="create_comment" name="comment" placeholder="Comment" class="u-full-width"></textarea>
-				</div>
+			<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
+
+			<div class="form-inputs">
+				<label for="create_name">Name:</label>
+				<input id="create_name" name="name" type="text" value="" class="u-full-width" />
+				<label for="create_enabled">Enabled:</label>
+				<select id="create_enabled" name="enabled" class="u-full-width"><option value="enabled" selected="selected">Enabled</option><option value="disabled">Disabled</option></select>
+				<label for="create_comment">Comment:</label>
+				<textarea id="create_comment" name="comment" class="u-full-width"></textarea>
 			</div>
-			<div class="row">
-				<div class="twelve columns">
-					<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-					<label for="create">Create Group:</label>
-					<input id="create" name="create" type="submit" value="Create Group" class="u-full-width button-primary" />
-					<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
-				</div>
+
+			<div class="form-buttons">
+				<input id="create" name="create" type="submit" value="Create Group" class="u-full-width button-primary" />
+				<input id="create_cancel" name="reset" type="reset" value="Cancel" class="u-full-width" />
 			</div>
 		</form>
 	</fieldset>
