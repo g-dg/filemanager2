@@ -21,7 +21,6 @@
 }
 .listing tbody tr:hover {
 	background-color: #eee;
-	background-color: #ddd;
 }
 
 .listing a.disabled {
