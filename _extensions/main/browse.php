@@ -110,7 +110,12 @@ Router::registerPage('browse', function($path) {
 	}
 
 
-	MainUiTemplate::header('/' . $path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/browse.css') . '" type="text/css" />');
+	$basename = basename('/'.$path);
+	if ($basename === '') {
+		$basename = '/';
+	}
+
+	MainUiTemplate::header($basename, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/browse.css') . '" type="text/css" />');
 
 
 	echo '		<ul class="head_hooks">';
