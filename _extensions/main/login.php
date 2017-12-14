@@ -21,7 +21,7 @@ Router::registerPage('login', function($subpage) {
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/login.css') . '" type="text/css" />
 	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/img/favicon.ico') . '" />
 	<title>Login - Garnet DeGelder\'s File Manager</title>
-	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'" type="text/javascript"></script>
+	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'"></script>
 </head>
 <body>
 	<form action="' . htmlspecialchars(Router::getHtmlReadyUri('/login/action')) . '" method="post">

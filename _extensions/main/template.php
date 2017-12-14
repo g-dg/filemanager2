@@ -27,7 +27,7 @@ class MainUiTemplate
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/main.css') . '" type="text/css" />
 	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/img/favicon.ico') . '" />
 	<title>' . htmlspecialchars($title) . '</title>
-	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'" type="text/javascript"></script>
+	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'"></script>
 	' . $head_html . '
 </head>
 <body>
