@@ -40,6 +40,7 @@ ul.head_hooks {
 	margin: 0px;
 	overflow-x: auto;
 	overflow-y: hidden;
+	margin-bottom: .5em;
 }
 ul.head_hooks li {
 	/*display: inline-block;*/
@@ -57,3 +58,25 @@ ul.head_hooks li {
 ul.head_hooks > li:hover {
 	background-color: #ddd;
 }*/
+
+ul.path {
+	list-style-type: none;
+	border: 1px #ccc solid;
+	border-radius: 4px;
+	padding: 0px;
+	width: 100%;
+	margin: 0px;
+	margin-bottom: .5em;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+ul.path > li {
+	display: inline;
+	margin: 0px;
+	padding: 0px .5em;
+	transition: background-color ease 0.25s;
+	font-weight: bold;
+}
+ul.path > li:hover {
+	background-color: #eee;
+}

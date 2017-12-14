@@ -119,6 +119,18 @@ Router::registerPage('browse', function($path) {
 ';
 
 
+	$currentPath = '/';
+	echo '		<ul class="path"><li><a href="'.Router::getHtmlReadyUri('/browse').'/">&nbsp;/&nbsp;</a></li>';
+	foreach (explode('/', $path) as $pathpart) {
+		if ($pathpart !== '') {
+			$currentPath .= $pathpart.'/';
+			echo '<li><a href="'.Router::getHtmlReadyUri('/browse'.$currentPath).'/">'.str_replace(' ', '&nbsp;', htmlspecialchars($pathpart)).'</a></li>';
+		}
+	}
+	echo '</ul>
+';
+
+
 	echo '		<div class="overflow">
 			<table class="u-full-width listing">
 				<thead>
