@@ -33,7 +33,7 @@ function mainUiErrorPage($error, $page)
 			break;
 	}
 
-	echo '<!DOCYTPE html>
+	echo '<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
