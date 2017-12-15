@@ -59,5 +59,13 @@ fieldset {
 	border: none;
 	border-top: 1px #999 solid;
 	border-radius: 0px;
-	padding: 1em;
+	padding: 1em 0px;
+}
+fieldset > legend {
+	margin-left: 0px;
+	padding-left: 0px;
+}
+
+footer {
+	border-top: 1px #999 solid;
 }
