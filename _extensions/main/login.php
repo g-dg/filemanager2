@@ -37,6 +37,7 @@ Router::registerPage('login', function($subpage) {
 		Hooks::exec('_main.login.post_form');
 		echo '
 		<div class="message">';
+	Session::lock();
 	if (Session::isset('_auth_status')) {
 		switch (Session::get('_auth_status')) {
 			case Auth::ERROR_DOESNT_EXIST:
@@ -51,6 +52,7 @@ Router::registerPage('login', function($subpage) {
 		}
 		Session::unset('_auth_status');
 	}
+	Session::unlock();
 	echo '</div>
 	';
 	Hooks::exec('_main.login.message');
@@ -80,6 +82,7 @@ Router::registerPage('login', function($subpage) {
 						Router::redirect('/');
 					}
 				} else {
+					Session::set('_auth_status', $authenticated);
 					Router::redirect('/login');
 				}
 			} else {
