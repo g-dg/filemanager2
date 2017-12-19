@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 Router::registerPage('file', function($path) {
 	$path_array = explode('/', trim($path, '/'));
-	Session::start($path_array[0]);
+	Session::start($path_array[0], false);
 	Auth::authenticate();
 	array_shift($path_array);
 	$file = implode('/', $path_array);
@@ -17,7 +17,7 @@ Router::registerPage('file', function($path) {
 
 Router::registerPage('download', function($path) {
 	$path_array = explode('/', trim($path, '/'));
-	Session::start($path_array[0]);
+	Session::start($path_array[0], false);
 	Auth::authenticate();
 	array_shift($path_array);
 	$file = implode('/', $path_array);
