@@ -41,10 +41,8 @@ Router::registerPage('login', function($subpage) {
 	if (Session::isset('_auth_status')) {
 		switch (Session::get('_auth_status')) {
 			case Auth::ERROR_DOESNT_EXIST:
-				echo '<p>User doesn\'t exist</p>';
-				break;
 			case Auth::ERROR_INCORRECT_PASSWORD:
-				echo '<p>Incorrect password</p>';
+				echo '<p>Incorrect username or password</p>';
 				break;
 			case Auth::ERROR_DISABLED:
 				echo '<p>User is disabled</p>';
