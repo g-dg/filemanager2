@@ -19,7 +19,7 @@ class Session
 	protected static $session_name = self::SESSION_NAME;
 
 	// passing $session_id sets the current session id to that session id
-	public static function start($session_id = null)
+	public static function start($session_id = null, $set_cookie = true)
 	{
 		if (is_null(self::$session_id)) {
 			if (mt_rand(1, GlobalSettings::get('_session.garbage_collect.inverse_probability', self::GARBAGE_COLLECT_PROBABLILITY)) == 1) {
@@ -48,7 +48,9 @@ class Session
 				// create the session record
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
+				if (!$set_cookie) {
+					setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
+				}
 				if ($check_ip) {
 					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 				}
@@ -63,7 +65,9 @@ class Session
 				if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 					self::$session_id = self::generateSessionId();
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-					setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
+					if (!$set_cookie) {
+						setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
+					}
 					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
 					Session::set('_csrf_token', self::generateSessionId());
 				}
