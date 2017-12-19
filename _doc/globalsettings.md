@@ -16,3 +16,5 @@ Global Settings
 `_httprange.buffersize` : 4096
 
 `_resources_cache_time` : 3600
+
+`_session.ip.enforce` : 'true'

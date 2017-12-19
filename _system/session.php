@@ -40,6 +40,8 @@ class Session
 
 			Database::lock();
 
+			$check_ip = (GlobalSettings::get('_session.ip.enforce', 'true') == 'true');
+
 			// generate a new id if the session id doesn't exist
 			// or if the timestamp is too old
 			if (Database::query('SELECT COUNT() from "sessions" WHERE "session_id" = ? AND "timestamp" >= ?;', [self::$session_id, (time() - GlobalSettings::get('_session.max_age', self::SESSION_MAX_AGE))])[0][0] == 0) {
@@ -47,20 +49,24 @@ class Session
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
 				setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
-				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
+				if ($check_ip) {
+					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
+				}
 				Session::set('_csrf_token', self::generateSessionId());
 			} else {
 				// update timestamp
 				Database::query('UPDATE "sessions" SET "timestamp" = (STRFTIME(\'%s\', \'now\')) WHERE "session_id" = ? AND "timestamp" < STRFTIME(\'%s\', \'now\') - '.(int)self::SESSION_TIMESTAMP_UPDATE_INTERVAL.';', [self::$session_id], false);
 			}
 
-			// generate new session id if ip address doesn't match
-			if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
-				self::$session_id = self::generateSessionId();
-				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
-				Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
-				Session::set('_csrf_token', self::generateSessionId());
+			if ($check_ip) {
+				// generate new session id if ip address doesn't match
+				if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
+					self::$session_id = self::generateSessionId();
+					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
+					setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
+					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
+					Session::set('_csrf_token', self::generateSessionId());
+				}
 			}
 
 			Database::unlock();
