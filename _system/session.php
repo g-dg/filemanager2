@@ -75,6 +75,12 @@ class Session
 
 			Database::unlock();
 		}
+
+		if (is_null(self::$session_id)) {
+			return false;
+		} else {
+			return self::$session_id;
+		}
 	}
 
 	public static function started()
