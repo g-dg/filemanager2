@@ -126,7 +126,7 @@ class Router
 		}
 
 		// append the configured script name on the end
-		$base_uri = $base_uri . Config::get('index_page');
+		$base_uri = rtrim($base_uri . Config::get('index_page'), '/');
 
 		// generate the GET request string
 		$encoded_param_string = '';
