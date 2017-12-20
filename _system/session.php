@@ -48,7 +48,7 @@ class Session
 				// create the session record
 				self::$session_id = self::generateSessionId();
 				Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-				if (!$set_cookie) {
+				if ($set_cookie) {
 					setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
 				}
 				if ($check_ip) {
@@ -65,7 +65,7 @@ class Session
 				if ($_SERVER['REMOTE_ADDR'] !== Session::get('_session_remote_addr')) {
 					self::$session_id = self::generateSessionId();
 					Database::query('INSERT INTO "sessions" ("session_id") VALUES (?);', [self::$session_id]);
-					if (!$set_cookie) {
+					if ($set_cookie) {
 						setcookie(self::$session_name, self::$session_id, 0, pathinfo($_SERVER['SCRIPT_NAME'])['dirname']);
 					}
 					Session::set('_session_remote_addr', $_SERVER['REMOTE_ADDR']);
