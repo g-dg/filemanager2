@@ -1,18 +1,36 @@
+.listing {
+	white-space: nowrap;
+	margin: 0;
+	width: 100%;
+	margin-top: 1em;
+}
+
+.listing tr {
+	border-bottom: #ccc 1px solid;
+}
+
 .listing td {
-	padding: .5em;
+	padding: .75em;
 	padding-right: 2em;
 }
 
+.listing th {
+	text-align: left;
+}
+
+.listing > thead > tr > th {
+	padding-bottom: .5em;
+}
+
+.listing > thead > tr > th a {
+	text-decoration: none;
+}
+
 .listing > tbody > tr > td.img {
-	margin: 0px;
+	margin: 0;
 	padding: 4px;
 	width: 24px;
 	height: 24px;
-}
-
-.listing {
-	white-space: nowrap;
-	margin: 0px;
 }
 
 .listing tbody tr {
@@ -30,22 +48,28 @@
 	cursor: pointer;
 }
 
+
+
 ul.head_hooks {
 	font-weight: bold;
 	list-style-type: none;
 	text-align: right;
 	width: 100%;
 	background-color: #eee;
-	margin: 0px;
+	margin: 0;
 	overflow-x: auto;
 	overflow-y: hidden;
 	margin-bottom: .5em;
+	padding: 0;
 }
 ul.head_hooks li {
 	/*display: inline-block;*/
 	display: inline;
 	padding: .25em .5em;
-	margin: 0px;
+	margin: 0;
+	vertical-align: middle;
+}
+ul.head_hooks * {
 	vertical-align: middle;
 }
 
@@ -60,21 +84,20 @@ ul.head_hooks > li:hover {
 
 ul.path {
 	list-style-type: none;
-	box-shadow: 0px 0px 2px 0px #999;
+	box-shadow: 0 0 2px 0 #999;
 	border-radius: 4px;
-	padding: 0px;
+	padding: .25em 0;
 	width: 100%;
-	margin: 0px;
+	margin: 0;
 	margin-bottom: .5em;
 	overflow-x: auto;
 	overflow-y: hidden;
 }
 ul.path > li {
 	display: inline;
-	margin: 0px;
-	padding: 0px .5em;
+	margin: 0;
+	padding: .25em .5em;
 	transition: background-color ease 0.25s;
-	font-weight: bold;
 }
 ul.path > li:hover {
 	background-color: #eee;

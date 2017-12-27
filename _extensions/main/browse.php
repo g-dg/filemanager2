@@ -136,8 +136,8 @@ Router::registerPage('browse', function($path) {
 ';
 
 
-	echo '		<div class="overflow">
-			<table class="u-full-width listing">
+	echo '		<div style="overflow: auto;">
+			<table class="listing">
 				<thead>
 					<tr><th></th>';
 

@@ -33,9 +33,11 @@ Router::registerPage('account', function($subpage) {
 			<legend>Full Name</legend>
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
-				
-				<input id="fullname" name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" class="u-full-width" />
-				<input name="change_fullname" type="submit" value="Save" class="u-full-width button-primary" />
+
+				<label for="fullname">Full Name:</label>
+				<input id="fullname" name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" />
+
+				<input name="change_fullname" type="submit" value="Save" class="button-primary" />
 			</form>
 		</fieldset>
 ';
@@ -45,20 +47,16 @@ Router::registerPage('account', function($subpage) {
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 
-				<div class="form-inputs">
-					<label for="old_password">Current password:</label>
-					<input id="old_password" name="old_password" type="password" value="" class="u-full-width" />
+				<label for="old_password">Current password:</label>
+				<input id="old_password" name="old_password" type="password" value="" />
 
-					<label for="new_password1">New password:</label>
-					<input id="new_password1" name="new_password1" type="password" value="" class="u-full-width" />
+				<label for="new_password1">New password:</label>
+				<input id="new_password1" name="new_password1" type="password" value="" />
 
-					<label for="new_password2">Confirm new password:</label>
-					<input id="new_password2" name="new_password2" type="password" value="" class="u-full-width" />
-				</div>
-				
-				<div class="form-buttons">
-					<input id="change_password" name="change_password" type="submit" value="Change Password" class="u-full-width button-primary" />
-				</div>
+				<label for="new_password2">Confirm new password:</label>
+				<input id="new_password2" name="new_password2" type="password" value="" />
+
+				<input id="change_password" name="change_password" type="submit" value="Change Password" class="button-primary" />
 			</form>
 		</fieldset>
 ';

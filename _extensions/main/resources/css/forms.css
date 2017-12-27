@@ -1,0 +1,155 @@
+button,
+input,
+select,
+textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background-color: #fcfcfc;
+	border-radius: 4px;
+	height: 38px;
+	padding: 6px 10px;
+	border: #ccc 1px solid;
+	vertical-align: middle;
+	/*box-shadow: 0 0 5px 0 #666;*/
+	width: 10rem;
+	transition: border-color .1s ease;
+	transition: box-shadow .25s ease;
+	transition: background-color .25s ease;
+}
+
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+	background-color: #f7f7f7;
+	font-weight: bold;
+}
+
+button:active,
+input:active,
+select:active,
+textarea:active,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	border: 1px solid #3cf;
+	box-shadow: 0 0 1px 0 #6df;
+	background-color: #fff;
+}
+
+textarea {
+	height: 62px;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	padding-top: .5em;
+	margin-bottom: .5em;
+}
+
+
+/* Label and input layout */
+form button,
+form input,
+form select,
+form textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 1rem;
+}
+
+form label,
+form button,
+form input,
+form textarea,
+form select {
+	width: 100%;
+}
+
+form label {
+	vertical-align: top;
+}
+
+@media (min-width: 768px) {
+	form button,
+	form input,
+	form textarea,
+	form select {
+		display: block;
+		width: 100%;
+		max-width: 20em;
+	}
+	form button,
+	form input[type="submit"],
+	form input[type="reset"],
+	form input[type="button"] {
+		display: block;
+		clear: both;
+		width: 100%;
+		max-width: 20em;
+	}
+}
+
+form.full-width,
+form.full-width button,
+form.full-width input,
+form.full-width input[type="submit"],
+form.full-width input[type="reset"],
+form.full-width input[type="button"],
+form.full-width select,
+form.full-width textarea {
+	width: 100%;
+	max-width: 100%;
+}
+
+form input[type="checkbox"],
+form input[type="radio"] {
+	width: 1em;
+	height: 1em;
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0;
+	margin-right: .5em;
+	margin-left: 2em;
+}
+
+form input[type="checkbox"]+label,
+form input[type="radio"]+label {
+	padding: 0;
+	font-weight: normal;
+	display: block;
+}
+
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+	color: #fff;
+	background-color: #3cf;
+	border-color: #3cf;
+}
+
+
+table.gridview button,
+table.gridview input[type="submit"],
+table.gridview input[type="reset"],
+table input[type="button"] {
+	margin: 0px;
+	min-width: 5rem;
+	width: auto;
+}
+
+table.gridview .modal button,
+table.gridview .modal input[type="submit"],
+table.gridview .modal input[type="reset"],
+table .modal input[type="button"] {
+	margin: 0px;
+	min-width: 0;
+	width: 100%;
+	margin-bottom: 1rem;
+}

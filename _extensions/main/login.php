@@ -16,16 +16,16 @@ Router::registerPage('login', function($subpage) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/normalize.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/skeleton.css') . '" type="text/css" />
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/main.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/forms.css') . '" type="text/css" />
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/login.css') . '" type="text/css" />
 	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/img/favicon.ico') . '" />
 	<title>Login - Garnet DeGelder\'s File Manager</title>
 	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'"></script>
 </head>
-<body>
+<body class="login">
 	<form action="' . htmlspecialchars(Router::getHtmlReadyUri('/login/action')) . '" method="post">
-		<h1 class="title">Log into Garnet DeGelder\'s File Manager at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
+		<h1>Log into Garnet DeGelder\'s File Manager at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '.</h1>
 		<input id="username" name="username" type="text" value="" placeholder="Username" autocomplete="on" autofocus="autofocus" class="u-full-width" />
 		<input id="password" name="password" type="password" value="" placeholder="Password" class="u-full-width" />
 		';

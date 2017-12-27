@@ -14,7 +14,6 @@ Router::registerPage('admin', function($subpage) {
 	
 	$subpage_array = explode('/', trim($subpage, '/'));
 	if (isset($subpage_array[0])) {
-
 		switch ($subpage_array[0]) {
 			case '':
 				MainUiTemplate::header('Administration');
@@ -34,69 +33,36 @@ Router::registerPage('admin', function($subpage) {
 
 
 			case 'users':
-				require('admin/views/users.php');
+				require('admin/users.php');
 				break;
 
 			case 'users_in_groups':
-				require('admin/views/users_in_groups.php');
+				require('admin/users_in_groups.php');
 				break;
 
 			case 'groups':
-				require('admin/views/groups.php');
+				require('admin/groups.php');
 				break;
 
 			case 'shares_in_groups':
-				require('admin/views/shares_in_groups.php');
+				require('admin/shares_in_groups.php');
 				break;
 
 			case 'shares':
-				require('admin/views/shares.php');
+				require('admin/shares.php');
 				break;
 
 			case 'settings':
-				require('admin/views/settings.php');
+				require('admin/settings.php');
 				break;
 
-			case 'action':
+			case 'apply':
 				if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === Session::get('_csrf_token')) {
-					if (isset($subpage_array[1])) {
-						switch ($subpage_array[1]) {
-							case 'users':
-								require('admin/controllers/users.php');
-								break;
-
-							case 'users_in_groups':
-								require('admin/controllers/users_in_groups.php');
-								break;
-
-							case 'groups':
-								require('admin/controllers/groups.php');
-								break;
-
-							case 'shares_in_groups':
-								require('admin/controllers/shares_in_groups.php');
-								break;
-
-							case 'shares':
-								require('admin/controllers/shares.php');
-								break;
-
-							case 'settings':
-								require('admin/controllers/settings.php');
-								break;
-							
-							default:
-								Router::execErrorPage(404);
-								break;
-						}
-					} else {
-						Router::execErrorPage(404);
-					}
+					require('admin/apply.php');
 				} else {
 					Router::execErrorPage(403);
 				}
 				break;
-
 
 			default:
 				Router::execErrorPage(404);

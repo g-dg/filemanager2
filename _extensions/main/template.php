@@ -23,8 +23,10 @@ class MainUiTemplate
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/normalize.css') . '" type="text/css" />
-	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/skeleton.css') . '" type="text/css" />
 	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/main.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/layout.css') . '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/forms.css'). '" type="text/css" />
+	<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/modals.css'). '" type="text/css" />
 	<link rel="icon" href="' . Router::getHtmlReadyUri('/resource/main/img/favicon.ico') . '" />
 	<title>' . htmlspecialchars($title) . '</title>
 	<script src="'.Router::getHtmlReadyUri('/resource/main/js/jquery.js').'"></script>
@@ -81,7 +83,7 @@ class MainUiTemplate
 		echo '
 	</main>
 	<footer class="footer">
-		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '. ' . GARNETDG_FILEMANAGER_COPYRIGHT . '<p>
+		<p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '. ' . GARNETDG_FILEMANAGER_COPYRIGHT . '</p>
 	</footer>
 </body>
 </html>
@@ -93,16 +95,24 @@ Resources::register('main/img/favicon.ico', function() {
 	Resources::serveFile('_extensions/main/resources/img/favicon.ico');
 });
 
-Resources::register('main/css/main.css', function() {
-	Resources::serveFile('_extensions/main/resources/css/main.css');
-});
-
 Resources::register('main/css/normalize.css', function() {
 	Resources::serveFile('_extensions/main/resources/css/normalize.css');
 });
 
-Resources::register('main/css/skeleton.css', function() {
-	Resources::serveFile('_extensions/main/resources/css/skeleton.css');
+Resources::register('main/css/main.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/main.css');
+});
+
+Resources::register('main/css/layout.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/layout.css');
+});
+
+Resources::register('main/css/modals.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/modals.css');
+});
+
+Resources::register('main/css/forms.css', function() {
+	Resources::serveFile('_extensions/main/resources/css/forms.css');
 });
 
 Resources::register('main/js/jquery.js', function() {

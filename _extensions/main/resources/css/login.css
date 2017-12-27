@@ -1,71 +1,48 @@
-* {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-body {
-	font-family: sans-serif;
-}
-
-body {
-	margin-right: auto;
-	margin-left: auto;
-}
-
-@media (max-width: 767px) {
-	body {
-		margin: 2%;
-	}
-}
-@media (min-width: 768px) {
-	body {
-		width: 50%;
-		margin-top: 5%;
-	}
-}
-@media (min-width: 992px) {
-	body {
-		width: 37.5%;
-		margin-top: 7.5%;
-	}
-}
-@media (min-width: 1200px) {
-	body {
-		width: 25%;
-		margin-top: 10%;
-	}
-}
-
-input {
-	margin: 0px;
-	clear: both;
+body.login {
 	width: 100%;
-	min-height: 2.5em;
-	min-width: 100%;
-	display: block;
+	max-width: 750px;
+	margin: 5% auto;
+	background-color: #fff;
+	color: #333;
 }
-.title {
+
+body.login h1 {
+	font-weight: lighter;
 	font-size: 150%;
 }
-.message {
-	text-align: center;
+
+body.login form,
+body.login button,
+body.login input,
+body.login select,
+body.login textarea
+body.login form button,
+body.login form input,
+body.login form select,
+body.login form textarea
+body.login form input[type="submit"],
+body.login form input[type="reset"],
+body.login form input[type="button"] {
+	min-width: 100%;
+	width: 100%;
+	max-width: 100%;
+}
+
+body.login footer {
+	border-top: #ccc 1px solid;
+	margin: 0;
+}
+
+body.login footer>p {
+	margin: .5em 0;
+	text-align: right;
+	font-size: .75em;
 	font-style: italic;
-}
-input, .title, .message {
-	margin-bottom: 1em;
+	color: #999;
 }
 
-fieldset {
+body.login fieldset {
 	border: none;
-	border-top: 1px #999 solid;
-	border-radius: 0px;
-	padding: 1em 0px;
-}
-fieldset > legend {
-	margin-left: 0px;
-	padding-left: 0px;
-}
-
-footer {
-	border-top: 1px #999 solid;
+	border-top: #ccc 1px solid;
+	border-radius: 0;
 }
