@@ -56,3 +56,8 @@ table.border td {
 .center {
 	text-align: center;
 }
+
+hr {
+	border: none;
+	border-top: #999 1px solid;
+}
