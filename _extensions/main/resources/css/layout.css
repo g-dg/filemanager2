@@ -28,14 +28,14 @@ footer.footer {
 	header.header {
 		position: fixed;
 		width: 100%;
-		height: 4rem;
+		height: 3rem;
 		top: 0;
 		margin: 0;
 	}
 	nav.nav {
 		position: fixed;
 		width: 20%;
-		top: 4rem;
+		top: 3rem;
 		bottom: 2em;
 		height: auto;
 		float: left;
@@ -45,7 +45,7 @@ footer.footer {
 		padding: 0;
 	}
 	main.main {
-		margin-top: 4rem;
+		margin-top: 3rem;
 		margin-bottom: 3rem;
 		padding: .5%;
 		width: 79%;
@@ -79,7 +79,8 @@ footer.footer {
 header.header h1 {
 	padding: .5rem;
 	margin: 0 .5rem;
-	font-size: 2rem;
+	font-size: 150%;
+	font-weight: normal;
 	vertical-align: middle;
 }
 
