@@ -15,7 +15,7 @@ Router::registerPage('properties', function($path) {
 	echo '<fieldset><legend>Properties</legend>';
 	echo '<h3 style="margin-top: .5em;">'.htmlspecialchars('/'.$path).'</h3>';
 
-	echo '<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>';
+	echo '<table class="border"><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody>';
 
 
 	echo '<tr><td>Type:</td><td>';
