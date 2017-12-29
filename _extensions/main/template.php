@@ -75,6 +75,7 @@ class MainUiTemplate
 		</ul>
 	</nav>
 	<main class="main">
+		<noscript><div class="modal" style="display: block; background-color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0.75);"><div class="content"><em><strong>Javascript is required for Garnet DeGelder\'s File Manager to work properly.</strong></em></div></div></noscript>
 ';
 	}
 
