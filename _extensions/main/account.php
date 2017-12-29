@@ -26,7 +26,7 @@ Router::registerPage('account', function($subpage) {
 			Session::unlock();
 			echo '		<fieldset>
 			<legend>Username</legend>
-			Username: <code title="User ID: '.htmlspecialchars(Auth::getCurrentUserId()).'">'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code>
+			<code title="User ID: '.htmlspecialchars(Auth::getCurrentUserId()).'">'.str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName())).'</code>
 		</fieldset>
 ';
 			echo '		<fieldset>
@@ -34,7 +34,6 @@ Router::registerPage('account', function($subpage) {
 			<form action="'.Router::getHtmlReadyUri('/account/action').'" method="post">
 				<input name="csrf_token" type="hidden" value="'.htmlspecialchars(Session::get('_csrf_token')).'" />
 
-				<label for="fullname">Full Name:</label>
 				<input id="fullname" name="fullname" type="text" value="'.htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName())).'" />
 
 				<input name="change_fullname" type="submit" value="Save" class="button-primary" />
