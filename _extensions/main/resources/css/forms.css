@@ -55,7 +55,11 @@ label {
 form button,
 form input,
 form select,
-form textarea {
+form textarea,
+.form button,
+.form input,
+.form select,
+.form textarea {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -66,11 +70,17 @@ form label,
 form button,
 form input,
 form textarea,
-form select {
+form select,
+.form label,
+.form button,
+.form input,
+.form textarea,
+.form select {
 	width: 100%;
 }
 
-form label {
+form label,
+.form label {
 	vertical-align: top;
 }
 
@@ -78,7 +88,11 @@ form label {
 	form button,
 	form input,
 	form textarea,
-	form select {
+	form select,
+	.form button,
+	.form input,
+	.form textarea,
+	.form select {
 		display: block;
 		width: 100%;
 		max-width: 20em;
@@ -86,7 +100,11 @@ form label {
 	form button,
 	form input[type="submit"],
 	form input[type="reset"],
-	form input[type="button"] {
+	form input[type="button"],
+	.form button,
+	.form input[type="submit"],
+	.form input[type="reset"],
+	.form input[type="button"] {
 		display: block;
 		clear: both;
 		width: 100%;
@@ -101,13 +119,23 @@ form.full-width input[type="submit"],
 form.full-width input[type="reset"],
 form.full-width input[type="button"],
 form.full-width select,
-form.full-width textarea {
+form.full-width textarea,
+.form.full-width,
+.form.full-width button,
+.form.full-width input,
+.form.full-width input[type="submit"],
+.form.full-width input[type="reset"],
+.form.full-width input[type="button"],
+.form.full-width select,
+.form.full-width textarea {
 	width: 100%;
 	max-width: 100%;
 }
 
 form input[type="checkbox"],
-form input[type="radio"] {
+form input[type="radio"],
+.form input[type="checkbox"],
+.form input[type="radio"] {
 	width: 1em;
 	height: 1em;
 	display: block;
@@ -119,7 +147,9 @@ form input[type="radio"] {
 }
 
 form input[type="checkbox"]+label,
-form input[type="radio"]+label {
+form input[type="radio"]+label,
+.form input[type="checkbox"]+label,
+.form input[type="radio"]+label {
 	padding: 0;
 	font-weight: normal;
 	display: block;
