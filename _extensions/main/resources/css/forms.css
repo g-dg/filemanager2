@@ -132,6 +132,8 @@ form.full-width textarea,
 	max-width: 100%;
 }
 
+input[type="checkbox"],
+input[type="radio"],
 form input[type="checkbox"],
 form input[type="radio"],
 .form input[type="checkbox"],
@@ -146,6 +148,8 @@ form input[type="radio"],
 	margin-left: 2em;
 }
 
+input[type="checkbox"]+label,
+input[type="radio"]+label,
 form input[type="checkbox"]+label,
 form input[type="radio"]+label,
 .form input[type="checkbox"]+label,
