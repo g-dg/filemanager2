@@ -2,7 +2,7 @@
 namespace GarnetDG\FileManager;
 
 define('GARNETDG_FILEMANAGER_VERSION', '2.3.0-dev');
-define('GARNETDG_FILEMANAGER_COPYRIGHT', 'Copyright &copy; 2017 Garnet DeGelder');
+define('GARNETDG_FILEMANAGER_COPYRIGHT', 'Copyright &copy; 2017-2018 Garnet DeGelder');
 
 set_time_limit(3600);
 ignore_user_abort(true);
