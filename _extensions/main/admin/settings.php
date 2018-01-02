@@ -15,7 +15,7 @@ MainUiTemplate::header('Global Settings - Administration');
 <button id="create" style="margin-bottom: 1em;">Create</button>
 <div id="settings_list"><em>Retrieving settings list, please wait...</em></div>
 
-<script>"use strict"
+<script>
 
 	var edit_button_to_settings_keys_map = [];
 	var delete_button_to_settings_keys_map = [];

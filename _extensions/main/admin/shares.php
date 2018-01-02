@@ -40,7 +40,7 @@ MainUiTemplate::header('Shares - Administration');
 		</form>
 	</div>
 </div>
-<script>"use strict"
+<script>
 
 	function closeCreateModal() {
 		$("#create_modal").fadeOut(100);
@@ -129,7 +129,7 @@ MainUiTemplate::header('Shares - Administration');
 			</div>
 		</div>
 
-		<script>"use strict"
+		<script>
 
 			var button_share_map = [];
 

@@ -50,7 +50,7 @@ MainUiTemplate::header('Users - Administration');
 		</form>
 	</div>
 </div>
-<script>"use strict"
+<script>
 
 	function closeCreateModal() {
 		$("#create_modal").fadeOut(100);
@@ -161,7 +161,7 @@ MainUiTemplate::header('Users - Administration');
 			</div>
 		</div>
 
-		<script>"use strict"
+		<script>
 
 			var button_user_map = [];
 

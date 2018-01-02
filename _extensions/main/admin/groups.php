@@ -37,7 +37,7 @@ MainUiTemplate::header('Groups - Administration');
 		</form>
 	</div>
 </div>
-<script>"use strict"
+<script>
 
 	function closeCreateModal() {
 		$("#create_modal").fadeOut(100);

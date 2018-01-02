@@ -21,7 +21,7 @@ MainUiTemplate::header('Users <-> Groups - Administration');
 		<em>Retrieving group list, please wait...</em>
 	</div>
 </div>
-<script>"use strict"
+<script>
 
 	var current_user = null;
 
