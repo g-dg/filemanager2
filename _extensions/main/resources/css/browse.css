@@ -2,15 +2,16 @@
 	white-space: nowrap;
 	margin: 0;
 	width: 100%;
-	margin-top: 1em;
 }
 
 .listing tr {
 	border-bottom: #ccc 1px solid;
 }
 
+.listing th,
 .listing td {
 	padding: .75em;
+	padding-left: .25em;
 	padding-right: 2em;
 }
 
