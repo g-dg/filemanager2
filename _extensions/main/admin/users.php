@@ -342,6 +342,7 @@ MainUiTemplate::header('Users - Administration');
 							"user_id": current_user_id
 						},
 						function () {
+							alert("The password has been changed.");
 							$("#edit_password1").val("");
 							$("#edit_password2").val("");
 						},
