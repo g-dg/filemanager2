@@ -144,11 +144,11 @@ Router::registerPage('browse', function($path) {
 	switch ($sort_order) {
 		case 'asc':
 			$new_order = 'desc';
-			$sort_arrow = '&#x25B2;';
+			$sort_arrow = '&#x25B2; ';
 			break;
 		case 'desc':
 			$new_order = 'asc';
-			$sort_arrow = '&#x25BC;';
+			$sort_arrow = '&#x25BC; ';
 			break;
 	}
 
