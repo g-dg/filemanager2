@@ -29,14 +29,14 @@ Router::registerPage('settings', function($subpage) {
 					<div class="nine columns">
 						';
 						if (UserSettings::get('_main.browse.show_hidden', 'false') === 'true') {
-							echo '<select name="set_value" class="u-full-width"><option value="true" selected="selected">Show hidden files</option><option value="false">Hide hidden files</option></select>';
+							echo '<select name="set_value"><option value="true" selected="selected">Show hidden files</option><option value="false">Hide hidden files</option></select>';
 						} else {
-							echo '<select name="set_value" class="u-full-width"><option value="true">Show hidden files</option><option value="false" selected="selected">Hide hidden files</option></select>';
+							echo '<select name="set_value"><option value="true">Show hidden files</option><option value="false" selected="selected">Hide hidden files</option></select>';
 						}
 						echo '
 					</div>
 					<div class="two columns">
-						<input name="set" type="submit" value="Save" class="u-full-width button-primary" />
+						<input name="set" type="submit" value="Save" class="button-primary" />
 					</div>
 				</div>
 			</form>
@@ -52,19 +52,19 @@ Router::registerPage('settings', function($subpage) {
 						';
 						switch (UserSettings::get('_main.browse.sort_field', 'name')) {
 							case 'last-modified':
-								echo '<select name="set_value" class="u-full-width"><option value="name">Name</option><option value="last-modified" selected="selected">Last Modified</option><option value="size">Size</option></select>';
+								echo '<select name="set_value"><option value="name">Name</option><option value="last-modified" selected="selected">Last Modified</option><option value="size">Size</option></select>';
 								break;
 							case 'size':
-								echo '<select name="set_value" class="u-full-width"><option value="name">Name</option><option value="last-modified">Last Modified</option><option value="size" selected="selected">Size</option></select>';
+								echo '<select name="set_value"><option value="name">Name</option><option value="last-modified">Last Modified</option><option value="size" selected="selected">Size</option></select>';
 								break;
 							default:
-								echo '<select name="set_value" class="u-full-width"><option value="name" selected="selected">Name</option><option value="last-modified">Last Modified</option><option value="size">Size</option></select>';
+								echo '<select name="set_value"><option value="name" selected="selected">Name</option><option value="last-modified">Last Modified</option><option value="size">Size</option></select>';
 								break;
 						}
 						echo '
 					</div>
 					<div class="two columns">
-						<input name="set" type="submit" value="Save" class="u-full-width button-primary" onclick="alert(\'You will have to log out and log back in for changes to take effect.\');" />
+						<input name="set" type="submit" value="Save" class="button-primary" onclick="alert(\'You will have to log out and log back in for changes to take effect.\');" />
 					</div>
 				</div>
 			</form>
@@ -80,16 +80,16 @@ Router::registerPage('settings', function($subpage) {
 						';
 						switch (UserSettings::get('_main.browse.sort_order', 'desc')) {
 							case 'asc':
-								echo '<select name="set_value" class="u-full-width"><option value="asc" selected="selected">Ascending</option><option value="desc">Descending</option></select>';
+								echo '<select name="set_value"><option value="asc" selected="selected">Ascending</option><option value="desc">Descending</option></select>';
 								break;
 							default:
-								echo '<select name="set_value" class="u-full-width"><option value="asc">Ascending</option><option value="desc" selected="selected">Descending</option></select>';
+								echo '<select name="set_value"><option value="asc">Ascending</option><option value="desc" selected="selected">Descending</option></select>';
 								break;
 						}
 						echo '
 					</div>
 					<div class="two columns">
-						<input name="set" type="submit" value="Save" class="u-full-width button-primary" onclick="alert(\'You will have to log out and log back in for changes to take effect.\');" />
+						<input name="set" type="submit" value="Save" class="button-primary" onclick="alert(\'You will have to log out and log back in for changes to take effect.\');" />
 					</div>
 				</div>
 			</form>
@@ -108,13 +108,13 @@ Router::registerPage('settings', function($subpage) {
 					<legend>Set</legend>
 					<div class="row">
 						<div class="four columns">
-							<input name="set_key" type="text" value="" placeholder="Key" class="u-full-width" />
+							<input name="set_key" type="text" value="" placeholder="Key" />
 						</div>
 						<div class="six columns">
-							<input name="set_value" type="text" value="" placeholder="Value" class="u-full-width" />
+							<input name="set_value" type="text" value="" placeholder="Value" />
 						</div>
 						<div class="two columns">
-							<input name="set" type="submit" value="Set" class="u-full-width button-primary" />
+							<input name="set" type="submit" value="Set" class="button-primary" />
 						</div>
 					</div>
 				</fieldset>
@@ -122,10 +122,10 @@ Router::registerPage('settings', function($subpage) {
 					<legend>Unset</legend>
 					<div class="row">
 						<div class="ten columns">
-							<input name="unset_key" type="text" value="" placeholder="Key" class="u-full-width" />
+							<input name="unset_key" type="text" value="" placeholder="Key" />
 						</div>
 						<div class="two columns">
-							<input name="unset" type="submit" value="Unset" class="u-full-width button-primary" />
+							<input name="unset" type="submit" value="Unset" class="button-primary" />
 						</div>
 					</div>
 				</fieldset>
