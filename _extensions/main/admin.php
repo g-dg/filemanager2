@@ -56,12 +56,8 @@ Router::registerPage('admin', function($subpage) {
 				require('admin/settings.php');
 				break;
 
-			case 'apply':
-				if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === Session::get('_csrf_token')) {
-					require('admin/apply.php');
-				} else {
-					Router::execErrorPage(403);
-				}
+			case 'api':
+				require('admin/api.php');
 				break;
 
 			default:

@@ -49,9 +49,9 @@ class MainUiTemplate
 				echo '<a href="'.Router::getHtmlReadyUri('/admin').'">Administration</a>';
 				echo '<ul>';
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users').'">Users</a></li>';
-					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users_in_groups').'">Users in Groups</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/users_in_groups').'">Users &lt;-&gt; Groups</a></li>';
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/groups').'">Groups</a></li>';
-					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares_in_groups').'">Shares in Groups</a></li>';
+					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares_in_groups').'">Shares &lt-&gt; Groups</a></li>';
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/shares').'">Shares</a></li>';
 					echo '<li><a href="'.Router::getHtmlReadyUri('/admin/settings').'">Global Settings</a></li>';
 					Hooks::exec('_main.admin.page');
