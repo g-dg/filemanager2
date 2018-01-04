@@ -19,6 +19,29 @@ Router::registerPage('account', function($subpage) {
 	<code title="User ID: <?=htmlspecialchars(Auth::getCurrentUserId());?>"><?=str_replace(' ', '&nbsp;', htmlspecialchars(Auth::getCurrentUserName()));?></code>
 </fieldset>
 <fieldset>
+	<legend>Account Type</legend>
+	<code id="account_type"><em>Retrieving account type, please wait...</em></code>
+</fieldset>
+<script>
+
+	$.post(
+		$("#api_uri").val(),
+		{
+			"csrf_token": $("#csrf_token").val(),
+			"action": "get_account_type",
+		},
+		function (account_type) {
+			$("#account_type").text(account_type);
+		},
+		"text"
+	).fail(
+		function () {
+			$("#account_type").html("<em><strong>Error!</strong> Could not retrieve account type from the server.</em>");
+		}
+	);
+
+</script>
+<fieldset>
 	<legend>Full Name</legend>
 	<div class="form">
 		<input id="fullname" name="fullname" type="text" value="<?=htmlspecialchars(UserSettings::get('_main.account.full_name', Auth::getCurrentUserName()));?>" required="required" />
@@ -141,11 +164,15 @@ Router::registerPage('account', function($subpage) {
 			"action": "get_groups"
 		},
 		function (groups) {
-			$("#groups").html('<ul id="group_list"></ul>').prop("title", "");
-			for (var i = 0; i < groups.length; i++) {
-				$("#group_list").append(
-					$("<li>").text(groups[i])
-				);
+			if (groups.length > 0) {
+				$("#groups").html('<ul id="group_list"></ul>').prop("title", "");
+				for (var i = 0; i < groups.length; i++) {
+					$("#group_list").append(
+						$("<li>").text(groups[i])
+					);
+				}
+			} else {
+				$("#groups").html('<em>&lt;none&gt;</em>').prop("title", "");
 			}
 		},
 		"json"
@@ -173,6 +200,24 @@ Router::registerPage('account', function($subpage) {
 							}
 							header('Content-type: text/json');
 							echo json_encode($groups);
+							break;
+
+
+						case 'get_account_type':
+							switch (Auth::getCurrentUserType()) {
+								case Auth::USER_TYPE_ADMIN:
+									echo 'Administrator';
+									break;
+								case Auth::USER_TYPE_STANDARD:
+									echo 'Standard user';
+									break;
+								case Auth::USER_TYPE_GUEST:
+									echo 'Guest';
+									break;
+								default:
+									echo 'Unknown';
+									break;
+							}
 							break;
 
 
