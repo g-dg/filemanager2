@@ -35,7 +35,11 @@ Router::registerPage('account', function($subpage) {
 					{
 						"csrf_token": $("#csrf_token").val(),
 						"action": "set_fullname",
-						"fullname": $("fullname").val()
+						"fullname": $("#fullname").val()
+					},
+					function () {
+						alert("The full name has been changed.");
+						$("#_fullname").text($("#fullname").val());
 					}
 				).fail(
 					function () {
@@ -44,7 +48,7 @@ Router::registerPage('account', function($subpage) {
 				);
 			}
 		}
-	)
+	);
 
 </script>
 
