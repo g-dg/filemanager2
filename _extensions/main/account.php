@@ -20,27 +20,24 @@ Router::registerPage('account', function($subpage) {
 </fieldset>
 <fieldset>
 	<legend>Account Type</legend>
-	<code id="account_type"><em>Retrieving account type, please wait...</em></code>
+	<code><?php
+switch (Auth::getCurrentUserType()) {
+	case Auth::USER_TYPE_ADMIN:
+		echo 'Administrator';
+		break;
+	case Auth::USER_TYPE_STANDARD:
+		echo 'Standard user';
+		break;
+	case Auth::USER_TYPE_GUEST:
+		echo 'Guest';
+		break;
+	default:
+		echo 'Unknown';
+		break;
+}
+	?></code>
 </fieldset>
-<script>
 
-	$.post(
-		$("#api_uri").val(),
-		{
-			"csrf_token": $("#csrf_token").val(),
-			"action": "get_account_type",
-		},
-		function (account_type) {
-			$("#account_type").text(account_type);
-		},
-		"text"
-	).fail(
-		function () {
-			$("#account_type").html("<em><strong>Error!</strong> Could not retrieve account type from the server.</em>");
-		}
-	);
-
-</script>
 <fieldset>
 	<legend>Full Name</legend>
 	<div class="form">
@@ -51,7 +48,7 @@ Router::registerPage('account', function($subpage) {
 <script>
 
 	$("#update_fullname").click(
-		function() {
+		function () {
 			if ($("fullname").val() !== '') {
 				$.post(
 					$("#api_uri").val(),
@@ -69,6 +66,14 @@ Router::registerPage('account', function($subpage) {
 						alert("Error! Could not change full name.");
 					}
 				);
+			}
+		}
+	);
+
+	$("#fullname").keyup(
+		function (event) {
+			if (event.keyCode == 13) { // "Enter" key
+				$("#update_fullname").click();
 			}
 		}
 	);
@@ -151,38 +156,19 @@ Router::registerPage('account', function($subpage) {
 
 <fieldset>
 	<legend>Groups</legend>
-	<div id="groups">
-		<em>Retrieving group list, please wait...</em>
-	</div>
+	<?php
+$groups = Users::getGroups(Auth::getCurrentUserId());
+if (count($groups) > 0) {
+	echo '<ul>';
+	foreach ($groups as $group_id) {
+		echo '<li>'.str_replace(' ', '&nbsp;', htmlspecialchars(Groups::getName($group_id))).'</li>';
+	}
+	echo '</ul>';
+} else {
+	echo '<em>&lt;none&gt;</em>';
+}
+	?>
 </fieldset>
-<script>
-
-	$.post(
-		$("#api_uri").val(),
-		{
-			"csrf_token": $("#csrf_token").val(),
-			"action": "get_groups"
-		},
-		function (groups) {
-			if (groups.length > 0) {
-				$("#groups").html('<ul id="group_list"></ul>').prop("title", "");
-				for (var i = 0; i < groups.length; i++) {
-					$("#group_list").append(
-						$("<li>").text(groups[i])
-					);
-				}
-			} else {
-				$("#groups").html('<em>&lt;none&gt;</em>').prop("title", "");
-			}
-		},
-		"json"
-	).fail(
-		function (xhr) {
-			$("#groups").html("<em><strong>Error!</strong> Could not retrieve the list of groups from the server.</em>").prop("title", xhr.responseText);
-		}
-	);
-
-</script>
 
 <?php MainUiTemplate::footer();
 			break;
@@ -192,34 +178,6 @@ Router::registerPage('account', function($subpage) {
 			if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === Session::get('_csrf_token')) {
 				if (isset($_POST['action'])) {
 					switch ($_POST['action']) {
-
-						case 'get_groups':
-							$groups = [];
-							foreach (Users::getGroups(Auth::getCurrentUserId()) as $group_id) {
-								$groups[] = Groups::getName($group_id);
-							}
-							header('Content-type: text/json');
-							echo json_encode($groups);
-							break;
-
-
-						case 'get_account_type':
-							switch (Auth::getCurrentUserType()) {
-								case Auth::USER_TYPE_ADMIN:
-									echo 'Administrator';
-									break;
-								case Auth::USER_TYPE_STANDARD:
-									echo 'Standard user';
-									break;
-								case Auth::USER_TYPE_GUEST:
-									echo 'Guest';
-									break;
-								default:
-									echo 'Unknown';
-									break;
-							}
-							break;
-
 
 						case 'set_fullname':
 							if (isset($_POST['fullname'])) {
