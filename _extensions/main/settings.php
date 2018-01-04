@@ -82,11 +82,13 @@ Router::registerPage('settings', function($subpage) {
 <input id="csrf_token" type="hidden" name="csrf_token" value="<?=htmlspecialchars(Session::get('_csrf_token'))?>" />
 
 <button id="show_advanced" style="margin-top: 1em; margin-bottom: 1em;">Advanced</button>
-<fieldset id="advanced" style="display: none;">
-	<legend>Advanced Settings</legend>
-	<button id="create" style="margin-bottom: 1em;">Create</button>
-	<div id="settings_list"><em>Retrieving settings list, please wait...</em></div>
-</fieldset>
+<div class="overflow">
+	<fieldset id="advanced" style="display: none;">
+		<legend>Advanced Settings</legend>
+		<button id="create" style="margin-bottom: 1em;">Create</button>
+		<div id="settings_list"><em>Retrieving settings list, please wait...</em></div>
+	</fieldset>
+</div>
 <script>
 
 	var edit_button_to_settings_keys_map = [];

@@ -13,7 +13,7 @@ MainUiTemplate::header('Global Settings - Administration');
 <input id="csrf_token" type="hidden" name="csrf_token" value="<?=htmlspecialchars(Session::get('_csrf_token'))?>" />
 
 <button id="create" style="margin-bottom: 1em;">Create</button>
-<div id="settings_list"><em>Retrieving settings list, please wait...</em></div>
+<div id="settings_list" class="overflow"><em>Retrieving settings list, please wait...</em></div>
 
 <script>
 
