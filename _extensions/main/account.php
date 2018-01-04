@@ -114,12 +114,12 @@ switch (Auth::getCurrentUserType()) {
 						$("#old_password").val("");
 						$("#new_password1").val("");
 						$("#new_password2").val("");
-						$("#old_password").focus();
 					},
 					"text"
 				).fail(
 					function (xhr) {
 						alert(xhr.responseText);
+						$("#old_password").focus();
 					}
 				);
 			} else {
