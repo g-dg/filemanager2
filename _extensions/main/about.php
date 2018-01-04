@@ -50,7 +50,7 @@ along with this program.  If not, see &lt;<a href="http://www.gnu.org/licenses/"
 			echo '<a href="'.Router::getHtmlReadyUri('/about').'">&lt; Back</a>'.PHP_EOL;
 			$license_text = @file_get_contents('_license.txt');
 			if ($license_text !== false) {
-				echo '<pre>'.htmlspecialchars($license_text).'</pre>';
+				echo '<pre class="overflow">'.htmlspecialchars($license_text).'</pre>';
 			} else {
 				echo '<em><strong>Error!</strong> The license file could not be found!</em>';
 			}
