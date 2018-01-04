@@ -7,14 +7,19 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 }
 
 Router::registerPage('about', function($subpage) {
-	MainUiTemplate::header('About');
-	echo '
+	switch ($subpage) {
+		case '':
+			MainUiTemplate::header('About');
+			echo '
 <h1>About</h1>
 <p>Garnet DeGelder\'s File Manager ' . htmlspecialchars(GARNETDG_FILEMANAGER_VERSION) . ' at ' . htmlspecialchars($_SERVER['SERVER_NAME']) . '</p>
 
 <hr />
 
 <h1>License</h1>
+
+<p>Click <a href="'.Router::getHtmlReadyUri('/about/license').'">here</a> for the full license text.</p>
+
 <p>Garnet DeGelder\'s File Manager '.htmlspecialchars(GARNETDG_FILEMANAGER_VERSION).'</p>
 <p>'.GARNETDG_FILEMANAGER_COPYRIGHT.'</p>
 
@@ -34,7 +39,27 @@ along with this program.  If not, see &lt;<a href="http://www.gnu.org/licenses/"
 <hr />
 ';
 
-	Hooks::exec('_main.about.post_license');
+			Hooks::exec('_main.about.post_license');
 
-	MainUiTemplate::footer();
+			MainUiTemplate::footer();
+			break;
+
+
+		case 'license':
+			MainUiTemplate::header('License');
+			echo '<a href="'.Router::getHtmlReadyUri('/about').'">&lt; Back</a>'.PHP_EOL;
+			$license_text = @file_get_contents('_license.txt');
+			if ($license_text !== false) {
+				echo '<pre>'.htmlspecialchars($license_text).'</pre>';
+			} else {
+				echo '<em><strong>Error!</strong> The license file could not be found!</em>';
+			}
+			MainUiTemplate::footer();
+			break;
+
+
+		default:
+			Router::execErrorPage(404);
+			break;
+	}
 });
