@@ -140,7 +140,7 @@ MainUiTemplate::header('Global Settings - Administration');
 				}
 			}
 		}
-	)
+	);
 
 	updateSettings();
 
