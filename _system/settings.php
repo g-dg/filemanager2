@@ -140,7 +140,7 @@ class UserSettings
 			return $keys;
 		}
 
-		if ($user = Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			$keys = [];
 			$query_result = Database::query('SELECT "key" FROM "user_settings" WHERE "user_id" = ?;', [$user]);
 			foreach ($query_result as $record) {
