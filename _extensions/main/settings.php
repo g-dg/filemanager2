@@ -214,6 +214,7 @@ Router::registerPage('settings', function($subpage) {
 
 	$("#show_advanced").click(
 		function () {
+			$("#settings_list").html("<em>Retrieving settings list, please wait...</em>");
 			updateSettings();
 			$("#advanced").toggle();
 		}
