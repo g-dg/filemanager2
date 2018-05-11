@@ -8,7 +8,7 @@ if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
 
 Router::registerPage('properties', function($path) {
 	Auth::authenticate();
-	MainUiTemplate::header('Properties of /'.$path, '<link rel="stylesheet" href="' . Router::getHtmlReadyUri('/resource/main/css/properties.css') . '" type="text/css" />');
+	MainUiTemplate::header('Properties of /'.$path);
 
 	echo '<a href="'.Router::getHtmlReadyUri(pathinfo('/browse/'.$path)['dirname']).'/">&lt; Back</a>';
 
