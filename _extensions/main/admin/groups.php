@@ -199,9 +199,9 @@ MainUiTemplate::header('Groups - Administration');
 							var row = $("<tr>");
 							row.append($("<td>").text(group.name).prop("title", "Group ID: "+group.id));
 							if (group.enabled) {
-								row.append($('<td style="background-color: #9f9;">').text("Yes"));
+								row.append($('<td style="background-color: #9f9; color: #000;">').text("Yes"));
 							} else {
-								row.append($('<td style="background-color: #f99;">').text("No"));
+								row.append($('<td style="background-color: #f99; color: #000;">').text("No"));
 							}
 							row.append(
 								$("<td>").append(

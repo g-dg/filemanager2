@@ -103,3 +103,24 @@ ul.path > li {
 ul.path > li:hover {
 	background-color: #eee;
 }
+
+@media (prefers-color-scheme: dark) {
+	.listing tr {
+		border-bottom: #666 1px solid;
+	}
+
+	.listing tbody tr {
+		background-color: #333;
+	}
+	.listing tbody tr:hover {
+		background-color: #444;
+	}
+
+	ul.head_hooks {
+		background-color: #333;
+	}
+
+	ul.path > li:hover {
+		background-color: #666;
+	}
+}

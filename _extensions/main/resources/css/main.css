@@ -62,3 +62,28 @@ hr {
 	border: none;
 	border-top: #999 1px solid;
 }
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #333;
+		color: #fff;
+	}
+
+	fieldset {
+		border: 1px #666 solid;
+	}
+
+	code {
+		background-color: #444;
+		border: #555 1px solid;
+	}
+
+	table.border th,
+	table.border td {
+		border: #666 1px solid;
+	}
+
+	hr {
+		border-top: #666 1px solid;
+	}
+}

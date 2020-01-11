@@ -51,3 +51,18 @@ body.login fieldset {
 	margin: 5px;
 	padding: 5px;
 }
+
+@media (prefers-color-scheme: dark) {
+	body.login {
+		background-color: #333;
+		color: #fff;
+	}
+
+	body.login footer {
+		border-top: #666 1px solid;
+	}
+
+	body.login fieldset {
+		border-top: #666 1px solid;
+	}
+}

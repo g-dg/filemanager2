@@ -54,3 +54,18 @@
 		max-height: 95%;
 	}
 }
+
+@media (prefers-color-scheme: dark) {
+	.modal .content {
+		background-color: #333;
+		box-shadow: 0 0 10px 1px #666;
+	}
+
+	.modal .close {
+		color: #fff;
+	}
+	.modal .close:hover,
+	.modal .close:focus {
+		color: #ccc;
+	}
+}

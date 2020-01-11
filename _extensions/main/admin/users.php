@@ -264,22 +264,22 @@ MainUiTemplate::header('Users - Administration');
 							row.append($("<td>").text(user.name).prop("title", "User ID: "+user.id));
 							switch (user.type) {
 								case 'administrator':
-									row.append($('<td style="background-color: #ff9;">').text("Administrator"));
+									row.append($('<td style="background-color: #ff9; color: #000;">').text("Administrator"));
 									break;
 								case 'standard':
-									row.append($('<td style="background-color: #9f9;">').text("Standard User"));
+									row.append($('<td style="background-color: #9f9; color: #000;">').text("Standard User"));
 									break;
 								case 'guest':
-									row.append($('<td style="background-color: #9ff;">').text("Guest"));
+									row.append($('<td style="background-color: #9ff; color: #000;">').text("Guest"));
 									break;
 								default:
-									row.append($('<td style="background-color: #ccc;">').text("Unknown"));
+									row.append($('<td style="background-color: #ccc; color: #000;">').text("Unknown"));
 									break;
 							}
 							if (user.enabled) {
-								row.append($('<td style="background-color: #9f9;">').text("Yes"));
+								row.append($('<td style="background-color: #9f9; color: #000;">').text("Yes"));
 							} else {
-								row.append($('<td style="background-color: #f99;">').text("No"));
+								row.append($('<td style="background-color: #f99; color: #000;">').text("No"));
 							}
 							row.append(
 								$("<td>").append(

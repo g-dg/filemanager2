@@ -180,3 +180,43 @@ footer.footer > p {
 	font-style: italic;
 	color: #999;
 }
+
+@media (prefers-color-scheme: dark) {
+	header.header {
+		background-color: #333;
+		border-bottom: #666 1px solid;
+	}
+	nav.nav {
+		background-color: #333;
+		border-bottom: #666 1px solid;
+	}
+	footer.footer {
+		background-color: #333;
+		border-top: #666 1px solid;
+	}
+}
+@media (prefers-color-scheme: dark) and (min-width: 768px) {
+	header.header {
+		box-shadow: 0 0 3px 0 #666;
+	}
+	nav.nav {
+		box-shadow: 0 0 3px 0 #666;
+	}
+	footer.footer {
+		box-shadow: 0 0 3px 0 #666;
+	}
+}
+@media (prefers-color-scheme: dark) {
+	nav.nav > ul > li {
+		background-color: #333;
+	}
+	nav.nav > ul > li:hover {
+		background-color: #444;
+	}
+	nav.nav > ul > li > ul > li:hover {
+		background-color: #555;
+	}
+	nav.nav > ul > li > ul > li > ul > li:hover {
+		background-color: #666;
+	}
+}

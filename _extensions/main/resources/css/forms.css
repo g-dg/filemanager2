@@ -212,3 +212,56 @@ table .modal input[type="button"] {
 	width: 100%;
 	margin-bottom: 1rem;
 }
+
+@media (prefers-color-scheme: dark) {
+	button,
+	input,
+	select,
+	textarea {
+		background-color: #444;
+		border: #666 1px solid;
+		color: #fff;
+	}
+
+	button,
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"] {
+		background-color: #555;
+	}
+
+	button:active,
+	input:active,
+	select:active,
+	textarea:active,
+	button:focus,
+	input:focus,
+	select:focus,
+	textarea:focus {
+		background-color: #666;
+	}
+
+	button:disabled,
+	input:disabled,
+	select:disabled,
+	textarea:disabled,
+	button:active:disabled,
+	input:active:disabled,
+	select:active:disabled,
+	textarea:active:disabled,
+	button:focus:disabled,
+	input:focus:disabled,
+	select:focus:disabled,
+		textarea:focus:disabled {
+		border: 1px solid #666;
+		box-shadow: none;
+		background-color: #333;
+	}
+
+	button:disabled.button-primary,
+	input[type="submit"]:disabled.button-primary,
+	input[type="reset"]:disabled.button-primary,
+	input[type="button"]:disabled.button-primary {
+		border-color: #333;
+	}
+}
