@@ -28,7 +28,7 @@ class Router
 		if (!isset(self::$registered_error_pages[$http_error])) {
 			self::$registered_error_pages[$http_error] = $callback;
 		} else {
-			Log::warning('The error page "' . $name . '" has already been registered');
+			Log::warning('The error page for error"' . $http_error . '" has already been registered');
 		}
 	}
 

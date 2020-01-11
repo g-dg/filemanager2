@@ -68,7 +68,7 @@ class UserSettings
 			return $default;
 		}
 		
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			$query_result = Database::query('SELECT "value" FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user]);
 			if (isset($query_result[0])) {
 				return $query_result[0][0];
@@ -87,7 +87,7 @@ class UserSettings
 			$settings_cache = Session::get('_settings.guest_cache', []);
 			$settings_cache[$key] = $value;
 			Session::set('_settings.guest_cache', $settings_cache);
-		} else if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
+		} else if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('INSERT INTO "user_settings" ("key", "user_id", "value") VALUES (?, ?, ?);', [$key, $user, (string)$value]);
 		}
 	}
@@ -103,7 +103,7 @@ class UserSettings
 			return isset($settings_cache[$key]);
 		}
 
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			return (Database::query('SELECT COUNT() from "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user])[0][0] > 0);
 		}
 	}
@@ -120,7 +120,7 @@ class UserSettings
 			Session::set('_settings.guest_cache', $settings_cache);
 		}
 
-		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType === Auth::USER_TYPE_ADMIN || $force) {
+		if ($user === Auth::getCurrentUserId() || Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN || $force) {
 			Database::query('DELETE FROM "user_settings" WHERE "key" = ? AND "user_id" = ?;', [$key, $user]);
 		}
 	}

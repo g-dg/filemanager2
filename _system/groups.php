@@ -184,7 +184,7 @@ class Groups {
 	{
 		if (Auth::getCurrentUserType() === Auth::USER_TYPE_ADMIN) {
 			Database::query('UPDATE "groups" SET "comment" = ? WHERE "id" = ?;', [$comment, $group_id]);
-			Log::notice('Comment for group "' . Users::getName($user_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
+			Log::notice('Comment for group "' . Groups::getName($group_id) . '" changed by "' . Auth::getCurrentUserName() . '"');
 			return true;
 		}
 		return false;
