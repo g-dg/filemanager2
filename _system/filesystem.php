@@ -65,11 +65,81 @@ class Filesystem
 		}
 		return false;
 	}
+	/**
+	 * Finds file size on platforms with 32-bit integers
+	 * From https://www.php.net/manual/en/function.filesize.php#121406 by Damien Dussouillez
+	 * 
+	 * Return file size (even for file > 2 Gb)
+	 * For file size over PHP_INT_MAX (2 147 483 647), PHP filesize function loops from -PHP_INT_MAX to PHP_INT_MAX.
+	 *
+	 * @param string $path Path of the file
+	 * @return mixed File size or false if error
+	 */
+	private static function filesize_32bit($path)
+	{
+		if (!function_exists('bcadd')) {
+			Log::error('Cannot get filesize without BC Math extension');
+			return false;
+		}
+
+		if (!file_exists($path))
+			return false;
+
+		$size = filesize($path);
+	
+		if (!($file = fopen($path, 'rb')))
+			return false;
+	
+		if ($size >= 0)
+		{//Check if it really is a small file (< 2 GB)
+			if (fseek($file, 0, SEEK_END) === 0)
+			{//It really is a small file
+				fclose($file);
+				return $size;
+			}
+		}
+	
+		//Quickly jump the first 2 GB with fseek. After that fseek is not working on 32 bit php (it uses int internally)
+		$size = PHP_INT_MAX - 1;
+		if (fseek($file, PHP_INT_MAX - 1) !== 0)
+		{
+			fclose($file);
+			return false;
+		}
+	
+		$length = 1024 * 1024;
+		while (!feof($file))
+		{//Read the file until end
+			$read = fread($file, $length);
+			$size = bcadd($size, $length);
+		}
+		$size = bcsub($size, $length);
+		$size = bcadd($size, strlen($read));
+	
+		fclose($file);
+		return $size;
+	}
+	public static function filesize_actual($filename)
+	{
+		$filename = self::mapSharePathToFilesystemPath($filename);
+		if (!is_null($filename)) {
+			if (PHP_INT_MAX != 2147483647) { // check for 64-bit support
+				return (string)@filesize($filename);
+			} else {
+				return @self::filesize_32bit($filename);
+			}
+		}
+		return false;
+	}
 	public static function filesize($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
 		if (!is_null($filename)) {
-			return @filesize($filename);
+			$size = @filesize($filename);
+			if ($size < 0) {
+				$size = null;
+			}
+			return $size;
 		}
 		return false;
 	}
