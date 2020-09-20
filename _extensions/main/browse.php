@@ -344,7 +344,7 @@ Router::registerPage('browse', function($path) {
 				echo '</span>';
 			} else {
 				$filesize = Filesystem::filesize($file);
-				if ($filesize !== false) {
+				if ($filesize !== false && $filesize !== null) {
 					if ($filesize != 1) {
 						echo '<span id="file_size_'.$file_id.'" title="'.htmlspecialchars(number_format($filesize, 0, '.', ',')).' bytes" onclick="alert($(\'#file_size_'.$file_id.'\').attr(\'title\'));">';
 					} else {
