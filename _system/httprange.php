@@ -83,7 +83,6 @@ class HttpRange
 							$mb_blocks_remaining = bcdiv($seeking_remaining, 1024 * 1024, 0); // calculate how many 1MB blocks to jump
 							$kb_blocks_remaining = bcdiv(bcsub($seeking_remaining, bcmul($mb_blocks_remaining, 1024 * 1024)), 1024, 0); // calculate how many 1KB blocks to jump
 							$bytes_remaining = bcsub($seeking_remaining, bcadd(bcmul($mb_blocks_remaining, 1024 * 1024), bcmul($kb_blocks_remaining, 1024))); // calculate remainder to jump after jumping blocks
-							Log::notice("HTTP range: " . $_SERVER['HTTP_RANGE'] . ", filesize: " . $content_length . ", requested start: " . $start . ", send length: " . $send_length . ", seeked to 2147483646, seek remaining: " . $seeking_remaining . ", mb remaining: " . $mb_blocks_remaining . ", kb remaining: " . $kb_blocks_remaining . ", bytes remaining: " . $bytes_remaining);
 							for ($i = 0; $i < $mb_blocks_remaining; $i++) { // jump in 1M blocks
 								fread($fd, 1024 * 1024);
 							}
