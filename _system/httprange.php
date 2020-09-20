@@ -106,7 +106,6 @@ class HttpRange
 				while (!feof($fd) && !connection_aborted() && ($has_32bit ? bccomp($sent, $send_length) == -1 : $sent < $send_length)) {
 					$buffer = fread($fd, $buffersize);
 					echo $buffer;
-					flush();
 					if ($has_32bit)
 						$sent = bcadd($sent, strlen($buffer));
 					else
