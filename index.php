@@ -1,7 +1,7 @@
 <?php
 namespace GarnetDG\FileManager;
 
-define('GARNETDG_FILEMANAGER_VERSION', '2.5.0');
+define('GARNETDG_FILEMANAGER_VERSION', '2.5.1');
 define('GARNETDG_FILEMANAGER_COPYRIGHT', 'Copyright &copy; 2017-2018,2020 Garnet DeGelder');
 
 set_time_limit(3600);
