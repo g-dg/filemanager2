@@ -190,7 +190,7 @@ if (count($groups) > 0) {
 
 
 						case 'set_password':
-							if (isset($_POST['old_password'], $_POST['new_password'])) {
+							if (isset($_POST['old_password'], $_POST['new_password']) && Auth::getCurrentUserType() != Auth::USER_TYPE_GUEST) {
 								if (Auth::checkPassword(Auth::getCurrentUserId(), $_POST['old_password'])) {
 									Users::setPassword(Auth::getCurrentUserId(), $_POST['new_password']);
 								} else {
