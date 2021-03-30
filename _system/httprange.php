@@ -1,4 +1,5 @@
 <?php
+
 namespace GarnetDG\FileManager;
 
 if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
@@ -37,7 +38,7 @@ class HttpRange
 			if ($force_download) {
 				header('Content-Disposition: attachment; filename="' . $content_disposition . '"');
 			}
-			
+
 			if (isset($_SERVER['HTTP_RANGE'])) {
 				list($start, $end) = explode("-", explode(",", explode("=", $_SERVER['HTTP_RANGE'], 2)[1], 2)[0]);
 				if ($end == '') {
@@ -50,9 +51,9 @@ class HttpRange
 						$end = (int)$end;
 				}
 				if ($has_32bit)
-					$send_length = bcsub($end, bcadd($start, 1));
+					$send_length = bcadd(bcsub($end, $start), 1);
 				else
-					$send_length = $end - (int)$start + 1;
+					$send_length = ($end - (int)$start) + 1;
 
 				if ($has_32bit)
 					$invalid_request_range = bccomp($start, $content_length) == 1 || bccomp($end, $content_length) == 1;
