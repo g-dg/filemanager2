@@ -40,7 +40,7 @@ class Session
 
 			Database::lock();
 
-			$check_ip = (GlobalSettings::get('_session.ip.enforce', 'true') == 'true');
+			$check_ip = (GlobalSettings::get('_session.ip.enforce', 'false') == 'true');
 
 			// generate a new id if the session id doesn't exist
 			// or if the timestamp is too old
