@@ -1,4 +1,5 @@
 <?php
+
 namespace GarnetDG\FileManager;
 
 if (!defined('GARNETDG_FILEMANAGER_VERSION')) {
@@ -22,6 +23,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function file_exists($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -30,6 +32,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function file_get_contents($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -38,6 +41,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function file_put_contents($filename, $data)
 	{
 		$filename_share_path = $filename;
@@ -49,6 +53,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function fileatime($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -57,6 +62,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function filemtime($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -65,6 +71,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	/**
 	 * Finds file size on platforms with 32-bit integers
 	 * From https://www.php.net/manual/en/function.filesize.php#121406 by Damien Dussouillez
@@ -86,39 +93,29 @@ class Filesystem
 			return false;
 
 		$size = filesize($path);
-	
+
 		if (!($file = fopen($path, 'rb')))
 			return false;
-	
-		if ($size >= 0)
-		{//Check if it really is a small file (< 2 GB)
-			if (fseek($file, 0, SEEK_END) === 0)
-			{//It really is a small file
-				fclose($file);
-				return $size;
-			}
-		}
-	
-		//Quickly jump the first 2 GB with fseek. After that fseek is not working on 32 bit php (it uses int internally)
+
+		// Quickly jump the first 2 GB with fseek. After that fseek doesn't work with 32 bit
 		$size = PHP_INT_MAX - 1;
-		if (fseek($file, PHP_INT_MAX - 1) !== 0)
-		{
+		if (fseek($file, PHP_INT_MAX - 1) !== 0) {
 			fclose($file);
 			return false;
 		}
-	
+
 		$length = 1024 * 1024;
-		while (!feof($file))
-		{//Read the file until end
+		while (!feof($file)) { // Read the file until end
 			$read = fread($file, $length);
 			$size = bcadd($size, $length);
 		}
 		$size = bcsub($size, $length);
 		$size = bcadd($size, strlen($read));
-	
+
 		fclose($file);
 		return $size;
 	}
+
 	public static function filesize_actual($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -131,6 +128,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function filesize($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -143,6 +141,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function filetype($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -151,6 +150,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	// The built-in php file functions can be used on the returned handle.
 	// Requires read permission on the share
 	public static function fopen($filename, $mode)
@@ -161,6 +161,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function is_dir($filename)
 	{
 		if (self::sanitizePath($filename) === '/') {
@@ -172,6 +173,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function is_file($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -180,6 +182,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function is_readable($filename)
 	{
 		$filename = self::mapSharePathToFilesystemPath($filename);
@@ -188,6 +191,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function is_writable($filename)
 	{
 		$share_filename = $filename;
@@ -199,6 +203,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function mkdir($filename)
 	{
 		$filename_share_path = $filename;
@@ -210,6 +215,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function rename($oldname, $newname)
 	{
 		$oldname_share_path = $oldname;
@@ -223,6 +229,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function rmdir($dirname)
 	{
 		$dirname_share_path = $dirname;
@@ -234,6 +241,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function touch($filename)
 	{
 		$filename_share_path = $filename;
@@ -245,6 +253,7 @@ class Filesystem
 		}
 		return false;
 	}
+
 	public static function unlink($filename)
 	{
 		$filename_share_path = $filename;
@@ -275,6 +284,7 @@ class Filesystem
 
 		return false;
 	}
+
 	public static function fileCount($path)
 	{
 		if (self::isPathToRoot($path)) {
@@ -312,6 +322,7 @@ class Filesystem
 	}
 
 	protected static $extension_mime_types = [];
+
 	public static function getContentType($filename, $is_filesystem_path = false, $cache = false)
 	{
 		if (!$is_filesystem_path) {
@@ -331,11 +342,13 @@ class Filesystem
 			} else {
 				$fh = fopen('_res/mime.types', 'r');
 				while (($line = fgets($fh)) !== false) {
-					if (strlen($line) > 0 &&
-							substr($line, 0, 1) !== '#' &&
-							preg_match_all('/([^\s]+)/', $line, $record) &&
-							isset($record[1]) &&
-							($count = count($record[1])) > 1) {
+					if (
+						strlen($line) > 0 &&
+						substr($line, 0, 1) !== '#' &&
+						preg_match_all('/([^\s]+)/', $line, $record) &&
+						isset($record[1]) &&
+						($count = count($record[1])) > 1
+					) {
 						for ($i = 1; $i < $count; $i++) {
 							if ($cache) {
 								self::$extension_mime_types[$record[1][$i]] = $record[1][0];
@@ -428,7 +441,6 @@ class Filesystem
 	// looks for the file or directory's name in the directory listing of dirname()
 	protected static function fileActuallyExists($filename)
 	{
-
 	}
 
 	protected static function isPathReadable($share_path)
@@ -440,6 +452,7 @@ class Filesystem
 			return false;
 		}
 	}
+
 	protected static function isPathWritable($share_path)
 	{
 		$share_path_array = explode('/', trim($share_path, '/'));
