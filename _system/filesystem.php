@@ -74,7 +74,7 @@ class Filesystem
 
 	/**
 	 * Finds file size on platforms with 32-bit integers
-	 * From https://www.php.net/manual/en/function.filesize.php#121406 by Damien Dussouillez
+	 * Based on https://www.php.net/manual/en/function.filesize.php#121406 by Damien Dussouillez
 	 * 
 	 * Return file size (even for file > 2 Gb)
 	 * For file size over PHP_INT_MAX (2 147 483 647), PHP filesize function loops from -PHP_INT_MAX to PHP_INT_MAX.
@@ -92,25 +92,16 @@ class Filesystem
 		if (!file_exists($path))
 			return false;
 
-		$size = filesize($path);
+		$size = 0;
 
 		if (!($file = fopen($path, 'rb')))
 			return false;
 
-		// Quickly jump the first 2 GB with fseek. After that fseek doesn't work with 32 bit
-		$size = PHP_INT_MAX - 1;
-		if (fseek($file, PHP_INT_MAX - 1) !== 0) {
-			fclose($file);
-			return false;
-		}
-
 		$length = 1024 * 1024;
 		while (!feof($file)) { // Read the file until end
 			$read = fread($file, $length);
-			$size = bcadd($size, $length);
+			$size = bcadd($size, strlen($read));
 		}
-		$size = bcsub($size, $length);
-		$size = bcadd($size, strlen($read));
 
 		fclose($file);
 		return $size;
