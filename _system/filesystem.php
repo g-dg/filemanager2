@@ -105,7 +105,7 @@ class Filesystem
 			return false;
 
 		// seek to PHP_INT_MAX
-		if (fseek($fh, 2_147_483_647) !== 0) {
+		if (fseek($fh, 2147483647) !== 0) {
 			fclose($fh);
 			return false;
 		}
