@@ -74,37 +74,80 @@ class Filesystem
 
 	/**
 	 * Finds file size on platforms with 32-bit integers
-	 * Based on https://www.php.net/manual/en/function.filesize.php#121406 by Damien Dussouillez
 	 * 
-	 * Return file size (even for file > 2 Gb)
-	 * For file size over PHP_INT_MAX (2 147 483 647), PHP filesize function loops from -PHP_INT_MAX to PHP_INT_MAX.
+	 * Return file size as a string
+	 * Required for files that are larger than 2 GB since PHP's filesize function uses 32-bit integers.
+	 * 
+	 * How it works:
+	 * 1. Open file
+	 * 2. Seek to PHP_INT_MAX
+	 * 3. Check for EOF
+	 * 4. If we are at EOF, then the regular PHP filesize function should work properly
+	 * 5. Else, we read in the file and find out how much data we read
 	 *
-	 * @param string $path Path of the file
-	 * @return mixed File size or false if error
+	 * @param string $path path of the file
+	 * @return mixed file size or false if error
 	 */
 	private static function filesize_32bit($path)
 	{
-		if (!function_exists('bcadd')) {
-			Log::error('Cannot get filesize without BC Math extension');
+		// check if the bcmath extension is available
+		if (!extension_loaded('bcmath')) {
+			Log::error('Cannot get filesize on 32-bit system without BC Math extension');
 			return false;
 		}
 
+		// check if file exists
 		if (!file_exists($path))
 			return false;
 
-		$size = 0;
-
-		if (!($file = fopen($path, 'rb')))
+		// open file
+		if (!($fh = fopen($path, 'rb')))
 			return false;
 
-		$length = 1024 * 1024;
-		while (!feof($file)) { // Read the file until end
-			$read = fread($file, $length);
-			$size = bcadd($size, strlen($read));
+		// seek to PHP_INT_MAX
+		if (fseek($fh, 2_147_483_647) !== 0) {
+			fclose($fh);
+			return false;
 		}
 
-		fclose($file);
-		return $size;
+		// check for EOF by reading a byte since the feof function doesn't seem to work if you don't read the file
+		// this advances the file pointer by 1 if it is not an EOF
+		if (fgetc($fh) === false) {
+			// close file since we don't need a file handle anymore
+			fclose($fh);
+
+			// we can use builtin filesize function since the file size is <= PHP_INT_MAX
+			// there is a chance of a race condition if the file size changes while the function is running,
+			// but in that case, we don't care too much since it will just mess up a bunch of other things later on
+			// and the problems will be resolved by retrying the request.
+			$size = filesize($path);
+
+			if ($size !== false)
+				// convert to string for consistency
+				return (string)$size;
+			else
+				return false;
+		} else {
+			// current cursor location
+			// PHP_INT_MAX + 1 since we had to read a byte to check for EOF
+			$size = "2147483648";
+
+			// read 1MB at a time
+			$buffer_length = 1048576;
+
+			// read until EOF
+			while (!feof($fh)) {
+				// read one buffer
+				$read_data = fread($fh, $buffer_length);
+				// add length of data read to the file size
+				$size = bcadd($size, (string)strlen($read_data));
+			}
+
+			//close file
+			fclose($fh);
+
+			return $size;
+		}
 	}
 
 	public static function filesize_actual($filename)
