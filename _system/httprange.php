@@ -20,10 +20,7 @@ class HttpRange
 
 		set_time_limit(0);
 		if (Filesystem::is_file($full_path) && Filesystem::is_readable($full_path)) {
-			if ($has_32bit)
-				$content_length = Filesystem::filesize_actual($full_path);
-			else
-				$content_length = Filesystem::filesize($full_path);
+			$content_length = Filesystem::filesize_actual($full_path);
 			$content_disposition = basename($full_path);
 			$content_type = Filesystem::getContentType($full_path);
 
