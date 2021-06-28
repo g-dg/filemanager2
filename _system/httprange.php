@@ -13,7 +13,7 @@ class HttpRange
 	{
 		$has_32bit = PHP_INT_MAX == 2147483647;
 
-		if ($has_32bit && !function_exists('bcadd')) {
+		if ($has_32bit && !extension_loaded('bcmath')) {
 			Log::error('Cannot send file on 32-bit system without BC Math extension');
 			return false;
 		}
