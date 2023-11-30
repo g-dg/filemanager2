@@ -8,9 +8,10 @@ set_time_limit(0);
 define('GARNETDG_FILEMANAGER_VERSION', '2.0.0');
 class Log{const EMERG=0;const ALERT=1;const CRIT=2;const ERR=3;const WARNING=4;const NOTICE=5;const INFO=6;const DEBUG=7;}
 
+chdir('..');
+require('_config.php');
+
 if (isset($config['setup_username'], $config['setup_password'])) {
-	chdir('..');
-	require('_config.php');
 	$database_file = $config['database_file'];
 	if (
 		file_exists($database_file) &&
